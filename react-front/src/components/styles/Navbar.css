@@ -1,0 +1,38 @@
+header ul {
+    display: flex;
+    flex-grow: 1;
+    justify-content: space-evenly;
+    align-items: center;
+    list-style: none;
+    width: 65vw;
+    height: 4vw;
+    margin-left: 5%;
+    margin-right: 10%;
+}
+
+header .separator {
+    color: #FFF;
+}
+
+header a {
+    text-decoration: none;
+    color: #FFF;
+    font-weight: 500;
+}
+
+header a:hover {
+    cursor: pointer;
+    text-decoration: underline;
+    animation: underline-anim .2s linear 0s forwards;
+
+}
+
+@keyframes underline-anim {
+    from {
+        text-decoration-thickness: 0px;
+    }
+    to {
+        text-decoration-thickness: 3px;
+    }
+}
+
