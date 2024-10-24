@@ -1,0 +1,32 @@
+.result-item .question {
+    width: 100%;
+    height: 4rem;
+    background-color: rgb(255, 191, 46);
+    color: #FFF;
+    border: none;
+    margin: 5px auto;
+    font-size: 2rem;
+    font-weight: bolder;
+    text-align: left;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    margin-bottom: 0;
+    padding: 1rem;
+}
+
+.result-item .answer {
+    background-color: #FFF;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px; 
+}
+
+.result-item .answer p {
+    margin: 0;
+    padding: 1rem 0.5rem;
+    font-size: 1.5rem;
+}
+
+.result-item .s-icon::after {
+    content: "";
+    padding-left: 1rem;
+}
