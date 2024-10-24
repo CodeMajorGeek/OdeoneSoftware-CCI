@@ -1,0 +1,73 @@
+.faq .underline-title {
+    width: 3%;
+}
+
+.faq .search {
+    text-align: center;
+}
+
+.faq h2::before,
+.faq h2::after {
+    content: "";
+    border-left: 5px solid rgb(255, 191, 46);
+    margin-right: 0.3em;
+    margin-left: 0.6rem;
+}
+
+.faq .search div {
+    display: block;
+    width: 35%;
+    margin: 0 auto;
+}
+
+.faq form {
+    display: flex;
+    background-color: #FFF;
+    height: 4rem;
+    border-radius: 10px;
+}
+
+.faq .search-icon {
+    font-size: 1.5rem;
+    margin: auto;
+}
+
+.faq .search-field {
+    border: none;
+    width: 70%;
+    font-size: 1.2rem;
+}
+
+.faq .search-field:focus {
+    outline: none;
+}
+
+.faq .search-btn {
+    width: 15%;
+    margin: 0.8rem;
+    font-weight: 700;
+    border: none;
+    background-color: rgb(255, 191, 46);
+    border-radius: 2px;
+}
+
+.faq .search-btn:hover {
+    transition: all 0.5s ease;
+    background-color: #FFF;
+    color: #000;
+    border: 5px solid rgb(255, 191, 46);
+}
+
+.faq .result {
+    box-shadow: 20px 0px 20px -20px rgba(0, 0, 0, 0.45), -20px 0px 20px -20px rgba(0, 0, 0, 0.45);
+}
+
+.faq .result .title {
+    background-color: rgb(255, 191, 46);
+    border-top-left-radius: 50px;
+    border-top-right-radius: 50px;
+    color: #FFF;
+    padding-bottom: 2%;
+    width: 70%;
+    margin: auto;
+}

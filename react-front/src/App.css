@@ -1,0 +1,70 @@
+body {
+    background-image: linear-gradient(to top, rgba(255, 255, 255, 0.51), rgba(255, 255, 255, 0.54), rgba(255, 255, 255, 0)),
+        url("../public/assets/images/white-clean-hexagonal.jpg");
+    background-attachment: fixed;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+main {
+    padding-bottom: 5rem;
+}
+
+.App {
+    position: relative;
+    min-height: 100vh;
+}
+
+.title h1 {
+    text-align: center;
+    font-size: 3.5rem;
+    margin-bottom: 2px;
+}
+
+.underline-title {
+    background-color: rgb(255, 191, 46);
+    width: 10%;
+    height: 5px;
+    margin: 0 auto;
+}
+
+.title-img {
+    margin: 0 auto;
+    text-align: center;
+    padding-top: 1%;
+}
+
+.title img {
+    width: 30%;
+    transition: all .3s ease-in-out;
+}
+
+.title img:hover {
+    transform: scale(1.1);
+}
+
+.d-submit {
+    margin: 0 auto;
+}
+
+.submit-btn {
+    height: 3rem;
+    width: 60%;
+    margin: 0 20%;
+    color: #FFF;
+    background-color: #000;
+    border: none;
+    border-radius: 2px;
+}
+
+.submit-btn:hover {
+    transition: all 0.5s ease;
+    background-color: #FFF;
+    color: #000;
+    border: 5px solid #000;
+}
+
+[type=button]:not(:disabled), [type=reset]:not(:disabled), [type=submit]:not(:disabled), button:not(:disabled) {
+    cursor: pointer;
+}

@@ -1,0 +1,89 @@
+.demos .underline-title {
+    width: 20%;
+}
+
+.demos h2 {
+    text-align: center;
+    font-size: 2rem;
+}
+
+.demos .title h2::before,
+.demos .title h2::after {
+    content: "";
+    border-left: 5px solid rgb(255, 191, 46);
+    margin-right: 0.3em;
+    margin-left: 1rem;
+}
+
+.demos .why,
+.demos .who {
+    background-image: linear-gradient(to right, rgba(253, 176, 0, 0.76), rgba(253, 176, 0, 0.9),
+         rgba(255, 165, 0, 0.72), rgba(255, 191, 46, 0.37)), url("../../../public/assets/images/picture-informatique.png");
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    width: 100%;
+    color: #FFF;
+}
+
+.demos .why h1,
+.demos .who h1 {
+    font-size: 3rem;
+}
+
+.demos .who h2 {
+    font-size: 2.5rem;
+}
+
+.demos ul {
+    list-style: none;
+    text-align: center;
+    padding-bottom: 1%;
+}
+
+.demos li {
+    font-size: 2rem;
+    padding: 0 1%;
+}
+
+.demos .form-box {
+    width: 50%;
+    margin: 2% auto;
+    background-color: rgb(255, 191, 46);
+    border-radius: 1%;
+}
+
+.demos .form-box h1 {
+    font-size: 2.5rem;
+    padding: 5% 0;
+    text-align: center;
+}
+
+.demos .form-box form {
+    width: 70%;
+    margin: auto;
+    padding-bottom: 5%;
+}
+
+.demos label,
+.demos select,
+.demos textarea {
+    display: block;
+    font-size: 1.2rem;
+    padding: 1% 0;
+}
+
+.demos label {
+    font-size: 1.5rem;
+}
+
+.demos select,
+.demos textarea {
+    width: 100%;
+}
+
+.demos textarea {
+    height: 15rem;
+    margin-bottom: 5%;
+}

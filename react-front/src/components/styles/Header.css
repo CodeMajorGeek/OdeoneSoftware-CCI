@@ -1,0 +1,28 @@
+header {
+    display: flex;
+    height: 6vw;
+    background-color: rgb(255, 191, 46);
+}
+
+.div-logo {
+    flex: none;
+}
+
+header .logo {
+    align-items: center;
+    height: 5vw;
+    margin: 10px 0 10px 10px;
+}
+
+header li {
+    font-size: 1.3rem;
+}
+
+.logo-link .logo {
+    transition: all .3s ease-in-out;
+    width: 100%;
+}
+
+.logo-link:hover .logo {
+    transform: scale(1.1);
+}

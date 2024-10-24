@@ -1,0 +1,79 @@
+.contact .info h2 {
+    text-align: center;
+    color: rgb(255, 191, 46);
+    font-style: normal;
+    font-size: 2rem;
+}
+
+.contact .info div {
+    display: flex;
+    width: 100%;
+}
+
+.contact .info ul {
+    list-style: none;
+    margin: auto;
+}
+
+.contact .info li {
+    padding-bottom: 2%;
+    font-weight: 600;
+    font-size: 1.2rem;
+}
+
+.contact .info .icon {
+    color: rgb(255, 191, 46);
+}
+
+.contact .form-box {
+    display: block;
+    background-color: rgb(255, 191, 46);
+    width: 30%;
+    margin: 2% auto;
+    border-radius: 4%;
+    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+}
+
+.contact form {
+    width: 80%;
+    margin: auto;
+    padding: 5% 0;
+}
+
+.contact .form-box div {
+    padding: 0.5rem 0;
+    width: 100%;
+}
+
+.contact label {
+    display: block;
+    text-transform: uppercase;
+    font-size: 1.2rem;
+    padding-bottom: 3%;
+}
+
+.contact input,
+.contact textarea {
+    width: 100%;
+}
+
+.contact input {
+    height: 2rem;
+    padding: 1%;
+}
+
+.contact textarea {
+    height: 15rem;
+}
+
+.contact .d-submit {
+    margin: 0 auto;
+}
+
+.contact .submit-btn {
+    height: 3rem;
+    width: 60%;
+    margin: 0 20%;
+    border-radius: 2px;
+    font-size: 1.2rem;
+}
