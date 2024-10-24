@@ -1,0 +1,84 @@
+.modal {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    margin-bottom: 20%;    
+}
+
+.modal img {
+    position: absolute;
+    top: 5%;
+    left: 60%;
+    margin-left: -25%;
+    width: 30%;
+}
+
+.modal-content {
+    position: absolute;
+    background-color: rgb(255, 191, 46);
+    color: #FFF;
+    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+    border-radius: 2px;
+    top: 60%;
+    left: 50%;
+    margin-top: -10%;
+    margin-left: -15%;
+    width: 30%;
+    padding-bottom: 25px;
+}
+
+.modal-content label {
+    text-transform: uppercase;
+}
+
+.modal-content h1 {
+    text-align: center;
+}
+
+.modal-content label,
+.modal-content input {
+    display: block;
+    margin: 10px;
+}
+
+.modal-content input {
+    width: 85%;
+    height: 2rem;
+}
+
+.modal-content .req-field {
+    color: #F00;
+}
+
+.modal-content .form {
+    margin-left: 10%;
+    margin-right: 10%;
+}
+
+.modal-content .submit-btn {
+    margin: 0 auto;
+    margin-top: 10%;
+    background-color: #000;
+    color: #FFF;
+    width: 65%;
+    height: 2.5rem;
+    border: none;
+}
+
+.modal .close-btn {
+    position: absolute;
+    top: 2%;
+    right: 2%;
+    font-weight: lighter;
+    font-size: 2rem;
+    background-color: transparent;
+    border: none;
+    border-radius: 10px;
+    color: #FFF;
+}
+
+.modal .close-btn:hover {
+    background-color: #FFF1;
+}
