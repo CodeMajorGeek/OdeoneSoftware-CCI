@@ -2,6 +2,10 @@
     width: 3%;
 }
 
+.faq {
+    text-transform: uppercase;
+}
+
 .faq .search {
     text-align: center;
 }
@@ -43,12 +47,13 @@
 }
 
 .faq .search-btn {
-    width: 15%;
     margin: 0.8rem;
-    font-weight: 700;
+    font-weight: 500;
+    font-size: 1.1rem;
     border: none;
     background-color: rgb(255, 191, 46);
     border-radius: 2px;
+    text-transform: uppercase;
 }
 
 .faq .search-btn:hover {

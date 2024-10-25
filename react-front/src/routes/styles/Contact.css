@@ -5,6 +5,10 @@
     font-size: 2rem;
 }
 
+.contact {
+    text-transform: uppercase;
+}
+
 .contact .info div {
     display: flex;
     width: 100%;
@@ -78,4 +82,5 @@
     margin: 0 20%;
     border-radius: 2px;
     font-size: 1.2rem;
+    text-transform: uppercase;
 }

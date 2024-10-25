@@ -11,6 +11,11 @@
     border-top-right-radius: 10px;
     margin-bottom: 0;
     padding: 1rem;
+    text-transform: uppercase;
+}
+
+.result-item {
+    text-transform: uppercase;
 }
 
 .result-item .answer {
