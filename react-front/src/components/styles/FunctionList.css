@@ -1,0 +1,59 @@
+.func-list {
+    width: 25%;
+    margin-bottom: 5%;
+    padding-bottom: 2%;
+    box-shadow: 20px 20px 20px -20px rgba(0, 0, 0, 0.45), -20px 20px 20px -20px rgba(0, 0, 0, 0.45);
+    text-transform: uppercase;
+    display: flex;
+    flex-flow: column nowrap;
+}
+
+.func-list ul {
+    list-style: none;
+}
+
+.func-list .f-icon {
+    color: rgb(255, 191, 46);
+    font-size: 1.5rem;
+}
+
+.func-list .title {
+    background-color: rgb(255, 191, 46);
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+    padding: 1% 0;
+    display: flex;
+    flex-flow: column nowrap;
+}
+
+.func-list .title .f-icon {
+    width: 100%;
+    font-size: 3rem;
+    color: #FFF;
+    margin-bottom: 2%;
+}
+
+.func-list h3 {
+    text-align: center;
+    font-size: 2rem;
+    color: #FFF;
+}
+
+.func-list li {
+    font-size: 1.2rem;
+    padding: 1%;
+}
+
+.func-list .d-quot {
+    text-align: center;
+}
+
+.func-list .quot-btn {
+    background-color: rgb(255, 191, 46);
+    color: #FFF;
+    border: none;
+    height: 3rem;
+    font-size: 1.5rem;
+    border-radius: 2px;
+    text-transform: uppercase;
+}

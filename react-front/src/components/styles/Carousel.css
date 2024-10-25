@@ -1,0 +1,36 @@
+.carousel {
+    margin: 3% auto;
+}
+
+.carousel div {
+    display: inline-block;
+    position: relative;
+}
+
+.carousel .prev-btn {
+    position: absolute;
+    top: 35%;
+    left: 25%;
+}
+
+.carousel .next-btn {
+    position: absolute;
+    top: 35%;
+    right: 25%;
+}
+
+.carousel .btn {
+    background-color: transparent;
+    border: none;
+    font-size: 3rem;
+    color: rgb(255, 191, 46);
+    outline: none;
+}
+
+.carousel .btn:hover {
+    color: rgba(255, 191, 46, 0.8);
+}
+
+.carousel .slide {
+    text-align: center;
+}
