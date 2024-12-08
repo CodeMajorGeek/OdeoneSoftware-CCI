@@ -1,7 +1,6 @@
 services:
   react_front:
     build: docker/react-front/.
-    command: npm start
     container_name: "react_front"
     volumes:
       - ./react-front:/usr/app/react-front/.
@@ -9,7 +8,6 @@ services:
       - "3000:3000"
   json_server:
     build: docker/json-server/.
-    command: npx json-server -p 8080 db.json
     container_name: "json_server"
     volumes:
       - ./json-server:/usr/app/json-server/.
