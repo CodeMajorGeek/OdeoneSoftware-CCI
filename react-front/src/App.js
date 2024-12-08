@@ -15,7 +15,7 @@ import Tutos from "./routes/Tutos"
 import FAQ from "./routes/FAQ"
 import Contact from "./routes/Contact"
 
-import AdminAccueil from "./routes/admin/AdminAccueil"
+import AdminHome from "./routes/admin/AdminHome"
 import AdminUser from "./routes/admin/AdminUser"
 import AdminFunctions from "./routes/admin/AdminFunctions"
 import AdminFAQ from "./routes/admin/AdminFAQ"
@@ -49,8 +49,8 @@ function App() {
             <Route path="/tutoriels" element={<Tutos />} />
             <Route path="/faq" element={<FAQ />} />
             <Route path="/contact" element={<Contact />} />
-            {adminView && <Route path="/admin" element={<AdminAccueil />} />}
-            {adminView && <Route path="/admin/accueil" element={<AdminAccueil />} />}
+            {adminView && <Route path="/admin" element={<AdminHome />} />}
+            {adminView && <Route path="/admin/accueil" element={<AdminHome />} />}
             {adminView && <Route path="/admin/utilisateurs" element={<AdminUser />} />}
             {adminView && <Route path="/admin/fonctions" element={<AdminFunctions />} />}
             {adminView && <Route path="/admin/tutoriels" element={<AdminTutos />} />}
