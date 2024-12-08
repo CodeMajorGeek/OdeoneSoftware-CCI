@@ -1,0 +1,8 @@
+
+export default function AdminTutos() {
+    return (
+        <div>
+            <h1>Tutoriels</h1>
+        </div>
+    )
+}
