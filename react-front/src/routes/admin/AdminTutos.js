@@ -1,3 +1,4 @@
+import "./styles/AdminTutos.css"
 
 export default function AdminTutos() {
     return (

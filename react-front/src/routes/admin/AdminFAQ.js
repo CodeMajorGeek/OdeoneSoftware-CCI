@@ -1,3 +1,4 @@
+import "./styles/AdminFAQ.css"
 
 export default function AdminFAQ() {
     return (
