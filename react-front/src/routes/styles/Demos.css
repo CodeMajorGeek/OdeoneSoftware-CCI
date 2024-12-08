@@ -30,6 +30,7 @@
 .demos .why h1,
 .demos .who h1 {
     font-size: 3rem;
+    text-align: center;
 }
 
 .demos .who h2 {

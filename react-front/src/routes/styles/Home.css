@@ -1,0 +1,35 @@
+.home .main-vid div {
+   text-align: center;
+   position: relative;
+   margin: 3rem;
+}
+
+.home .main-vid div .vid-bar {
+    position: absolute;
+    left: 39%;
+    width: 20vw;
+    height: 1vh;
+    margin: 15px;
+    background-color: rgb(255, 191, 46);
+}
+
+.home .main-vid div .vid-bar:first-of-type {
+    top: -45px;
+}
+
+.home .main-vid div .vid-bar:last-of-type {
+    bottom: -45px;
+}
+
+.home .main-vid .vid-player {
+    height: 40vh;
+}
+
+.home .main-vid .description {
+    margin: auto;
+}
+
+.home .main-vid .description p {
+    font-size: 1.5rem;
+    margin: 3vw 10vh;
+}

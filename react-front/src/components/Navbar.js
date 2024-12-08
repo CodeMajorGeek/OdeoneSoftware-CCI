@@ -13,11 +13,11 @@ export default function Navbar({ navTabs }) {
                             <li key={ element["title"] }>
                                 <Link to={ element["ref"] }>{ element["title"] }</Link>
                             </li>
-                            <li key={ element["title"] + "|" }>
+                            <li key={ index }>
                                 <p className="separator">{ index === tab.length - 1 ? "" : "|" }</p>
                             </li>
                         </>)
-                })
+                    })
                 }
             </ul>
         </nav>

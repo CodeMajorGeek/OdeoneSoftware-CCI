@@ -1,0 +1,93 @@
+/* Container principal */
+.summary {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin: 0 auto;
+    margin-bottom: 2vh;
+    width: 100%;
+    max-width: 1200px;
+    font-family: "Arial", sans-serif;
+}
+
+/* Liste de sélection flottante */
+.summary .select {
+    width: 60%;
+    background: linear-gradient(135deg, rgb(255, 191, 46), rgb(255, 201, 77));
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    overflow: hidden;
+    position: sticky;
+    top: 20px; /* Fixe le sommaire lorsqu'on scrolle */
+}
+
+/* Liste des boutons */
+.summary .select ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* Boutons de sélection */
+.summary .select button {
+    text-align: center;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #FFF;
+    background-color: rgb(255, 191, 46);
+    text-transform: uppercase;
+    padding: 1.5rem;
+    border: none;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+}
+
+/* Animation au survol */
+.summary .select button:hover {
+    background-color: rgb(255, 225, 100);
+    transform: scale(1.05);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Bouton "Retour" */
+.summary .select .back-button {
+    background-color: rgb(255, 0, 87);
+    color: #FFF;
+    font-size: 1rem;
+    font-weight: normal;
+    text-transform: none;
+}
+
+.summary .select .back-button:hover {
+    background-color: rgb(255, 64, 117);
+}
+
+/* Section vidéo alignée à droite */
+.summary .video-section {
+    flex-grow: 1;
+    margin-left: 2rem;
+    background: #FFF;
+    border: 1px solid #eee;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    text-align: center;
+}
+
+/* Vidéo responsive */
+.summary .video-section video {
+    width: 100%;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+    transition: transform 0.3s ease;
+}
+
+.summary .video-section video:hover {
+    transform: scale(1.02);
+}

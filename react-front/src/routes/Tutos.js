@@ -1,9 +1,9 @@
 import Carousel from "../components/Carousel"
 import { CarouselSlide } from "../components/CarouselSlide"
 
-import vid1 from "../assets/videos/1628611345.mp4" 
-import vid2 from "../assets/videos/1628611488.mp4" 
-import vid3 from "../assets/videos/1628611757.mp4" 
+import vid1 from "../assets/videos/tutos/tuto1.mp4" 
+import vid2 from "../assets/videos/tutos/tuto2.mp4" 
+import vid3 from "../assets/videos/tutos/tuto3.mp4" 
 
 import "./styles/Tutos.css"
 
