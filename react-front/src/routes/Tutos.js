@@ -17,18 +17,18 @@ export default function Tutos() {
             <div className="weighing">
                 <h2>Fonction PESAGE</h2>
                 <Carousel slides={[
-                    <CarouselSlide type="VIDEO" assetPath="/assets/videos/1628611345.mp4" title="1628611345"/>,
-                    <CarouselSlide type="VIDEO" assetPath="/assets/videos/1628611488.mp4" title="1628611488"/>
+                    <CarouselSlide type="VIDEO"  assetPath={ vid1 } title="tuto1"/>,
+                    <CarouselSlide type="VIDEO"  assetPath={ vid1 } title="tuto2"/>
                 ]} />
             </div>
             <div className="counting">
                 <h2>Fonction COMPTAGE</h2>
                 <Carousel slides={[
-                    <CarouselSlide type="VIDEO" assetPath={ vid1 } title="1628611345"/>,
-                    <CarouselSlide type="VIDEO" assetPath={ vid2} title="1628611488"/>,
+                    <CarouselSlide type="VIDEO" assetPath={ vid1 } title="tuto1"/>,
+                    <CarouselSlide type="VIDEO" assetPath={ vid2 } title="tuto2"/>,
                     <CarouselSlide type="IMAGE" assetPath="/assets/images/1628611687.png" title="1628611687"/>,
                     <CarouselSlide type="IMAGE" assetPath="/assets/images/icone-Odeone_jaune.png" title="icone Odeone jaune" />,
-                    <CarouselSlide type="VIDEO" assetPath={ vid3 } title="1628611757"/>
+                    <CarouselSlide type="VIDEO" assetPath={ vid3 } title="tuto3"/>
                 ]} />
             </div>
         </div>

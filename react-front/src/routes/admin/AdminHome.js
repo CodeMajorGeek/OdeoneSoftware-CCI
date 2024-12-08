@@ -45,7 +45,8 @@ export default function AdminHome() {
     };
 
     return (
-        <div>
+        <div class="admin-home">
+            <h1>Gestionnaire de sommaire</h1>
             <AdminSummary
                 summaries={summaries}
                 onDelete={handleDelete}
