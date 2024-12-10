@@ -1,11 +1,12 @@
 .func-list {
     width: 25%;
     margin-bottom: 5%;
-    padding-bottom: 2%;
+    padding-bottom: 5%;
     box-shadow: 20px 20px 20px -20px rgba(0, 0, 0, 0.45), -20px 20px 20px -20px rgba(0, 0, 0, 0.45);
     text-transform: uppercase;
     display: flex;
     flex-flow: column nowrap;
+    position: relative;
 }
 
 .func-list ul {
@@ -56,4 +57,7 @@
     font-size: 1.5rem;
     border-radius: 2px;
     text-transform: uppercase;
+    position: absolute;
+    bottom: 2%;
+    left: 20%;
 }
