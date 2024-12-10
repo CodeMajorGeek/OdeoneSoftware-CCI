@@ -1,5 +1,6 @@
 .carousel {
     margin: 3% auto;
+    margin-bottom: 5%;
 }
 
 .carousel div {
@@ -33,4 +34,36 @@
 
 .carousel .slide {
     text-align: center;
+}
+
+@media (max-width: 1024px) {
+    .carousel {
+        margin-bottom: 15%;
+    }
+
+    .carousel .prev-btn {
+        left: 18%;
+    }
+
+    .carousel .next-btn {
+        right: 18%;
+    }
+}
+
+@media (max-width: 920px) {
+    .carousel {
+        margin-bottom: 25%;
+    }
+
+    .carousel .btn {
+        font-size: 1.5rem;
+    }
+
+    .carousel .prev-btn {
+        left: 20%;
+    }
+
+    .carousel .next-btn {
+        right: 20%;
+    }
 }
