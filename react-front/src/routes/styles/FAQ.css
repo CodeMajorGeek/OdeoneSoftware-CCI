@@ -54,6 +54,7 @@
     background-color: rgb(255, 191, 46);
     border-radius: 2px;
     text-transform: uppercase;
+    width: 150px;
 }
 
 .faq .search-btn:hover {
@@ -61,6 +62,7 @@
     background-color: #FFF;
     color: #000;
     border: 5px solid rgb(255, 191, 46);
+    width: 150px;
 }
 
 .faq .result {
@@ -75,4 +77,10 @@
     padding-bottom: 2%;
     width: 70%;
     margin: auto;
+}
+
+@media (max-width: 1350px) {
+    .faq .result {
+        margin-bottom: 15%;
+    }
 }
