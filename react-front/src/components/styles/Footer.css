@@ -32,7 +32,15 @@ footer p {
 
 @media (max-width: 1390px) {
     footer {
-        width: 100vw;
-        height: 7rem;
+        height: 8rem;
+    }
+
+    footer p {
+       display: none;
+    }
+
+    footer ul {
+        flex-direction: column;
+        margin-top: 10px;
     }
 }

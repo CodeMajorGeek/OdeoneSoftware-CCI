@@ -104,3 +104,20 @@
     font-weight: 500;
     font-size: 1.05rem
 }
+
+@media (max-width: 920px) {
+    .about .icon img {
+        box-shadow: 10px 10px 50px rgba(216, 216, 216, 0.72);
+        vertical-align: middle;
+        border-style: none;
+        border-radius: 50%;
+        margin: 100%;
+        margin-left: 10%;
+    }
+
+    .about .p-desc p {
+        margin: 10% 11%;
+        font-weight: 300;
+        font-size: 1.05rem;
+    }
+}
