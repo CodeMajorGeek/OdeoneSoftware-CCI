@@ -36,6 +36,7 @@
     margin: 2% auto;
     border-radius: 4%;
     box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+    margin-bottom: 5%;
 }
 
 .contact form {
@@ -83,4 +84,10 @@
     border-radius: 2px;
     font-size: 1.2rem;
     text-transform: uppercase;
+}
+
+@media (max-width: 1350px) {
+    .contact .form-box {
+        margin-bottom: 15%;
+    }
 }
