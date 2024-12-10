@@ -28,7 +28,7 @@
 .about .check-list div {
     background-image: linear-gradient(to right, rgba(253, 176, 0, 0.76), 
     rgba(253, 176, 0, 0.54), rgba(255, 165, 0, 0.72), rgba(255, 191, 46, 0.37)), 
-    url("../../../public/assets/images/white-clean-hexagonal.jpg");
+    url("../../assets/images/white-clean-hexagonal.jpg");
     background-attachment: fixed;
     background-repeat: no-repeat;
     background-size: cover;

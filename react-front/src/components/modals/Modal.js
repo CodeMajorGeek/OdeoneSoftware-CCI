@@ -1,5 +1,7 @@
 import "./styles/Modal.css"
 
+import logoImage from "../../assets/images/Logo-Odeone_jaune.png"
+
 export default function Modal({ show, setShow, modalContent }) {   
     const closeHandler = (e) => {
         setShow(false)
@@ -8,7 +10,7 @@ export default function Modal({ show, setShow, modalContent }) {
     if (show) {
         return (
             <div className="modal">
-                <img src="/assets/images/Logo-Odeone_jaune.png" alt="Logo Odeone jaune" />
+                <img src={ logoImage } alt="Logo Odeone jaune" />
                 <div className="modal-content">
                     <button onClick={ closeHandler } className="close-btn">X</button>
                     { modalContent }

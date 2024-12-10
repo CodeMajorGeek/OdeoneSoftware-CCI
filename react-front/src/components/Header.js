@@ -2,6 +2,8 @@ import "./styles/Header.css"
 
 import Navbar from "./Navbar"
 
+import logoImage from "../assets/images/Logo-Odeone_blanc.png"
+
 const userNavTabs = [
     {
         title: "ACCUEIL",
@@ -69,7 +71,7 @@ export default function Header({ account, admin, adminView, setAdminView }) {
     return (
         <header>
             <div className="div-logo">
-                <a className="logo-link" href="/"><img src="/assets/images/Logo-Odeone_blanc.png" className="logo" alt="Logo Odeone" /></a>
+                <a className="logo-link" href="/"><img src={ logoImage } className="logo" alt="Logo Odeone" /></a>
             </div>
             <Navbar navTabs={navTabs} />
             { account }

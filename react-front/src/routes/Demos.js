@@ -3,12 +3,14 @@ import { faUserFriends, faHdd, faQuestion, faAward, faHandshake } from "@fortawe
 
 import "./styles/Demos.css"
 
+import logoImage from "../assets/images/Logo-Odeone_jaune.png"
+
 export default function Demos() {
     return (
         <div className="demos">
             <div className="title">
                 <div className="title-img">
-                    <img src="/assets/images/Logo-Odeone_jaune.png" alt="Logo Odeone jaune" />
+                    <img src={ logoImage } alt="Logo Odeone jaune" />
                 </div>
                 <h1>DEMONSTRATION</h1>
                 <div className="underline-title"></div>

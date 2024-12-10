@@ -1,6 +1,6 @@
 body {
     background-image: linear-gradient(to top, rgba(255, 255, 255, 0.51), rgba(255, 255, 255, 0.54), rgba(255, 255, 255, 0)),
-        url("../public/assets/images/white-clean-hexagonal.jpg");
+        url("assets/images/white-clean-hexagonal.jpg");
     background-attachment: fixed;
     background-position: center;
     background-size: cover;

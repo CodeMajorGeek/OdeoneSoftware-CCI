@@ -3,6 +3,8 @@ import "./styles/About.css"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faCheck } from "@fortawesome/free-solid-svg-icons"
 
+import logoImage from "../assets/images/icone-Odeone_jaune.png"
+
 export default function About() {
     return (
         <div className="about">
@@ -85,7 +87,7 @@ export default function About() {
             </div>
             <div className="desc">
                 <div className="icon">
-                    <img src="/assets/images/icone-Odeone_jaune.png" alt="Icon Odeone jaune" />
+                    <img src={ logoImage } alt="Icon Odeone jaune" />
                 </div>
                 <div className="p-desc">
                     <p>

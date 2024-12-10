@@ -3,12 +3,14 @@ import { faHome, faEnvelope, faMobileAlt, faPhone } from "@fortawesome/free-soli
 
 import "./styles/Contact.css"
 
+import logoImage from "../assets/images/Logo-Odeone_jaune.png"
+
 export default function Contact() {
     return (
         <div className="contact">
             <div className="title">
                 <div className="title-img">
-                    <img src="/assets/images/Logo-Odeone_jaune.png" alt="Logo Odeone jaune" />
+                    <img src={ logoImage } alt="Logo Odeone jaune" />
                 </div>
                 <h1>CONTACT</h1>
                 <div className="underline-title"></div>

@@ -3,12 +3,14 @@ import FunctionList from "../components/FunctionList"
 
 import "./styles/Functions.css"
 
+import logoImage from "../assets/images/Logo-Odeone_jaune.png"
+
 export default function Functions() {
     return (
         <div className="funcs">
             <div className="title">
                 <div className="title-img">
-                    <img src="/assets/images/Logo-Odeone_jaune.png" alt="Logo Odeone jaune" />
+                    <img src={ logoImage } alt="Logo Odeone jaune" />
                 </div>
                 <h1>FONCTIONS</h1>
                 <div className="underline-title"></div>

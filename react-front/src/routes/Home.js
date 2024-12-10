@@ -10,12 +10,14 @@ import videoAlibi from "../assets/videos/sums/mem_alibi.mp4"
 
 import videoCounting from "../assets/videos/sums/func_counting.mp4"
 
+import logoImage from "../assets/images/Logo-Odeone_jaune.png"
+
 export default function Home() {
     return (
         <div className="home">
             <div className="title">
                 <div className="title-img">
-                    <img src="/assets/images/Logo-Odeone_jaune.png" alt="Logo Odeone jaune" />
+                    <img src={ logoImage } alt="Logo Odeone jaune" />
                 </div>
             </div>
             <div className="main-vid">
