@@ -1,70 +1,51 @@
-# Getting Started with Create React App
+Voici un modèle de README pour ton projet React CCI utilisant Docker Compose :
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+```markdown
+# Projet React CCI - Formation Concepteur Développeur Informatique (CDA)
 
-## Available Scripts
+Ce projet est une application React destinée à la formation **Concepteur Développeur Informatique (CDA)** à la **CCI**. Il utilise **Docker Compose** pour faciliter la gestion des containers.
 
-In the project directory, you can run:
+## Prérequis
 
-### `npm start`
+Avant de commencer, vous devez avoir **Docker** et **Docker Compose** installés sur votre machine.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- [Installer Docker](https://docs.docker.com/get-docker/)
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Lancer le projet
 
-### `npm test`
+### Étape 1 : Cloner le projet
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Clonez ce dépôt sur votre machine :
 
-### `npm run build`
+```bash
+git clone https://votre-repository.git
+cd votre-dossier
+```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Étape 2 : Lancer les containers Docker
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Pour démarrer l'application, exécutez la commande suivante :
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```bash
+docker compose up -d
+```
 
-### `npm run eject`
+Cela va télécharger les images nécessaires et démarrer les containers en arrière-plan. L'application sera accessible sur **http://localhost:3000**.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+### Étape 3 : Accéder à l'application
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Une fois les containers lancés, ouvrez votre navigateur et allez à **http://localhost:3000** pour accéder à l'application.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+### Étape 4 : Arrêter le projet
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+Pour arrêter les containers, exécutez la commande suivante :
 
-## Learn More
+```bash
+docker compose down
+```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Cela arrêtera et supprimera les containers, mais gardera les volumes et autres ressources persistants.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+---
+Développé dans le cadre de la formation **CDA** à la **CCI**.
+```
