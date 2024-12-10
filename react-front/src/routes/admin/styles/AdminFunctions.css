@@ -1,5 +1,4 @@
 .admin-functions {
-    font-family: Arial, sans-serif;
     margin: 20px;
     padding: 20px;
     background-color: #f9f9f9;
@@ -11,6 +10,8 @@ h1 {
     font-size: 24px;
     margin-bottom: 20px;
     color: #333;
+    text-align: center;
+    font-size: 2.5rem;
 }
 
 .function-table {

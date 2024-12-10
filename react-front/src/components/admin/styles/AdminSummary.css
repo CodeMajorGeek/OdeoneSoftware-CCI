@@ -1,8 +1,7 @@
 .summary-index {
     width: 100%;
-    max-width: 800px;
+    max-width: 900px;
     margin: auto;
-    margin-top: 5%;
 }
 
 .summary-index ul {
@@ -12,14 +11,20 @@
 }
 
 .summary-index li {
-    padding: 10px;
-    margin: 5px 0;
-    background: linear-gradient(135deg, rgb(255, 198, 64), rgb(252, 195, 63));
-    border-radius: 10px;
+    padding: 15px;
+    margin: 10px 0;
+    background: linear-gradient(135deg, #007bff, #0067d4);
+    border-radius: 8px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    color: #fff;
+    transition: box-shadow 0.2s ease-in-out;
+}
+
+.summary-index li:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .summary-index .summary-item {
@@ -30,7 +35,7 @@
 
 .summary-index .summary-item span {
     font-weight: bold;
-    color: #333;
+    color: #ffffff;
     flex-grow: 1;
 }
 
@@ -46,27 +51,28 @@
     font-size: 1.2rem;
     padding: 5px;
     cursor: pointer;
-    transition: transform 0.2s ease;
+    transition: transform 0.2s ease, color 0.2s ease;
 }
 
 .summary-index .action-btn:hover {
     transform: scale(1.2);
+    color: #f1c40f;
 }
 
 .summary-index .action-btn.delete {
-    color: rgb(255, 0, 87);
+    color: #dc3545;
     margin-left: 20px;
 }
 
 .summary-index .action-btn.modify {
-    color: rgb(0, 123, 255);
+    color: #007bff;
 }
 
 .summary-index .action-btn.insert-sub {
-    color: rgb(46, 204, 113);
+    color: #28a745;
 }
 
 .summary-index .action-btn.insert-down {
-    color: orange;
+    color: #ffc107;
     margin-right: 20px;
 }
