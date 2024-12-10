@@ -48,7 +48,7 @@ export default function RegisterModal() {
                         <option value="female">Madame</option>
                     </select>
                 </div>
-                <div>
+                <div className="d-cgu">
                     <input type="checkbox" id="cgu" name="cgu" required />
                     <label for="cgu">J'accepte les termes et les contrats d'usages. <span className="req-field">*</span></label>
                 </div>

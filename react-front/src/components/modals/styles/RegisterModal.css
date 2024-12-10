@@ -1,3 +1,14 @@
 .register-modal {
     height: 130%;
 }
+
+.register-modal .d-cgu {
+    display: flex;
+    margin-top: 20px;
+   
+}
+
+.register-modal .d-cgu input {
+    width: 10%;
+   
+}
