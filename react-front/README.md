@@ -18,8 +18,8 @@ Avant de commencer, vous devez avoir **Docker** et **Docker Compose** installés
 Clonez ce dépôt sur votre machine :
 
 ```bash
-git clone https://votre-repository.git
-cd votre-dossier
+git clone https://github.com/CodeMajorGeek/OdeoneSoftware-CCI.git
+cd OdeoneSoftware-CCI
 ```
 
 ### Étape 2 : Lancer les containers Docker
