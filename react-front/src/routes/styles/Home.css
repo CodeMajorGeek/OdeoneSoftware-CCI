@@ -1,7 +1,7 @@
 .home .main-vid div {
-   text-align: center;
-   position: relative;
-   margin: 3rem;
+    text-align: center;
+    position: relative;
+    margin: 3rem;
 }
 
 .home .main-vid div .vid-bar {
@@ -23,6 +23,9 @@
 
 .home .main-vid .vid-player {
     height: 40vh;
+    width: 100%;
+    max-width: 600px;
+    margin: auto;
 }
 
 .home .main-vid .description {
@@ -32,4 +35,72 @@
 .home .main-vid .description p {
     font-size: 1.5rem;
     margin: 3vw 10vh;
+}
+
+@media (max-width: 1024px) {
+    .home .main-vid div {
+        margin: 2rem;
+    }
+
+    .home .main-vid div .vid-bar {
+        left: 35%;
+        width: 30vw;
+    }
+
+    .home .main-vid div .vid-bar:first-of-type {
+        top: -35px;
+    }
+
+    .home .main-vid div .vid-bar:last-of-type {
+        bottom: -35px;
+    }
+
+    .home .main-vid .vid-player {
+        height: 35vh;
+    }
+
+    .home .main-vid .description p {
+        font-size: 1.2rem;
+        margin: 2vw 8vh;
+    }
+}
+
+@media (max-width: 768px) {
+    .home .main-vid div {
+        margin: 1.5rem;
+    }
+
+    .home .main-vid div .vid-bar {
+        left: 30%;
+        width: 40vw;
+    }
+
+    .home .main-vid .vid-player {
+        height: 30vh;
+    }
+
+    .home .main-vid .description p {
+        font-size: 1rem;
+        margin: 1vw 5vh;
+    }
+}
+
+@media (max-width: 480px) {
+    .home .main-vid div {
+        margin: 1rem;
+    }
+
+    .home .main-vid div .vid-bar {
+        left: 25%;
+        width: 50vw;
+    }
+
+    .home .main-vid .vid-player {
+        height: 25vh;
+    }
+
+    .home .main-vid .description p {
+        font-size: 0.9rem;
+        margin: 1vw 3vh;
+    }
 }

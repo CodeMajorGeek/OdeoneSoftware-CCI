@@ -25,7 +25,14 @@ footer .fas {
     color: #FFF;
 }
 
-footer li:last-of-type {
-    position: absolute;
-    bottom: 15%;
+footer p {
+    text-align: center;
+    color: #FFF;
+}
+
+@media (max-width: 1390px) {
+    footer {
+        width: 100vw;
+        height: 7rem;
+    }
 }

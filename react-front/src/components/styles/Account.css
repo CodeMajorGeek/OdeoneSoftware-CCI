@@ -32,3 +32,25 @@
 .account button:hover {
     background-color: #FFF2;
 }
+
+@media (max-width: 1350px) {
+    .account {
+        bottom: 25px;
+        right: 75px;
+        height: 30%;
+    }
+
+    .account ul {
+        border: none;
+    }
+
+    .account li {
+        padding: 2px;
+        margin: 0;
+    }
+
+    .account button {
+        font-size: 0.8rem;
+        padding: 5px 8px; /* Encore plus compact */
+    }
+}
