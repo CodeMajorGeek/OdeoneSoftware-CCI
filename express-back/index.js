@@ -8,7 +8,7 @@ app.use(express.json())
 
 const authMiddleware = require("./middlewares/AuthMiddleware")
 
-app.use(authMiddleware.authenticateToken)
+// app.use(authMiddleware.authenticateToken)
 
 const URL_BASE = process.env.URL_BASE || "/api/v1"
 

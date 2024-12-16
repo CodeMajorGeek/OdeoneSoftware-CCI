@@ -1,13 +1,13 @@
 const faqService = require("../services/FaqService")
 
-function getAllFaqs(req, res) {
-    const faqs = faqService.findAllFaqs()
+async function getAllFaqs(req, res) {
+    const faqs = await faqService.findAllFaqs()
     res.json(faqs)
 }
 
-function getFaqById(req, res) {
+async function getFaqById(req, res) {
     const id = parseInt(req.params.id)
-    const faq = faqService.findFaqById(id)
+    const faq = await faqService.findFaqById(id)
 
     if (faq)
         res.json(faq)
@@ -15,14 +15,14 @@ function getFaqById(req, res) {
         res.status(404).json({ message: "FAQ not found !" })
 }
 
-function createFaq(req, res) {
-    const newFaq = faqService.createFaq(req.body)
+async function createFaq(req, res) {
+    const newFaq = await faqService.createFaq(req.body)
     res.status(201).json(newFaq)
 }
 
-function updateFaq(req, res) {
+async function updateFaq(req, res) {
     const id = parseInt(req.params.id)
-    const updatedFaq = faqService.editFaq(id, req.body)
+    const updatedFaq = await faqService.editFaq(id, req.body)
 
     if (updatedFaq)
         res.json(updatedFaq)
@@ -30,12 +30,12 @@ function updateFaq(req, res) {
         res.status(404).json({ message: "FAQ not found !" })
 }
 
-function deleteFaq(req, res) {
+async function deleteFaq(req, res) {
     const id = parseInt(req.params.id)
-    const faq = faqService.findFaqById(id)
+    const faq = await faqService.findFaqById(id)
 
     if (faq) {
-        faqService.removeFaq(id)
+        await faqService.removeFaq(id)
         res.status(204).send()
     } else
         res.status(404).json({ message: "FAQ not found !" })

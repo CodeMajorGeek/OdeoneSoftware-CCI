@@ -1,4 +1,3 @@
-const { verify } = require("jsonwebtoken")
 const { Sequelize, INTEGER, DataTypes } = require("sequelize")
 
 const DB_NAME = process.env.DB_NAME || "odeone"
@@ -347,7 +346,7 @@ const FunctionModifiedAt = sequelize.define("function_modified_at", {
     }
 })
 
-sequelize.sync({ force: true }).then(() => {
+sequelize.sync().then(() => {
     console.log("DB sync success.")
 }).catch((err) => {
     console.error("Error on DB sync : ", err)

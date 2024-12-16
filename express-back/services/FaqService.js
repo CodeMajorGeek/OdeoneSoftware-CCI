@@ -1,23 +1,23 @@
-const db = require("./DatabaseService")
+const faqRepository = require("../repositories/FaqRepository")
 
-function findAllFaqs() {
-
+async function findAllFaqs() {
+    return await faqRepository.getAllFaqs()
 }
 
-function findFaqById(id) {
-
+async function findFaqById(id) {
+    return await faqRepository.getFaqById(id)
 }
 
-function createFaq() {
-
+async function createFaq(faq) {
+    return await faqRepository.addFaq(faq)
 }
 
-function editFaq(id) {
-
+async function editFaq(id, faq) {
+    return await faqRepository.updateFaq(id, faq)
 }
 
-function removeFaq(id) {
-
+async function removeFaq(id) {
+    return await faqRepository.deleteFaq(id)
 }
 
 module.exports = {
