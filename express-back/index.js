@@ -6,8 +6,6 @@ const app = express()
 
 app.use(express.json())
 
-const db = require("./services/DatabaseService")
-
 const authMiddleware = require("./middlewares/AuthMiddleware")
 
 app.use(authMiddleware.authenticateToken)
