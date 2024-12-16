@@ -4,6 +4,7 @@ RUN npm i --save @fortawesome/fontawesome-svg-core
 RUN npm install --save @fortawesome/free-solid-svg-icons
 RUN npm install --save @fortawesome/react-fontawesome
 RUN npm install react-scripts -g
+RUN npm install react-redux
 
 COPY . /usr/app/react-front/
 RUN npm install --quiet
