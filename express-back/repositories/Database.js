@@ -362,29 +362,29 @@ const FunctionModifiedAt = sequelize.define("function_modified_at", {
     }
 })
 
-sequelize.sync({ force: true }).then(async () => {
-    await Roles.create({
+sequelize.sync().then(async () => {
+    await Roles.upsert({
         title: "unverified",
         weight: 0
     })
-    await Roles.create({
+    await Roles.upsert({
         title: "verified",
         weight: 1
     })
-    await Roles.create({
+    await Roles.upsert({
         title: "administrator",
         weight: 666
     })
 
-    await Genders.create({
+    await Genders.upsert({
         title: "not-specified"
     })
 
-    await Genders.create({
+    await Genders.upsert({
         title: "female"
     })
 
-    await Genders.create({
+    await Genders.upsert({
         title: "male"
     })
 

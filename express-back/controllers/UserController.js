@@ -7,8 +7,6 @@ async function getAllUsers(req, res) {
     const users = await userService.findAllUsers()
     const user = await userService.findUserByEmail(req.auth.email)
 
-    console.log(user)
-
     res.json(users)
 }
 
@@ -43,18 +41,16 @@ async function createUser(req, res) {
     try {
         const user = req.body
         const pass = user.password
-        const genderId = await genderService.getGenderByTitle(user.gender)
+        const gender = await genderService.getGenderByTitle(user.gender)
 
-        console.log(user)
-
-        if (!genderId)
+        if (!gender)
             throw { message: "Gender not found !" }
 
         const hash = await bcrypt.hash(pass, 10)
          
-        let hashedUser = { ...user, id_role: 1 }
+        let hashedUser = { ...user, id_role: 1, id_gender: gender.id_gender }
         hashedUser.password = hash
-        hashedUser.id_gender = genderId
+        hashedUser.id_gender = gender.dataValues.id_gender
         
         const newUser = await userService.createUser(hashedUser)
         res.status(201).json(newUser)
