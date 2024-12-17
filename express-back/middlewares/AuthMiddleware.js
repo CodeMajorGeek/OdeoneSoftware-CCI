@@ -1,28 +1,22 @@
-const dotenv = require("dotenv")
-dotenv.config()
+const jwt = require("jsonwebtoken")
 
 const TOKEN_SECRET = process.env.TOKEN_SECRET
 
-const jwt = require("jsonwebtoken")
+const authenticateTokenMiddleware = (req, res, next) => {
+    try {
+        const token = req.headers.authorization.split(" ")[1]
+        const decodedToken = jwt.verify(token, TOKEN_SECRET)
 
-const authenticateToken = (req, res, next) => {
-    const authHeader = req.headers['authorization']
-    const token = authHeader && authHeader.split(" ")[1]
+        req.auth = {
+            email: decodedToken.email
+        }
 
-    if (token == null)
-        return res.sendStatus(401)
-
-    jwt.verify(token, TOKEN_SECRET, (err, user) => {
-        console.error(err)
-
-        if (err)
-            return res.sendStatus(403)
-
-        req.user = user
         next()
-    })
+    } catch (error) {
+        res.status(401).json({ error })
+    }
 }
 
 module.exports = {
-    authenticateToken
+    authenticateTokenMiddleware
 }

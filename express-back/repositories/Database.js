@@ -67,7 +67,8 @@ const Users = sequelize.define("users", {
     },
     company: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: false,
+        unique: true
     },
     telephone: {
         type: Sequelize.STRING,
@@ -80,13 +81,6 @@ const Users = sequelize.define("users", {
     verify_id: {
         type: Sequelize.INTEGER,
         unique: true
-    },
-    created_at: {
-        type: Sequelize.DATE,
-        allowNull: false
-    },
-    modified_at: {
-        type: Sequelize.DATE
     },
     id_role: {
         type: Sequelize.INTEGER,
@@ -346,7 +340,20 @@ const FunctionModifiedAt = sequelize.define("function_modified_at", {
     }
 })
 
-sequelize.sync().then(() => {
+sequelize.sync({ force: true }).then(async () => {
+    await Roles.create({
+        title: "unverified",
+        weight: 0
+    })
+    await Roles.create({
+        title: "verified",
+        weight: 1
+    })
+    await Roles.create({
+        title: "administrator",
+        weight: 666
+    })
+
     console.log("DB sync success.")
 }).catch((err) => {
     console.error("Error on DB sync : ", err)

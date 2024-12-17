@@ -1,13 +1,12 @@
 const express = require("express")
 const router = express.Router()
 
-const AuthMiddleware = require("../middlewares/AuthMiddleware")
-
+const authMiddleware = require("../middlewares/AuthMiddleware")
 const authController = require("../controllers/AuthController")
 
-router.get("/", AuthMiddleware.authenticateToken, authController.authenticate)
-router.get("/refresh", authController.refresh)
-router.get("/logout", authController.logout)
+router.get("/", authController.authenticate)
+router.get("/refresh", authMiddleware.authenticateTokenMiddleware, authController.refresh)
+router.get("/logout", authMiddleware.authenticateTokenMiddleware, authController.logout)
 router.post("/forgot", authController.forgot)
 router.put("/forgot/confirm/:id", authController.forgotConfirm)
 
