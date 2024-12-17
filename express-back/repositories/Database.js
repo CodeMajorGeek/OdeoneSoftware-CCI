@@ -1,4 +1,4 @@
-const { Sequelize, INTEGER, DataTypes } = require("sequelize")
+const { Sequelize } = require("sequelize")
 
 const DB_NAME = process.env.DB_NAME || "odeone"
 const DB_USER = process.env.DB_USER || "odeone"

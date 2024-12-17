@@ -1,6 +1,7 @@
+const userService = require("../services/UserService")
 
 function getAllUsers(req, res) {
-
+    const users = 
 }
 
 function getUserById(req, res) {
@@ -8,6 +9,10 @@ function getUserById(req, res) {
 }
 
 function getUserByCompany(req, res) {
+
+}
+
+function getUserByEmail(req, res) {
 
 }
 
@@ -27,6 +32,7 @@ module.exports = {
     getAllUsers,
     getUserById,
     getUserByCompany,
+    getUserByEmail,
     createUser,
     updateUser,
     deleteUser

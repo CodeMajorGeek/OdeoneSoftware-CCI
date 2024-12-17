@@ -1,22 +1,44 @@
+const functionService = require("../services/FunctionService")
 
-function getAllFunctions(req, res) {
-
+async function getAllFunctions(req, res) {
+    const functions = await functionService.findAllFunctions()
+    res.json(functions)
 }
 
-function getFunctionById(req, res) {
+async function getFunctionById(req, res) {
+    const id = parseInt(req.params.id)
+    const func = await functionService.findFunctionById(id)
 
+    if (func)
+        res.json(func)
+    else
+        res.status(404).json({ message: "Function not found !" })
 }
 
-function createFunction(req, res) {
-
+async function createFunction(req, res) {
+    const newFunction = functionService.createFunction(req.body)
+    res.status(201).json(newFunction)
 }
 
-function updateFunction(req, res) {
+async function updateFunction(req, res) {
+    const id = parseInt(req.params.id)
+    const updatedFunc = await functionService.editFunction(id, req.body)
 
+    if (updatedFunc)
+        res.json(updatedFunc)
+    else
+        res.status(404).json({ message: "Function not found !" })
 }
 
-function deleteFunction(req, res) {
+async function deleteFunction(req, res) {
+    const id = parseInt(req.params.id)
+    const func = await functionService.findFunctionById(id)
 
+    if (func) {
+        await functionService.removeFunction(id)
+        res.status(204).send()
+    } else
+        res.status(404).json({ message: "Function not found !" })
 }
 
 module.exports = {
