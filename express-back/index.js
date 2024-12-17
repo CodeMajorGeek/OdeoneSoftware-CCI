@@ -6,11 +6,7 @@ const app = express()
 
 app.use(express.json())
 
-const authMiddleware = require("./middlewares/AuthMiddleware")
-
-// app.use(authMiddleware.authenticateToken)
-
-const URL_BASE = process.env.URL_BASE || "/api/v1"
+const URL_BASE = process.env.URL_BASE || "/v1"
 
 const authRoutes = require("./routes/AuthRoutes")
 const userRoutes = require("./routes/UserRoutes")

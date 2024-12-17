@@ -1,61 +1,232 @@
-import "./styles/RegisterModal.css"
-
+import React, { useState } from "react";
+import "./styles/RegisterModal.css";
 import { faUserEdit } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export default function RegisterModal() {
+    const [formData, setFormData] = useState({
+        lastname: "",
+        firstname: "",
+        firstEmail: "",
+        secondEmail: "",
+        company: "",
+        tel: "",
+        password: "",
+        passwordConfirm: "",
+        gender: "not-specified",
+        cgu: false,
+    });
+
+    const [error, setError] = useState(null);
+    const [success, setSuccess] = useState(null);
+
+    const handleChange = (e) => {
+        const { name, value, type, checked } = e.target;
+        setFormData({
+            ...formData,
+            [name]: type === "checkbox" ? checked : value,
+        });
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        if (formData.password !== formData.passwordConfirm) {
+            setError("Les mots de passe ne correspondent pas.");
+            return;
+        }
+
+        try {
+            const response = await fetch("http://localhost:9999/api/v1/users/", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    lastname: formData.lastname,
+                    firstname: formData.firstname,
+                    firstEmail: formData.firstEmail,
+                    secondEmail: formData.secondEmail,
+                    company: formData.company,
+                    tel: formData.tel,
+                    password: formData.password,
+                    gender: formData.gender,
+                    cgu: formData.cgu,
+                }),
+            });
+
+            if (!response.ok) {
+                const message = await response.text();
+                throw new Error(message || "Une erreur est survenue.");
+            }
+
+            setSuccess("Inscription réussie !");
+            setError(null);
+            setFormData({
+                lastname: "",
+                firstname: "",
+                firstEmail: "",
+                secondEmail: "",
+                company: "",
+                tel: "",
+                password: "",
+                passwordConfirm: "",
+                gender: "not-specified",
+                cgu: false,
+            });
+        } catch (err) {
+            setError(err.message);
+            setSuccess(null);
+        }
+    };
+
     return (
         <div className="register-modal">
-            <h1>INSCRIPTION <FontAwesomeIcon icon={ faUserEdit } /></h1>
-            <form className="form register-form" method="PUT">
+            <h1>
+                INSCRIPTION <FontAwesomeIcon icon={faUserEdit} />
+            </h1>
+            <form className="form register-form" onSubmit={handleSubmit}>
+                {error && <p className="error">{error}</p>}
+                {success && <p className="success">{success}</p>}
                 <div>
-                    <label for="lastname">NOM <span className="req-field">*</span></label>
-                    <input type="text" placeholder="Entrer votre nom" id="lastname" name="lastname" required />
+                    <label htmlFor="lastname">
+                        NOM <span className="req-field">*</span>
+                    </label>
+                    <input
+                        type="text"
+                        placeholder="Entrer votre nom"
+                        id="lastname"
+                        name="lastname"
+                        value={formData.lastname}
+                        onChange={handleChange}
+                        required
+                    />
                 </div>
                 <div>
-                    <label for="firstname">Prénom <span className="req-field">*</span></label>
-                    <input type="text" placeholder="Entrer votre prénom" id="firstname" name="firstname" required />
+                    <label htmlFor="firstname">
+                        Prénom <span className="req-field">*</span>
+                    </label>
+                    <input
+                        type="text"
+                        placeholder="Entrer votre prénom"
+                        id="firstname"
+                        name="firstname"
+                        value={formData.firstname}
+                        onChange={handleChange}
+                        required
+                    />
                 </div>
                 <div>
-                    <label for="first-email">adresse mail principale <span className="req-field">*</span></label>
-                    <input type="email" placeholder="Entrer votre adresse mail principale" id="first-email" name="first-email" required />
+                    <label htmlFor="firstEmail">
+                        adresse mail principale <span className="req-field">*</span>
+                    </label>
+                    <input
+                        type="email"
+                        placeholder="Entrer votre adresse mail principale"
+                        id="firstEmail"
+                        name="firstEmail"
+                        value={formData.firstEmail}
+                        onChange={handleChange}
+                        required
+                    />
                 </div>
                 <div>
-                    <label for="second-email">adresse mail secondaire</label>
-                    <input type="email" placeholder="Entrer votre adresse mail secondaire" id="second-email" name="second-email" />
+                    <label htmlFor="secondEmail">adresse mail secondaire</label>
+                    <input
+                        type="email"
+                        placeholder="Entrer votre adresse mail secondaire"
+                        id="secondEmail"
+                        name="secondEmail"
+                        value={formData.secondEmail}
+                        onChange={handleChange}
+                    />
                 </div>
                 <div>
-                    <label for="company">nom de la sociétée <span className="req-field">*</span></label>
-                    <input type="text" placeholder="Entrer le nom de votre sociétée" id="company" name="company" required />
+                    <label htmlFor="company">
+                        nom de la société <span className="req-field">*</span>
+                    </label>
+                    <input
+                        type="text"
+                        placeholder="Entrer le nom de votre société"
+                        id="company"
+                        name="company"
+                        value={formData.company}
+                        onChange={handleChange}
+                        required
+                    />
                 </div>
                 <div>
-                    <label for="tel">numéro de téléphone <span className="req-field">*</span></label>
-                    <input type="tel" placeholder="Entrer votre numéro de téléphone" id="tel" name="tel" required />
+                    <label htmlFor="tel">
+                        numéro de téléphone <span className="req-field">*</span>
+                    </label>
+                    <input
+                        type="tel"
+                        placeholder="Entrer votre numéro de téléphone"
+                        id="tel"
+                        name="tel"
+                        value={formData.tel}
+                        onChange={handleChange}
+                        required
+                    />
                 </div>
                 <div>
-                    <label for="password">mot de passe <span className="req-field">*</span></label>
-                    <input type="password" placeholder="Entrer votre mot de passe" id="password" name="password" required />
+                    <label htmlFor="password">
+                        mot de passe <span className="req-field">*</span>
+                    </label>
+                    <input
+                        type="password"
+                        placeholder="Entrer votre mot de passe"
+                        id="password"
+                        name="password"
+                        value={formData.password}
+                        onChange={handleChange}
+                        required
+                    />
                 </div>
                 <div>
-                    <label for="password-confirm">confirmation du mot de passe <span className="req-field">*</span></label>
-                    <input type="password" placeholder="Confirmer votre mot de passe" id="password-confirm" name="password-confirm" required />
+                    <label htmlFor="passwordConfirm">
+                        confirmation du mot de passe <span className="req-field">*</span>
+                    </label>
+                    <input
+                        type="password"
+                        placeholder="Confirmer votre mot de passe"
+                        id="passwordConfirm"
+                        name="passwordConfirm"
+                        value={formData.passwordConfirm}
+                        onChange={handleChange}
+                        required
+                    />
                 </div>
                 <div>
-                    <label for="gender">civilité</label>
-                    <select name="gender" id="gender">
+                    <label htmlFor="gender">civilité</label>
+                    <select
+                        name="gender"
+                        id="gender"
+                        value={formData.gender}
+                        onChange={handleChange}
+                    >
                         <option value="not-specified">Non précisé</option>
                         <option value="male">Monsieur</option>
                         <option value="female">Madame</option>
                     </select>
                 </div>
                 <div className="d-cgu">
-                    <input type="checkbox" id="cgu" name="cgu" required />
-                    <label for="cgu">J'accepte les termes et les contrats d'usages. <span className="req-field">*</span></label>
+                    <input
+                        type="checkbox"
+                        id="cgu"
+                        name="cgu"
+                        checked={formData.cgu}
+                        onChange={handleChange}
+                        required
+                    />
+                    <label htmlFor="cgu">
+                        J'accepte les termes et les contrats d'usages. <span className="req-field">*</span>
+                    </label>
                 </div>
                 <div>
-                    <input type="submit" value="CONNEXION" className="submit-btn" />
+                    <input type="submit" value="INSCRIPTION" className="submit-btn" />
                 </div>
             </form>
         </div>
-    )
+    );
 }
