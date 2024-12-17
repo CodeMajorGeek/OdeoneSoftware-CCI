@@ -39,7 +39,7 @@ services:
       - ./express-back:/usr/app/express-back/.
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.express_back.rule=PathPrefix(`/`)"
+      - "traefik.http.routers.express_back.rule=PathPrefix(`/api/`)"
       - "traefik.http.services.express_back.loadbalancer.server.port=9999"
     depends_on:
       - db

@@ -13,7 +13,7 @@ async function findUserByCompany(company) {
 }
 
 async function findUserByEmail(email) {
-    return await userRepository.findUserByEmail(email)
+    return await userRepository.getUserByEmail(email)
 }
 
 async function createUser(user) {

@@ -113,6 +113,20 @@ const Users = sequelize.define("users", {
     }
 })
 
+const Sessions = sequelize.define("sessions", {
+    id_user: {
+        type: Sequelize.INTEGER,
+        references: {
+            model: Users,
+            key: "id_user"
+        }
+    },
+    refresh: {
+        type: Sequelize.STRING,
+        unique: true
+    }
+})
+
 const Summaries = sequelize.define("summaries", {
     id_summary: {
         type: Sequelize.INTEGER,
@@ -395,6 +409,7 @@ sequelize.sync().then(async () => {
 
 module.exports = {
     Users,
+    Sessions,
     Roles,
     Genders,
     Faqs,
