@@ -17,7 +17,7 @@ async function getUserByEmail(email) {
 }
 
 async function addUser(user) {
-    return await dbUser.create({ ...user, createdAt: Date.now() })
+    return await dbUser.create({ ...user })
 }
 
 async function updateUser(id, user) {

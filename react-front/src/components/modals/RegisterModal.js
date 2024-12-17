@@ -13,8 +13,7 @@ export default function RegisterModal() {
         tel: "",
         password: "",
         passwordConfirm: "",
-        gender: "not-specified",
-        cgu: false,
+        gender: "not-specified"
     });
 
     const [error, setError] = useState(null);
@@ -37,7 +36,7 @@ export default function RegisterModal() {
         }
 
         try {
-            const response = await fetch("http://localhost:9999/api/v1/users/", {
+            const response = await fetch("http://localhost/api/v1/users/", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -45,13 +44,12 @@ export default function RegisterModal() {
                 body: JSON.stringify({
                     lastname: formData.lastname,
                     firstname: formData.firstname,
-                    firstEmail: formData.firstEmail,
-                    secondEmail: formData.secondEmail,
+                    main_email: formData.firstEmail,
+                    second_email: formData.secondEmail,
                     company: formData.company,
-                    tel: formData.tel,
+                    telephone: formData.tel,
                     password: formData.password,
-                    gender: formData.gender,
-                    cgu: formData.cgu,
+                    gender: formData.gender
                 }),
             });
 
@@ -71,8 +69,7 @@ export default function RegisterModal() {
                 tel: "",
                 password: "",
                 passwordConfirm: "",
-                gender: "not-specified",
-                cgu: false,
+                gender: "not-specified"
             });
         } catch (err) {
             setError(err.message);
@@ -86,7 +83,7 @@ export default function RegisterModal() {
                 INSCRIPTION <FontAwesomeIcon icon={faUserEdit} />
             </h1>
             <form className="form register-form" onSubmit={handleSubmit}>
-                {error && <p className="error">{error}</p>}
+                {error && <p className="error">{error.message}</p>}
                 {success && <p className="success">{success}</p>}
                 <div>
                     <label htmlFor="lastname">

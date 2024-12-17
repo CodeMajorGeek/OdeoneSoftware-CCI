@@ -1,5 +1,6 @@
 const bcrypt = require("bcrypt")
 
+const genderService = require("../services/GenderService")
 const userService = require("../services/UserService")
 
 async function getAllUsers(req, res) {
@@ -42,15 +43,23 @@ async function createUser(req, res) {
     try {
         const user = req.body
         const pass = user.password
+        const genderId = await genderService.getGenderByTitle(user.gender)
+
+        console.log(user)
+
+        if (!genderId)
+            throw { message: "Gender not found !" }
+
         const hash = await bcrypt.hash(pass, 10)
-        
+         
         let hashedUser = { ...user, id_role: 1 }
         hashedUser.password = hash
+        hashedUser.id_gender = genderId
         
         const newUser = await userService.createUser(hashedUser)
         res.status(201).json(newUser)
     } catch (error) {
-        res.status(500).json({ message: "Erreur interne : ", error })
+        res.status(500).json({ message: "Erreur interne.", error })
     }
 }
 

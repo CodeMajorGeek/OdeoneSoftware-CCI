@@ -34,6 +34,21 @@ const Roles = sequelize.define("roles", {
     }
 })
 
+const Genders = sequelize.define("genders", {
+    id_gender: {
+        type: Sequelize.INTEGER,
+        autoIncrement: true,
+        primaryKey: true,
+        unique: true,
+        allowNull: false
+    },
+    title : {
+        type: Sequelize.STRING,
+        allowNull: false,
+        unique: true
+    }
+})
+
 const Users = sequelize.define("users", {
     id_user: {
         type: Sequelize.INTEGER,
@@ -87,6 +102,13 @@ const Users = sequelize.define("users", {
         references: {
             model: Roles,
             key: "id_role"
+        }
+    },
+    id_gender: {
+        type: Sequelize.INTEGER,
+        references: {
+            model: Genders,
+            key: "id_gender"
         }
     }
 })
@@ -354,6 +376,18 @@ sequelize.sync({ force: true }).then(async () => {
         weight: 666
     })
 
+    await Genders.create({
+        title: "not-specified"
+    })
+
+    await Genders.create({
+        title: "female"
+    })
+
+    await Genders.create({
+        title: "male"
+    })
+
     console.log("DB sync success.")
 }).catch((err) => {
     console.error("Error on DB sync : ", err)
@@ -362,6 +396,7 @@ sequelize.sync({ force: true }).then(async () => {
 module.exports = {
     Users,
     Roles,
+    Genders,
     Faqs,
     FaqCreatedAt,
     FaqModifiedAt,
