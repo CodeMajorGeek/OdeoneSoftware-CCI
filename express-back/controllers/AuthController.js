@@ -8,20 +8,23 @@ const TOKEN_SECRET = process.env.TOKEN_SECRET
 const REFRESH_SECRET = process.env.REFRESH_SECRET
 
 async function authenticate(req, res) {
-    const { email, pass } = req.body;
-    const user = await userService.findUserByEmail(email)
+    try {
+        const { email, password } = req.body;
+        const user = await userService.findUserByEmail(email)
 
-    const passVerified = await bcrypt.compare(pass, user.password)
+        const passVerified = await bcrypt.compare(password, user.password)
+        if (passVerified) {
+            const accessToken = jwt.sign({ email: email }, TOKEN_SECRET, { expiresIn: "1h" })
+            const refreshToken = jwt.sign({ email: email }, REFRESH_SECRET, { expiresIn: "1d" })
 
-    if (passVerified) {
-        const accessToken = jwt.sign({ email: email }, TOKEN_SECRET, { expiresIn: "1h" })
-        const refreshToken = jwt.sign({ email: email }, REFRESH_SECRET, { expiresIn: "1d" })
+            await sessionService.saveRefreshToken(user, refreshToken)
 
-        await sessionService.saveRefreshToken(user, refreshToken)
-
-        res.status(200).json({ accessToken, refreshToken })
-    } else
-        res.status(401).json({ message: "Unauthorized" })
+            res.status(200).json({ accessToken, refreshToken })
+        } else
+            res.status(401).json({ message: "Unauthorized" })
+    } catch (error) {
+        res.status(500).json(error)
+    }
 }
 
 async function refresh(req, res) {

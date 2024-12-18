@@ -2,6 +2,7 @@ import "./styles/LoginModal.css"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faSignInAlt } from "@fortawesome/free-solid-svg-icons"
 import { useState } from "react"
+import { apiLogin } from "../../services/ApiService"
 
 export default function LoginModal() {
     const [formData, setFormData] = useState({
@@ -18,22 +19,9 @@ export default function LoginModal() {
     }
 
     const handleSubmit = async (e) => {
-        e.preventDefault() // Empêche le rechargement de la page
+        e.preventDefault()
         try {
-            const response = await fetch("http://localhost/api/v1/auth/", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(formData)
-            })
-
-            if (!response.ok) {
-                throw new Error("Erreur lors de la connexion")
-            }
-
-            const data = await response.json()
-            console.log("Réponse de l'API :", data)
+            await apiLogin(formData.email, formData.pass)
             alert("Connexion réussie !")
         } catch (error) {
             console.error("Erreur :", error.message)
