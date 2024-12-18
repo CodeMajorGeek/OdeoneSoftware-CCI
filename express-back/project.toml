@@ -1,0 +1,7 @@
+[project]
+id = "fr.odeone.reactfront"
+name = "Odeone Frontend"
+version = "1.0.0"
+
+[[build.buildpacks]]
+id = "heroku/nodejs"

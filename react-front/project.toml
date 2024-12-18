@@ -1,0 +1,7 @@
+[project]
+id = "fr.odeone.expressback"
+name = "Odeone Backend"
+version = "1.0.0"
+
+[[build.buildpacks]]
+id = "heroku/nodejs"
