@@ -1,8 +1,9 @@
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import "./styles/Account.css"
 
+import { apiLogout } from "../services/ApiService"
 
-export default function Account() {
+function UnauthentifiedAccount() {
     const dispatch = useDispatch()
 
     const loginHandler = (e) => {
@@ -25,4 +26,30 @@ export default function Account() {
             </ul>
         </div>
     )
+}
+
+function AuthentifiedAccount() {
+    const dispatch = useDispatch()
+
+    const logoutHandler = (e) => {
+        apiLogout()
+        dispatch({
+            type: "resetAuthentification"
+        })
+    }
+
+    return (
+        <div className="account">
+        <ul>
+            <li>
+                <button onClick={ logoutHandler }>DECONNEXION</button>
+            </li>
+        </ul>
+    </div>
+    )
+}
+
+export default function Account() {
+    const authentified = useSelector((state) => state.account.authMode)
+    return authentified ? <AuthentifiedAccount /> : <UnauthentifiedAccount />
 }

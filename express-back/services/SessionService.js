@@ -8,7 +8,12 @@ async function findRefreshByUser(user) {
     return await sessionRepository.getRefreshByUser(user)
 }
 
+async function removeRefresh(refresh) {
+    return await sessionRepository.deleteRefresh(refresh)
+}
+
 module.exports = {
     saveRefreshToken,
-    findRefreshByUser
+    findRefreshByUser,
+    removeRefresh
 }

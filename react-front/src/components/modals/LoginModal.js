@@ -4,6 +4,7 @@ import { faSignInAlt } from "@fortawesome/free-solid-svg-icons"
 import { useState } from "react"
 import { apiLogin } from "../../services/ApiService"
 import { useDispatch } from "react-redux"
+import { jwtDecode } from "jwt-decode"
 
 export default function LoginModal() {
     const [formData, setFormData] = useState({
@@ -25,7 +26,16 @@ export default function LoginModal() {
         e.preventDefault()
         try {
             await apiLogin(formData.email, formData.pass)
-            alert("Connexion réussie !")
+
+            const tokenData = jwtDecode(localStorage.getItem("accessToken"))
+            dispatch({
+                type: "setAuthenticatedMode",
+                payload: {
+                    mode: true,
+                    admin: tokenData.admin
+                }
+            })
+            
             dispatch({ type: "closeModal" })
         } catch (error) {
             console.error("Erreur :", error.message)

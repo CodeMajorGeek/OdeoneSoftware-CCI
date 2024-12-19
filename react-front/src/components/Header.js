@@ -1,9 +1,12 @@
 import "./styles/Header.css"
 
 import Navbar from "./Navbar"
+import Account from "./Account"
 
 import logoImage from "../assets/images/Logo-Odeone_blanc.png"
 import { useDispatch, useSelector } from "react-redux"
+import { jwtDecode } from "jwt-decode"
+import { useMemo } from "react"
 
 const userNavTabs = [
     {
@@ -59,25 +62,31 @@ const adminNavTabs = [
     }
 ]
 
-export default function Header({ account, adminMode }) {
+export default function Header() {
     const dispatch = useDispatch()
 
     const adminHandler = () => {
         dispatch({ type: "toggleAdminView" })
     }
 
-    const adminView = useSelector((state) => state.admin.adminView)
-    const navTabs = adminView ? adminNavTabs : userNavTabs;
-    if (!adminView && adminMode)
-        navTabs.push({ title: "ADMINISTRATION", ref: "admin", handler: adminHandler })
+    const adminView = useSelector((state) => state.account.adminView)
+    const adminMode = useSelector((state) => state.account.adminMode)
+
+    const navTabs = useMemo(() => {
+        const tabs = adminView ? adminNavTabs : userNavTabs.slice();
+        if (!adminView && adminMode) {
+            tabs.push({ title: "ADMINISTRATION", ref: "admin", handler: adminHandler });
+        }
+        return tabs;
+    }, [adminView, adminMode])
 
     return (
         <header>
             <div className="div-logo">
-                <a className="logo-link" href="/"><img src={ logoImage } className="logo" alt="Logo Odeone" /></a>
+                <a className="logo-link" href="/"><img src={logoImage} className="logo" alt="Logo Odeone" /></a>
             </div>
             <Navbar navTabs={navTabs} />
-            { account }
+            <Account />
         </header>
     )
 }

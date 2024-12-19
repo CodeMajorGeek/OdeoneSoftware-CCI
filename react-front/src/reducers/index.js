@@ -1,10 +1,10 @@
 import { combineReducers } from "redux"
 import modalReducer from "./modalReducers"
-import adminReducer from "./adminReducers"
+import accountReducer from "./accountReducers"
 
 const rootReducer = combineReducers({
     modal: modalReducer,
-    admin: adminReducer
+    account: accountReducer
 })
 
 export default rootReducer

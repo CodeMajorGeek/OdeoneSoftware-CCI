@@ -56,7 +56,14 @@ async function refresh(req, res) {
 }
 
 async function logout(req, res) {
+    try {
+        const { refreshToken } = req.body
+        await sessionService.removeRefresh(refreshToken)
 
+        res.status(200).send()
+    } catch (error) {
+        res.status(401).json({ message: "Unable to logout", error })
+    }
 }
 
 function forgot(req, res) {

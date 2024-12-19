@@ -1,4 +1,3 @@
-
 const API_BASE = "/api/v1"
 
 async function apiAuthenticatedFetch(route, verb, data = null) {
@@ -86,7 +85,26 @@ async function apiRegister(fName, lName, mEmail, sEmail, comp, tel, pass, gend) 
         throw new Error("Login failed !")
 }
 
+async function apiLogout() {
+    const accessToken = localStorage.getItem("accessToken")
+
+    const response = await fetch(`${API_BASE}/auth/logout`, {
+        method: "POST",
+        headers: {
+            Authorization: `Bearer ${accessToken}`,
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            refreshToken: localStorage.getItem("refreshToken")
+        })
+    })
+
+    localStorage.removeItem("accessToken")
+    localStorage.removeItem("refreshToken")
+}
+
 export {
     apiLogin,
-    apiRegister
+    apiRegister,
+    apiLogout
 }
