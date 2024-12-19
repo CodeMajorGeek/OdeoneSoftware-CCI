@@ -1,64 +1,76 @@
-import "./styles/Header.css"
+import { useDispatch, useSelector } from "react-redux"
+import { useMemo } from "react"
 
 import Navbar from "./Navbar"
 import Account from "./Account"
 
 import logoImage from "../assets/images/Logo-Odeone_blanc.png"
-import { useDispatch, useSelector } from "react-redux"
-import { jwtDecode } from "jwt-decode"
-import { useMemo } from "react"
+
+import "./styles/Header.css"
 
 const userNavTabs = [
     {
         title: "ACCUEIL",
-        ref: "accueil"
+        ref: "accueil",
+        needLogin: false
     },
     {
         title: "A PROPOS",
-        ref: "a-propos"
+        ref: "a-propos",
+        needLogin: false
     },
     {
         title: "FONCTIONS",
-        ref: "fonctions"
+        ref: "fonctions",
+        needLogin: false
     },
     {
         title: "DEMONSTRATION",
-        ref: "demonstration"
+        ref: "demonstration",
+        needLogin: true
     },
     {
         title: "TUTORIELS",
-        ref: "tutoriels"
+        ref: "tutoriels",
+        needLogin: true
     },
     {
         title: "FAQ",
-        ref: "faq"
+        ref: "faq",
+        needLogin: false
     },
     {
         title: "CONTACT",
-        ref: "contact"
+        ref: "contact",
+        needLogin: true
     }
 ]
 
 const adminNavTabs = [
     {
         title: "ACCUEIL",
-        ref: "admin/accueil"
+        ref: "admin/accueil",
+        needLogin: true
     },
     {
         title: "COMPTES UTILISATEURS",
-        ref: "admin/utilisateurs"
+        ref: "admin/utilisateurs",
+        needLogin: true
     },
     {
         title: "FONCTIONS",
-        ref: "admin/fonctions"
+        ref: "admin/fonctions",
+        needLogin: true
     },
     {
         title: "TUTORIELS",
-        ref: "admin/tutoriels"
+        ref: "admin/tutoriels",
+        needLogin: true
     },
     {
         title: "FAQ",
-        ref: "admin/faq"
+        ref: "admin/faq",
+        needLogin: true
     }
 ]
 
@@ -75,7 +87,7 @@ export default function Header() {
     const navTabs = useMemo(() => {
         const tabs = adminView ? adminNavTabs : userNavTabs.slice();
         if (!adminView && adminMode) {
-            tabs.push({ title: "ADMINISTRATION", ref: "admin", handler: adminHandler });
+            tabs.push({ title: "ADMINISTRATION", ref: "admin", handler: adminHandler, needLogin: true });
         }
         return tabs;
     }, [adminView, adminMode])

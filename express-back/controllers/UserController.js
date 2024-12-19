@@ -4,19 +4,27 @@ const genderService = require("../services/GenderService")
 const userService = require("../services/UserService")
 
 async function getAllUsers(req, res) {
-    const users = await userService.findAllUsers()
-    const user = await userService.findUserByEmail(req.auth.email)
+    try {
+        const users = await userService.findAllUsers()
+        const user = await userService.findUserByEmail(req.auth.email)
 
-    res.json(users)
+        res.json(users)
+    } catch (error) {
+        res.status(500).json(error)
+    }
 }
 
 async function getUserById(req, res) {
-    const user = await userService.findUserById(req.params.id)
+    try {
+        const user = await userService.findUserById(req.params.id)
 
-    if (user)
-        res.json(user)
-    else
-        res.status(404).json({ message: "User not found !" })
+        if (user)
+            res.json(user)
+        else
+            res.status(404).json({ message: "User not found !" })
+    } catch (error) {
+        res.status(500).json(error)
+    }
 }
 
 async function getUserByCompany(req, res) {
@@ -25,16 +33,20 @@ async function getUserByCompany(req, res) {
     if (user)
         res.json(user)
     else
-        res.status(404).json({ message: "User not found !"})
+        res.status(404).json({ message: "User not found !" })
 }
 
 async function getUserByEmail(req, res) {
-    const user = await userService.findUserByEmail(req.params.email)
+    try {
+        const user = await userService.findUserByEmail(req.params.email)
 
-    if (user)
-        res.json(user)
-    else
-        res.status(404).json({ message: "User not found !" })
+        if (user)
+            res.json(user)
+        else
+            res.status(404).json({ message: "User not found !" })
+    } catch (error) {
+        res.status(500).json(error)
+    }
 }
 
 async function createUser(req, res) {
@@ -47,11 +59,11 @@ async function createUser(req, res) {
             throw { message: "Gender not found !" }
 
         const hash = await bcrypt.hash(pass, 10)
-         
+
         let hashedUser = { ...user, id_role: 1, id_gender: gender.id_gender }
         hashedUser.password = hash
         hashedUser.id_gender = gender.dataValues.id_gender
-        
+
         const newUser = await userService.createUser(hashedUser)
         res.status(201).json(newUser)
     } catch (error) {
@@ -60,25 +72,32 @@ async function createUser(req, res) {
 }
 
 async function updateUser(req, res) {
-    const id = parseInt(req.params.id)
-    const updatedUser = await userService.editUser(id, req.body)
+    try {
+        const id = parseInt(req.params.id)
+        const updatedUser = await userService.editUser(id, req.body)
 
-    if (updatedUser)
-        res.json(updatedUser)
-    else
-        res.status(404).json({ message: "User not found !"})
-
+        if (updatedUser)
+            res.json(updatedUser)
+        else
+            res.status(404).json({ message: "User not found !" })
+    } catch (error) {
+        res.status(500).json(error)
+    }
 }
 
 async function deleteUser(req, res) {
-    const id = parseInt(req.params.id)
-    const user = await userService.findUserById(id)
+    try {
+        const id = parseInt(req.params.id)
+        const user = await userService.findUserById(id)
 
-    if (user) {
-        await userService.removeUser(id)
-        res.status(204).send()
-    } else
-        res.status(404).json({ message: "User not found !" })
+        if (user) {
+            await userService.removeUser(id)
+            res.status(204).send()
+        } else
+            res.status(404).json({ message: "User not found !" })
+    } catch (error) {
+        res.status(500).json(error)
+    }
 }
 
 module.exports = {

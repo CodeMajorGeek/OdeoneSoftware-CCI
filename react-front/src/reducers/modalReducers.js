@@ -5,6 +5,8 @@ function modalReducer(state = initialState, action) {
         return { ...state, activeModal: "LOGIN" }
     else if (action.type === "showRegisterModal")
         return { ...state, activeModal: "REGISTER" }
+    else if (action.type === "showNeedLoginModal")
+        return { ...state, activeModal: "NEED_LOGIN" }
     else if (action.type === "closeModal")
         return { ...state, activeModal: "NONE" }
     return state

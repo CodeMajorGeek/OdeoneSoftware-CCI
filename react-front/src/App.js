@@ -23,12 +23,14 @@ import AdminTutos from "./routes/admin/AdminTutos"
 import Modal from "./components/modals/Modal"
 import LoginModal from "./components/modals/LoginModal"
 import RegisterModal from "./components/modals/RegisterModal"
+import NeedLoginModal from "./components/modals/NeedLoginModal"
 
 function App() {
   const showLoginModal = useSelector((state) => state.modal.activeModal) === "LOGIN"
   const showRegisterModal = useSelector((state) => state.modal.activeModal) === "REGISTER"
+  const showNeedLoginModal = useSelector((state) => state.modal.activeModal) === "NEED_LOGIN"
 
-  const isShowingModal = showLoginModal || showRegisterModal;
+  const isShowingModal = showLoginModal || showRegisterModal || showNeedLoginModal
   return (
     <div className="App">
       <div hidden={isShowingModal}>
@@ -53,8 +55,9 @@ function App() {
         </main>
         <Footer />
       </div>
-      <Modal show={showLoginModal} modalContent={<LoginModal />} />
-      <Modal show={showRegisterModal} modalContent={<RegisterModal />} />
+      { showNeedLoginModal && <Modal modalContent={<NeedLoginModal />} /> }
+      { showLoginModal && <Modal modalContent={<LoginModal />} /> }
+      { showRegisterModal && <Modal modalContent={<RegisterModal />} /> }
     </div>
   );
 }

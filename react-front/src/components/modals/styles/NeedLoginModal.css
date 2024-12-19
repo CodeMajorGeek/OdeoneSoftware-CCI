@@ -1,0 +1,27 @@
+.need-login-modal h1 {
+    margin-top: 10%;
+}
+
+.need-login-modal p {
+    margin: 5%;
+    font-size: large;
+    text-align: center;
+}
+
+.need-login-modal div {
+    background-color: red;
+}
+
+.need-login-modal .submit-btn {
+    margin-top: 0;
+    margin-left: 25%;
+    width: 50%;
+}
+
+.need-login-modal .submit-btn:hover {
+    background-color: #000A;
+}
+
+.need-login-modal .paper-icon {
+    color: white;
+}

@@ -27,6 +27,10 @@ header a:hover {
 
 }
 
+header .need-login {
+    color: grey;
+}
+
 @keyframes underline-anim {
     from {
         text-decoration-thickness: 0px;

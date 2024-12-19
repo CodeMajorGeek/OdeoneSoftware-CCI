@@ -28,7 +28,6 @@ const refreshTokenMiddleware = async (req, res, next) => {
         const user = userService.findUserByEmail(decodedToken.email)
 
         const { refresh } = await sessionService.findRefreshByUser(user)
-        console.log(refresh)
 
         if (token != refresh)
                 throw "Unvalid token !"
