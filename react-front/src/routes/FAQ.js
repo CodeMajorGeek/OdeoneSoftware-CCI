@@ -1,12 +1,32 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faSearch } from "@fortawesome/free-solid-svg-icons"
+import { useEffect, useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSearch } from "@fortawesome/free-solid-svg-icons";
+import { apiGetFaqs } from "../services/ApiService";
 
-import "./styles/FAQ.css"
+import FAQResults from "../components/FAQResults";
+import FAQResult from "../components/FAQResult";
 
-import FAQResults from "../components/FAQResults"
-import FAQResult from "../components/FAQResult"
+import "./styles/FAQ.css";
 
 export default function FAQ() {
+    const [faqs, setFaqs] = useState([]);
+    const [loading, setLoading] = useState(true);
+
+    // Appel à l'API pour récupérer les FAQs
+    useEffect(() => {
+        const fetchFaqs = async () => {
+            try {
+                const data = await apiGetFaqs();
+                setFaqs(data);
+            } catch (error) {
+                console.error("Erreur lors de la récupération des FAQs :", error);
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchFaqs();
+    }, []);
+
     return (
         <div className="faq">
             <div className="title">
@@ -14,10 +34,10 @@ export default function FAQ() {
                 <div className="underline-title"></div>
             </div>
             <div className="search">
-                <h2>Comment pouvons-nous vous aidez ?</h2>
+                <h2>Comment pouvons-nous vous aider ?</h2>
                 <div>
                     <form method="GET">
-                        <FontAwesomeIcon icon={ faSearch } className="search-icon" />
+                        <FontAwesomeIcon icon={faSearch} className="search-icon" />
                         <input type="text" name="search" placeholder="Saisissez un ou plusieurs mots clés" className="search-field" />
                         <input type="submit" value="Rechercher" className="search-btn" />
                     </form>
@@ -25,21 +45,20 @@ export default function FAQ() {
             </div>
             <div className="result">
                 <div className="title">
-                    <h1>Question fréquentes</h1>
+                    <h1>Questions fréquentes</h1>
                 </div>
                 <div className="result-list">
-                    <FAQResults results={[
-                        <FAQResult 
-                            question="Sur quel système d'exploitation fonctionne le logiciel ?"
-                            answer="Sous Windows en 32 ou 64 bits. (Le 64 bits est à privilégier)." />,
-                        <FAQResult 
-                            question="Le logiciel est-il compatible avec toutes les balances du marché ?"
-                            answer={ "Non, la balance doit être équipée d'au moins une sortie RS232/USB/Ethernet. " +
-                            "Il est également nécessaire que le constructeur mette à disposition la notice du protocole de communication." } />
-                    ]} />
+                    {loading ? (
+                        <p>Chargement des questions fréquentes...</p>
+                    ) : (
+                        <FAQResults
+                            results={faqs.map((faq) => (
+                                <FAQResult key={faq.id} question={faq.question} answer={faq.answer} />
+                            ))}
+                        />
+                    )}
                 </div>
             </div>
         </div>
-        
-    )
+    );
 }

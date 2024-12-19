@@ -103,8 +103,19 @@ async function apiLogout() {
     localStorage.removeItem("refreshToken")
 }
 
+async function apiGetFaqs() {
+    const response = await fetch(`${API_BASE}/faq`, {
+        method: "GET"
+    })
+
+    if (response.ok)
+        return await response.json()
+    return null
+}
+
 export {
     apiLogin,
     apiRegister,
-    apiLogout
+    apiLogout,
+    apiGetFaqs
 }

@@ -1,9 +1,9 @@
-
 import { faPaperPlane } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 
-import "./styles/NeedLoginModal.css"
 import { useDispatch } from "react-redux"
+
+import "./styles/NeedLoginModal.css"
 
 export default function NeedLoginModal() {
     const dispatch = useDispatch()

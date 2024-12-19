@@ -1,9 +1,9 @@
 import FunctionTable from "../components/FunctionTable"
 import FunctionList from "../components/FunctionList"
 
-import "./styles/Functions.css"
-
 import logoImage from "../assets/images/Logo-Odeone_jaune.png"
+
+import "./styles/Functions.css"
 
 export default function Functions() {
     return (
