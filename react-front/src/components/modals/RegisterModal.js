@@ -1,7 +1,8 @@
-import React, { useState } from "react";
-import "./styles/RegisterModal.css";
-import { faUserEdit } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import React, { useState } from "react"
+import "./styles/RegisterModal.css"
+import { faUserEdit } from "@fortawesome/free-solid-svg-icons"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { apiRegister } from "../../services/ApiService"
 
 export default function RegisterModal() {
     const [formData, setFormData] = useState({
@@ -14,52 +15,38 @@ export default function RegisterModal() {
         password: "",
         passwordConfirm: "",
         gender: "not-specified"
-    });
+    })
 
-    const [error, setError] = useState(null);
-    const [success, setSuccess] = useState(null);
+    const [error, setError] = useState(null)
 
     const handleChange = (e) => {
-        const { name, value, type, checked } = e.target;
+        const { name, value, type, checked } = e.target
         setFormData({
             ...formData,
             [name]: type === "checkbox" ? checked : value,
-        });
-    };
+        })
+    }
 
     const handleSubmit = async (e) => {
-        e.preventDefault();
+        e.preventDefault()
 
         if (formData.password !== formData.passwordConfirm) {
-            setError("Les mots de passe ne correspondent pas.");
-            return;
+            setError("Les mots de passe ne correspondent pas.")
+            return
         }
 
         try {
-            const response = await fetch("http://localhost/api/v1/users/", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    lastname: formData.lastname,
-                    firstname: formData.firstname,
-                    main_email: formData.firstEmail,
-                    second_email: formData.secondEmail,
-                    company: formData.company,
-                    telephone: formData.tel,
-                    password: formData.password,
-                    gender: formData.gender
-                }),
-            });
+            apiRegister(
+                formData.firstname,
+                formData.lastname,
+                formData.firstEmail,
+                formData.secondEmail,
+                formData.company,
+                formData.tel,
+                formData.password,
+                formData.gender)
 
-            if (!response.ok) {
-                const message = await response.text();
-                throw new Error(message || "Une erreur est survenue.");
-            }
-
-            setSuccess("Inscription réussie !");
-            setError(null);
+            setError(null)
             setFormData({
                 lastname: "",
                 firstname: "",
@@ -70,12 +57,11 @@ export default function RegisterModal() {
                 password: "",
                 passwordConfirm: "",
                 gender: "not-specified"
-            });
+            })
         } catch (err) {
-            setError(err.message);
-            setSuccess(null);
+            setError(err.message)
         }
-    };
+    }
 
     return (
         <div className="register-modal">
@@ -84,7 +70,6 @@ export default function RegisterModal() {
             </h1>
             <form className="form register-form" onSubmit={handleSubmit}>
                 {error && <p className="error">{error.message}</p>}
-                {success && <p className="success">{success}</p>}
                 <div>
                     <label htmlFor="lastname">
                         NOM <span className="req-field">*</span>
@@ -225,5 +210,5 @@ export default function RegisterModal() {
                 </div>
             </form>
         </div>
-    );
+    )
 }

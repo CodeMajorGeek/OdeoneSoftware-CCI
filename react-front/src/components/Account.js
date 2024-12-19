@@ -1,13 +1,16 @@
+import { useDispatch } from "react-redux"
 import "./styles/Account.css"
 
-export default function Account({ setShowLoginModal, setShowRegisterModal }) {
+
+export default function Account() {
+    const dispatch = useDispatch()
 
     const loginHandler = (e) => {
-        setShowLoginModal(true)
+        dispatch({ type: "showLoginModal" })
     }
 
     const registerHandler = (e) => {
-        setShowRegisterModal(true)
+        dispatch({ type: "showRegisterModal" })
     }
 
     return (

@@ -24,21 +24,22 @@ import AdminTutos from "./routes/admin/AdminTutos"
 import Modal from "./components/modals/Modal"
 import LoginModal from "./components/modals/LoginModal"
 import RegisterModal from "./components/modals/RegisterModal"
+import { useSelector } from "react-redux"
 
 const adminMode = true
 
 function App() {
-  const [showLoginModal, setShowLoginModal] = useState(false)
-  const [showRegisterModal, setShowRegisterModal] = useState(false)
   const [adminView, setAdminView] = useState(false)
 
-  const isShowingModal = showLoginModal || showRegisterModal;
+  const showLoginModal = useSelector((state) => state.modal.activeModal) === "LOGIN"
+  const showRegisterModal = useSelector((state) => state.modal.activeModal) === "REGISTER"
 
+  const isShowingModal = showLoginModal || showRegisterModal;
   return (
     <div className="App">
       <div hidden={isShowingModal}>
         <Header
-          account={<Account setShowLoginModal={setShowLoginModal} setShowRegisterModal={setShowRegisterModal} />} admin={adminMode} adminView={adminView} setAdminView={setAdminView} />
+          account={<Account />} admin={adminMode} adminView={adminView} setAdminView={setAdminView} />
         <main>
           <Routes>
             <Route path="/" element={<Home />} />
@@ -59,8 +60,8 @@ function App() {
         </main>
         <Footer />
       </div>
-      <Modal show={showLoginModal} setShow={setShowLoginModal} modalContent={<LoginModal />} />
-      <Modal show={showRegisterModal} setShow={setShowRegisterModal} modalContent={<RegisterModal />} />
+      <Modal show={showLoginModal} modalContent={<LoginModal />} />
+      <Modal show={showRegisterModal} modalContent={<RegisterModal />} />
     </div>
   );
 }

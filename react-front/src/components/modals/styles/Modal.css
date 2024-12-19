@@ -7,6 +7,10 @@
     margin-bottom: 20%;    
 }
 
+.modal .error {
+    color: red;
+}
+
 .modal img {
     position: absolute;
     top: 5%;

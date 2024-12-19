@@ -9,7 +9,10 @@ async function apiAuthenticatedFetch(route, verb, data = null) {
 
     let response = await fetch(route, {
         method: verb,
-        headers: { Authorization: `Bearer ${accessToken}` },
+        headers: { 
+            Authorization: `Bearer ${accessToken}`,
+            "Content-Type": "application/json"
+        },
         body: data
     })
 
@@ -38,7 +41,6 @@ async function apiAuthenticatedFetch(route, verb, data = null) {
 }
 
 async function apiLogin(mail, pass) {
-    console.log("Données : ", mail, pass)
     const response = await fetch(`${API_BASE}/auth`, {
         method: "POST",
         headers: {
@@ -61,6 +63,32 @@ async function apiLogin(mail, pass) {
         throw new Error("Login failed !")
 }
 
+async function apiRegister(fName, lName, mEmail, sEmail, comp, tel, pass, gend) {
+    const response = await fetch(`${API_BASE}/users`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            lastname: lName,
+            firstname: fName,
+            main_email: mEmail,
+            second_email: sEmail,
+            company: comp,
+            telephone: tel,
+            password: pass,
+            gender: gend
+        })
+    })
+
+    if (response.ok) {
+        const data = await response.json()
+        console.log(data)
+    } else
+        throw new Error("Login failed !")
+}
+
 export {
-    apiLogin
+    apiLogin,
+    apiRegister
 }
