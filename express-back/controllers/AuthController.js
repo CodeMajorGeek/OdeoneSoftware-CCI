@@ -2,6 +2,7 @@ const bcrypt = require("bcrypt")
 const jwt = require("jsonwebtoken")
 
 const userService = require("../services/UserService")
+const roleService = require("../services/RoleService")
 const sessionService = require("../services/SessionService")
 
 const TOKEN_SECRET = process.env.TOKEN_SECRET
@@ -11,11 +12,17 @@ async function authenticate(req, res) {
     try {
         const { email, password } = req.body;
         const user = await userService.findUserByEmail(email)
+        const role = await roleService.findRoleByUser(user)
 
         const passVerified = await bcrypt.compare(password, user.password)
         if (passVerified) {
-            const accessToken = jwt.sign({ email: email }, TOKEN_SECRET, { expiresIn: "1h" })
-            const refreshToken = jwt.sign({ email: email }, REFRESH_SECRET, { expiresIn: "1d" })
+            const jwtData = {
+                email: email,
+                admin: role.weight === 666
+            }
+
+            const accessToken = jwt.sign(jwtData, TOKEN_SECRET, { expiresIn: "1h" })
+            const refreshToken = jwt.sign(jwtData, REFRESH_SECRET, { expiresIn: "1d" })
 
             await sessionService.saveRefreshToken(user, refreshToken)
 
@@ -31,8 +38,15 @@ async function refresh(req, res) {
     try {
         const { email } = req.refreshPayload
         const user = userService.findUserByEmail(email)
-        const accessToken = jwt.sign({ email: email })
-        const refreshToken = jwt.sign({ email: email }, REFRESH_SECRET, { expiresIn: "1d"})
+        const role = roleService.findRoleByUser(user)
+
+        const jwtData = {
+            email: email,
+            admin: role.weight === 666
+        }
+
+        const accessToken = jwt.sign(jwtData)
+        const refreshToken = jwt.sign(jwtData, REFRESH_SECRET, { expiresIn: "1d"})
 
         await sessionService.saveRefreshToken(user, refreshToken)
         res.status(200).json({ accessToken, refreshToken })
@@ -41,7 +55,7 @@ async function refresh(req, res) {
     }
 }
 
-function logout(req, res) {
+async function logout(req, res) {
 
 }
 

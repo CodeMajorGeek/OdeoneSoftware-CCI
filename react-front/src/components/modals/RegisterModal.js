@@ -1,8 +1,10 @@
 import React, { useState } from "react"
+import { useDispatch } from "react-redux"
 import "./styles/RegisterModal.css"
 import { faUserEdit } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { apiRegister } from "../../services/ApiService"
+
 
 export default function RegisterModal() {
     const [formData, setFormData] = useState({
@@ -26,6 +28,8 @@ export default function RegisterModal() {
             [name]: type === "checkbox" ? checked : value,
         })
     }
+
+    const dispatch = useDispatch()
 
     const handleSubmit = async (e) => {
         e.preventDefault()
@@ -58,6 +62,8 @@ export default function RegisterModal() {
                 passwordConfirm: "",
                 gender: "not-specified"
             })
+            
+            dispatch({ type: "showLoginModal" })
         } catch (err) {
             setError(err.message)
         }

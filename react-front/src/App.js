@@ -1,11 +1,11 @@
 import { Routes, Route } from "react-router-dom"
-import { useState } from "react"
+import { jwtDecode } from "jwt-decode"
 
-import "./App.css";
+import "./App.css"
 
 import Header from "./components/Header"
 import Footer from "./components/Footer"
-import Account from "./components/Account";
+import Account from "./components/Account"
 
 import Home from "./routes/Home"
 import About from "./routes/About"
@@ -26,20 +26,26 @@ import LoginModal from "./components/modals/LoginModal"
 import RegisterModal from "./components/modals/RegisterModal"
 import { useSelector } from "react-redux"
 
-const adminMode = true
-
 function App() {
-  const [adminView, setAdminView] = useState(false)
-
   const showLoginModal = useSelector((state) => state.modal.activeModal) === "LOGIN"
   const showRegisterModal = useSelector((state) => state.modal.activeModal) === "REGISTER"
+
+  let adminMode = false
+
+  const accessToken = localStorage.getItem("accessToken")
+  if (accessToken) {
+    const tokenData = jwtDecode(accessToken)
+    adminMode = tokenData.admin
+  }
+
+  const adminView = useSelector((state) => state.admin.adminView)
 
   const isShowingModal = showLoginModal || showRegisterModal;
   return (
     <div className="App">
       <div hidden={isShowingModal}>
         <Header
-          account={<Account />} admin={adminMode} adminView={adminView} setAdminView={setAdminView} />
+          account={<Account />} adminMode={adminMode} />
         <main>
           <Routes>
             <Route path="/" element={<Home />} />

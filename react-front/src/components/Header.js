@@ -3,6 +3,7 @@ import "./styles/Header.css"
 import Navbar from "./Navbar"
 
 import logoImage from "../assets/images/Logo-Odeone_blanc.png"
+import { useDispatch, useSelector } from "react-redux"
 
 const userNavTabs = [
     {
@@ -58,14 +59,16 @@ const adminNavTabs = [
     }
 ]
 
-export default function Header({ account, admin, adminView, setAdminView }) {
+export default function Header({ account, adminMode }) {
+    const dispatch = useDispatch()
+
     const adminHandler = () => {
-        setAdminView(!adminView)
+        dispatch({ type: "toggleAdminView" })
     }
 
+    const adminView = useSelector((state) => state.admin.adminView)
     const navTabs = adminView ? adminNavTabs : userNavTabs;
-
-    if (!adminView && admin)
+    if (!adminView && adminMode)
         navTabs.push({ title: "ADMINISTRATION", ref: "admin", handler: adminHandler })
 
     return (

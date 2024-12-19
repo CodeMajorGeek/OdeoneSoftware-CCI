@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faSignInAlt } from "@fortawesome/free-solid-svg-icons"
 import { useState } from "react"
 import { apiLogin } from "../../services/ApiService"
+import { useDispatch } from "react-redux"
 
 export default function LoginModal() {
     const [formData, setFormData] = useState({
@@ -18,11 +19,14 @@ export default function LoginModal() {
         }))
     }
 
+    const dispatch = useDispatch()
+
     const handleSubmit = async (e) => {
         e.preventDefault()
         try {
             await apiLogin(formData.email, formData.pass)
             alert("Connexion réussie !")
+            dispatch({ type: "closeModal" })
         } catch (error) {
             console.error("Erreur :", error.message)
             alert("Échec de la connexion. Vérifiez vos informations.")

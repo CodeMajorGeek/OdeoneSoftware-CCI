@@ -55,8 +55,6 @@ async function apiLogin(mail, pass) {
     if (response.ok) {
         const data = await response.json()
 
-        console.log(data.accessToken)
-
         localStorage.setItem("accessToken", data.accessToken)
         localStorage.setItem("refreshToken", data.refreshToken)
     } else
