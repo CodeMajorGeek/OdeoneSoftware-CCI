@@ -80,7 +80,15 @@ sudo apt install -y git
 
 ---
 
-### 4. Cloner le dépôt
+### 4. Installer node.js
+Installer Node.js pour générer des clés secrètes :
+```bash
+sudo apt install -y node
+```
+
+---
+
+### 5. Cloner le dépôt
 
 1. Cloner le dépôt du projet :
    ```bash
@@ -93,7 +101,7 @@ sudo apt install -y git
 
 ---
 
-### 5. Préparer le build React
+### 6. Préparer le build React
 
 1. Démarrer les conteneurs pour le build React :
    ```bash
@@ -112,7 +120,24 @@ sudo apt install -y git
 
 ---
 
-### 6. Construire les images front et back
+### 7. Configurer les tokens secrets
+
+1. Générer deux tokens secrets à l'aide de Node.js :
+   ```bash
+   node -e "console.log(require('crypto').randomBytes(64).toString('hex'))"
+   ```
+
+2. Répétez cette commande pour générer un second token.
+
+3. Renommer et compléter le .env
+   ```bash
+    mv ./express-back/.env.example ./express-back/.env
+    nano ./express-back/.env
+   ```
+
+---
+
+### 8. Construire les images front et back
 
 1. Construire l'image Frontend :
    ```bash
@@ -125,17 +150,17 @@ sudo apt install -y git
 
 ---
 
-### 7. Passer au fichier Docker Compose de production
+### 9. Passer au fichier Docker Compose de production
 
-1. Renommer les fichiers de configuration Docker Compose :
-   ```bash
-   mv docker-compose.yml docker-compose.dev
-   mv docker-compose.build docker-compose.yml
-   ```
+Renommer les fichiers de configuration Docker Compose :
+```bash
+mv docker-compose.yml docker-compose.dev
+mv docker-compose.build docker-compose.yml
+```
 
 ---
 
-### 8. Lancer le projet en mode détaché
+### 10. Lancer le projet en mode détaché
 
 Démarrer les services en arrière-plan :
 ```bash
