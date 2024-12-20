@@ -7,7 +7,6 @@ services:
     ports:
       - "80:80"
       - "443:443"
-      - "8080:8080"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - ./traefik/traefik.yml:/etc/traefik/traefik.yml
@@ -15,14 +14,8 @@ services:
     networks:
       - web
   react_front:
-    build:
-      context: ./react-front
-      dockerfile: Dockerfile
-    container_name: "react_front"
-    volumes:
-      - ./react-front:/usr/app/react-front/.
-    ports:
-      - "3000:3000"
+    image: odeone_front
+    container_name: "odeone_front"
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.react_front.rule=PathPrefix(`/`)"
@@ -32,12 +25,8 @@ services:
     networks:
       - web
   express_back:
-    build:
-      context: ./express-back
-      dockerfile: Dockerfile
-    container_name: "express_back"
-    volumes:
-      - ./express-back:/usr/app/express-back/.
+    image: odeone_back
+    container_name: "odeone_back"
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.express_back.rule=PathPrefix(`/api/`)"
@@ -52,20 +41,8 @@ services:
     restart: always
     shm_size: 128mb
     environment:
-      - POSTGRES_PASSWORD=${DB_PASSWORD}
-      - POSTGRES_USER=${DB_USER}
-    networks:
-      - web
-  adminer:
-    image: adminer
-    container_name: "adminer"
-    restart: always
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.adminer.rule=PathPrefix(`/adminer/`)"
-      - "traefik.http.services.adminer.loadbalancer.server.port=8080"
-    depends_on:
-      - db
+      - POSTGRES_PASSWORD=test1234
+      - POSTGRES_USER=odeone
     networks:
       - web
 networks:
