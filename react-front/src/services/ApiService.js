@@ -113,9 +113,24 @@ async function apiGetFaqs() {
     return null
 }
 
+async function apiCreateFaq(faq) {
+
+}
+
+async function apiEditFaq(faq) {
+
+}
+
+async function apiRemoveFaq(faq) {
+
+}
+
 export {
     apiLogin,
     apiRegister,
     apiLogout,
-    apiGetFaqs
+    apiGetFaqs,
+    apiCreateFaq,
+    apiEditFaq,
+    apiRemoveFaq
 }

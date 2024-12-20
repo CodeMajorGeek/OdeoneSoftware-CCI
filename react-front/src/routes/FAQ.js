@@ -1,31 +1,30 @@
-import { useEffect, useState } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSearch } from "@fortawesome/free-solid-svg-icons";
-import { apiGetFaqs } from "../services/ApiService";
+import { useEffect, useState } from "react"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faSearch } from "@fortawesome/free-solid-svg-icons"
+import { apiGetFaqs } from "../services/ApiService"
 
-import FAQResults from "../components/FAQResults";
-import FAQResult from "../components/FAQResult";
+import FAQResults from "../components/FAQResults"
+import FAQResult from "../components/FAQResult"
 
-import "./styles/FAQ.css";
+import "./styles/FAQ.css"
 
 export default function FAQ() {
-    const [faqs, setFaqs] = useState([]);
-    const [loading, setLoading] = useState(true);
+    const [faqs, setFaqs] = useState([])
+    const [loading, setLoading] = useState(true)
 
-    // Appel à l'API pour récupérer les FAQs
     useEffect(() => {
         const fetchFaqs = async () => {
             try {
-                const data = await apiGetFaqs();
-                setFaqs(data);
+                const data = await apiGetFaqs()
+                setFaqs(data)
             } catch (error) {
-                console.error("Erreur lors de la récupération des FAQs :", error);
+                console.error("Erreur lors de la récupération des FAQs :", error)
             } finally {
-                setLoading(false);
+                setLoading(false)
             }
-        };
-        fetchFaqs();
-    }, []);
+        }
+        fetchFaqs()
+    }, [])
 
     return (
         <div className="faq">
@@ -60,5 +59,5 @@ export default function FAQ() {
                 </div>
             </div>
         </div>
-    );
+    )
 }
