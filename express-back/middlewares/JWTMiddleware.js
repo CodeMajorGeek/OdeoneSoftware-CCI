@@ -6,36 +6,92 @@ const sessionService = require("../services/SessionService")
 const TOKEN_SECRET = process.env.TOKEN_SECRET
 const REFRESH_SECRET = process.env.REFRESH_SECRET
 
-const authenticateTokenMiddleware = (req, res, next) => {
+const authenticateTokenMiddleware = async (req, res, next) => {
     try {
-        const token = req.headers.authorization.split(" ")[1]
+        if (!req.headers.authorization) {
+            return res.status(400).json({ error: "Token manquant" })
+        }
+
+        const authHeader = req.headers.authorization
+        if (!authHeader.startsWith('Bearer ')) {
+            return res.status(400).json({ error: "Format de token invalide" })
+        }
+
+        const token = authHeader.split(" ")[1]
+        if (!token) {
+            return res.status(400).json({ error: "Token manquant" })
+        }
+
         const decodedToken = jwt.verify(token, TOKEN_SECRET)
+        
+        const user = await userService.findUserByEmail(decodedToken.email)
+        if (!user) {
+            return res.status(404).json({ error: "Utilisateur non trouvé" })
+        }
+
+        const session = await sessionService.findRefreshByUser(user)
+        if (!session) {
+            return res.status(403).json({ error: "Session invalide" })
+        }
 
         req.auth = {
-            email: decodedToken.email
+            email: decodedToken.email,
+            userId: user.id
         }
 
         next()
     } catch (error) {
-        res.status(401).json({ error })
+        if (error.name === 'JsonWebTokenError') {
+            return res.status(400).json({ error: "Token invalide" })
+        }
+        if (error.name === 'TokenExpiredError') {
+            return res.status(403).json({ error: "Token expiré" })
+        }
+        res.status(500).json({ error: "Erreur interne du serveur" })
     }
 }
 
 const refreshTokenMiddleware = async (req, res, next) => {
     try {
-        const token = req.headers.authorization.split(" ")[1]
+        if (!req.headers.authorization) {
+            return res.status(400).json({ error: "Token de rafraîchissement manquant" })
+        }
+
+        const authHeader = req.headers.authorization
+        if (!authHeader.startsWith('Bearer ')) {
+            return res.status(400).json({ error: "Format de token invalide" })
+        }
+
+        const token = authHeader.split(" ")[1]
+        if (!token) {
+            return res.status(400).json({ error: "Token de rafraîchissement manquant" })
+        }
+
         const decodedToken = jwt.verify(token, REFRESH_SECRET)
-        const user = userService.findUserByEmail(decodedToken.email)
+        
+        const user = await userService.findUserByEmail(decodedToken.email)
+        if (!user) {
+            return res.status(404).json({ error: "Utilisateur non trouvé" })
+        }
 
-        const { refresh } = await sessionService.findRefreshByUser(user)
+        const session = await sessionService.findRefreshByUser(user)
+        if (!session || session.refresh !== token) {
+            return res.status(403).json({ error: "Token de rafraîchissement invalide" })
+        }
 
-        if (token != refresh)
-                throw "Unvalid token !"
-
-        req.refreshPayload = { email: decodedToken.email }
+        req.refreshPayload = { 
+            email: decodedToken.email,
+            userId: user.id
+        }
         next()
     } catch (error) {
-        res.status(401).json({ error })
+        if (error.name === 'JsonWebTokenError') {
+            return res.status(400).json({ error: "Token invalide" })
+        }
+        if (error.name === 'TokenExpiredError') {
+            return res.status(403).json({ error: "Token de rafraîchissement expiré" })
+        }
+        res.status(500).json({ error: "Erreur interne du serveur" })
     }
 }
 

@@ -3,7 +3,10 @@ services:
     image: traefik
     container_name: "traefik"
     command:
-      - --configFile=/etc/traefik/traefik.yml
+      - "--configFile=/etc/traefik/traefik.yml"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedByDefault=false"
+      - "--entryPoints.web.address=:80"
     ports:
       - "80:80"
       - "443:443"
@@ -25,8 +28,10 @@ services:
       - "3000:3000"
     labels:
       - "traefik.enable=true"
+      - "traefik.http.routers.react_front.entrypoints=web"
       - "traefik.http.routers.react_front.rule=PathPrefix(`/`)"
       - "traefik.http.services.react_front.loadbalancer.server.port=3000"
+      - "traefik.docker.network=web"
     depends_on:
       - express_back
     networks:
@@ -40,8 +45,10 @@ services:
       - ./express-back:/usr/app/express-back/.
     labels:
       - "traefik.enable=true"
+      - "traefik.http.routers.express_back.entrypoints=web"
       - "traefik.http.routers.express_back.rule=PathPrefix(`/api/`)"
       - "traefik.http.services.express_back.loadbalancer.server.port=9999"
+      - "traefik.docker.network=web"
     depends_on:
       - db
     networks:
@@ -52,7 +59,7 @@ services:
     restart: always
     shm_size: 128mb
     volumes:
-      - ./postgres-data:/var/lib/postgresql/data
+      - /var/lib/postgresql/data
     environment:
       - POSTGRES_PASSWORD=${DB_PASSWORD}
       - POSTGRES_USER=${DB_USER}
@@ -64,8 +71,10 @@ services:
     restart: always
     labels:
       - "traefik.enable=true"
+      - "traefik.http.routers.adminer.entrypoints=web"
       - "traefik.http.routers.adminer.rule=PathPrefix(`/adminer/`)"
       - "traefik.http.services.adminer.loadbalancer.server.port=8080"
+      - "traefik.docker.network=web"
     depends_on:
       - db
     networks:

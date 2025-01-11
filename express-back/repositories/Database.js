@@ -1,5 +1,5 @@
 const { Sequelize } = require("sequelize")
-
+const bcrypt = require("bcrypt")
 const DB_NAME = process.env.DB_NAME || "odeone"
 const DB_USER = process.env.DB_USER || "odeone"
 const DB_PASS = process.env.DB_PASS || "test1234"
@@ -402,6 +402,17 @@ sequelize.sync().then(async () => {
         title: "male"
     })
 
+
+    await Users.upsert({
+        main_email: "admin@odeone.com",
+        firstname: "Admin",
+        lastname: "Admin",
+        company: "OdeOne",
+        telephone: "0000000000",
+        password: bcrypt.hashSync("admin", 10),
+        id_role: 3,
+        id_gender: 1
+    })
     console.log("DB sync success.")
 }).catch((err) => {
     console.error("Error on DB sync : ", err)

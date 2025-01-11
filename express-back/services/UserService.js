@@ -8,6 +8,14 @@ async function findUserById(id) {
     return await userRepository.getUserById(id)
 }
 
+async function findUserByVerifyId(verifyId) {
+    return await userRepository.getUserByVerifyId(verifyId)
+}
+
+async function updateVerifyId(user, verifyId) {
+    return await userRepository.updateUserVerifyId(user, verifyId)
+}
+
 async function findUserByCompany(company) {
     return await userRepository.getUserByCompany(company)
 }
@@ -31,6 +39,8 @@ async function removeUser(id) {
 module.exports = {
     findAllUsers,
     findUserById,
+    findUserByVerifyId,
+    updateVerifyId,
     findUserByCompany,
     findUserByEmail,
     createUser,
