@@ -34,6 +34,26 @@ async function authenticate(req, res) {
     }
 }
 
+async function validate(req, res) {
+    try {
+        const authHeader = req.headers.authorization
+        if (!authHeader) {
+            return res.status(401).json({ message: "Token manquant" })
+        }
+
+        const token = authHeader.split(' ')[1]
+        jwt.verify(token, TOKEN_SECRET, async (err, decoded) => {
+            if (err) {
+                return res.status(401).json({ message: "Token invalide", error: err })
+            }
+
+            res.status(200).json({ message: "Token valide" })
+        })
+    } catch (error) {
+        res.status(401).json({ message: "Erreur de validation du token", error })
+    }
+}
+
 async function refresh(req, res) {
     try {
         const { email } = req.refreshPayload
@@ -76,7 +96,7 @@ async function forgot(req, res) {
         }
 
         const user = await userService.findUserByEmail(email)
-        
+
         if (!user) {
             return res.status(404).json({ message: "Utilisateur non trouvé" })
         }
@@ -106,5 +126,6 @@ module.exports = {
     refresh,
     logout,
     forgot,
-    forgotConfirm
+    forgotConfirm,
+    validate
 }

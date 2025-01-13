@@ -1,23 +1,28 @@
 const API_BASE = "/api/v1"
 
 async function apiAuthenticatedFetch(route, verb, data = null) {
-    const accessToken = localStorage.getItem("acessToken")
+    const accessToken = localStorage.getItem("accessToken")
 
     if (!accessToken)
-        return
+        return null
 
-    let response = await fetch(route, {
+    const options = {
         method: verb,
-        headers: { 
+        headers: {
             Authorization: `Bearer ${accessToken}`,
             "Content-Type": "application/json"
-        },
-        body: data
-    })
+        }
+    }
+
+    if (data) {
+        options.body = JSON.stringify(data)
+    }
+
+    let response = await fetch(`${API_BASE}${route}`, options)
 
     if (response.status === 401) {
         const refreshToken = localStorage.getItem("refreshToken")
-        const refreshResponse = await fetch("/api/v1/auth/refresh", {
+        const refreshResponse = await fetch(`${API_BASE}/auth/refresh`, {
             method: "POST",
             headers: { Authorization: `Bearer ${refreshToken}` }
         })
@@ -27,16 +32,20 @@ async function apiAuthenticatedFetch(route, verb, data = null) {
             localStorage.setItem("accessToken", rData.accessToken)
             localStorage.setItem("refreshToken", rData.refreshToken)
 
-            response = await fetch(route, {
-                method: verb,
-                headers: { Authorization: `Bearer ${rData.accessToken}` },
-                body: data
-            })
-        } else
-            throw new Error("Refresh token failed !")
+            options.headers.Authorization = `Bearer ${rData.accessToken}`
+            response = await fetch(`${API_BASE}${route}`, options)
+        } else {
+            localStorage.removeItem("accessToken")
+            localStorage.removeItem("refreshToken")
+            throw new Error("Session expirée")
+        }
     }
 
-    return response
+    if (!response.ok) {
+        throw new Error("Erreur lors de la requête")
+    }
+
+    return await response.json()
 }
 
 async function apiLogin(mail, pass) {
@@ -114,15 +123,92 @@ async function apiGetFaqs() {
 }
 
 async function apiCreateFaq(faq) {
+    const response = await apiAuthenticatedFetch(
+        `${API_BASE}/faq`,
+        "POST",
+        JSON.stringify(faq)
+    )
 
+    if (response && response.ok)
+        return await response.json()
+    throw new Error("Création de FAQ échouée!")
 }
 
 async function apiEditFaq(faq) {
+    const response = await apiAuthenticatedFetch(
+        `${API_BASE}/faq/${faq.id}`,
+        "PUT", 
+        JSON.stringify(faq)
+    )
 
+    if (response && response.ok)
+        return await response.json()
+    throw new Error("Modification de FAQ échouée!")
 }
 
 async function apiRemoveFaq(faq) {
+    const response = await apiAuthenticatedFetch(
+        `${API_BASE}/faq/${faq.id}`,
+        "DELETE"
+    )
 
+    if (response && !response.ok)
+        throw new Error("Suppression de FAQ échouée!")
+}
+
+async function apiValidateToken(dispatch) {
+    const accessToken = localStorage.getItem("accessToken")
+    const refreshToken = localStorage.getItem("refreshToken")
+
+    if (!accessToken || !refreshToken) {
+        return false
+    }
+
+    try {
+        // Vérifie si le access token est valide
+        const response = await fetch(`${API_BASE}/auth/validate`, {
+            method: "GET",
+            headers: {
+                "Authorization": `Bearer ${accessToken}`
+            }
+        })
+
+        if (response.ok) {
+            const decodedToken = JSON.parse(atob(accessToken.split('.')[1]))
+            dispatch({ type: "setAuthenticatedMode", payload: { mode: true, admin: decodedToken.admin }})
+            return true
+        }
+
+        // Si non valide, essaie de refresh
+        const refreshResponse = await fetch(`${API_BASE}/auth/refresh`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ refreshToken })
+        })
+
+        if (refreshResponse.ok) {
+            const data = await refreshResponse.json()
+            localStorage.setItem("accessToken", data.accessToken)
+            const decodedToken = JSON.parse(atob(data.accessToken.split('.')[1]))
+            dispatch({ type: "setAuthenticatedMode", payload: { mode: true, admin: decodedToken.admin }})
+            return true
+        }
+
+        // Si refresh échoue, nettoie le storage
+        localStorage.removeItem("accessToken")
+        localStorage.removeItem("refreshToken")
+        dispatch({ type: "resetAuthentification" })
+        return false
+
+    } catch (error) {
+        console.error("Erreur de validation du token:", error)
+        localStorage.removeItem("accessToken") 
+        localStorage.removeItem("refreshToken")
+        dispatch({ type: "resetAuthentification" })
+        return false
+    }
 }
 
 export {
@@ -132,5 +218,6 @@ export {
     apiGetFaqs,
     apiCreateFaq,
     apiEditFaq,
-    apiRemoveFaq
+    apiRemoveFaq,
+    apiValidateToken
 }

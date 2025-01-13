@@ -51,6 +51,28 @@ const authenticateTokenMiddleware = async (req, res, next) => {
     }
 }
 
+const validateAdminMiddleware = async (req, res, next) => {
+    console.log(req.auth)
+    try {
+        if (!req.auth || !req.auth.email) {
+            return res.status(401).json({ error: "Non autorisé" })
+        }
+
+        const user = await userService.findUserByEmail(req.auth.email)
+        if (!user) {
+            return res.status(404).json({ error: "Accès refusé" })
+        }
+
+        if (!user.is_admin) {
+            return res.status(403).json({ error: "Accès refusé" })
+        }
+
+        next()
+    } catch (error) {
+        res.status(500).json({ error: "Erreur interne du serveur" })
+    }
+}
+
 const refreshTokenMiddleware = async (req, res, next) => {
     try {
         if (!req.headers.authorization) {
@@ -97,5 +119,6 @@ const refreshTokenMiddleware = async (req, res, next) => {
 
 module.exports = {
     authenticateTokenMiddleware,
-    refreshTokenMiddleware
+    refreshTokenMiddleware,
+    validateAdminMiddleware
 }

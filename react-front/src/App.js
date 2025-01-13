@@ -1,6 +1,6 @@
 import { Routes, Route } from "react-router-dom"
-import { useSelector } from "react-redux"
-
+import { useDispatch, useSelector } from "react-redux"
+import { useEffect } from "react"
 import "./App.css"
 
 import Header from "./components/Header"
@@ -25,7 +25,18 @@ import LoginModal from "./components/modals/LoginModal"
 import RegisterModal from "./components/modals/RegisterModal"
 import NeedLoginModal from "./components/modals/NeedLoginModal"
 
+import { apiValidateToken } from "./services/ApiService"
+
 function App() {
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    const validateAuth = async () => {
+      await apiValidateToken(dispatch)
+    }
+    validateAuth()
+  }, [dispatch])
+
   const showLoginModal = useSelector((state) => state.modal.activeModal) === "LOGIN"
   const showRegisterModal = useSelector((state) => state.modal.activeModal) === "REGISTER"
   const showNeedLoginModal = useSelector((state) => state.modal.activeModal) === "NEED_LOGIN"

@@ -11,7 +11,7 @@ async function getFaqById(id) {
 }
 
 async function addFaq(faq) {
-    return await dbFaq.create({ ...faq, createdAt : Date.now() })
+    return (await dbFaq.create({ ...faq }))
 }
 
 async function editFaq(id, faq) {

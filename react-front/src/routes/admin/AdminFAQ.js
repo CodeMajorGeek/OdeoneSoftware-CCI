@@ -1,45 +1,59 @@
-import { useState } from "react"
-import { apiCreateFaq, apiEditFaq, apiRemoveFaq } from "../../services/ApiService"
+import { useState, useEffect } from "react"
+import { apiCreateFaq, apiEditFaq, apiRemoveFaq, apiGetFaqs } from "../../services/ApiService"
 
 import "./styles/AdminFAQ.css"
 
 export default function AdminFAQ() {
-    const [faqs, setFaqs] = useState([
-        {
-            id: 1,
-            question: "Sur quel système d'exploitation fonctionne le logiciel ?",
-            answer: "Sous Windows en 32 ou 64 bits. (Le 64 bits est à privilégier)."
-        },
-        {
-            id: 2,
-            question: "Le logiciel est-il compatible avec toutes les balances du marché ?",
-            answer: "Non, la balance doit être équipée d'au moins une sortie RS232/USB/Ethernet. Il est également nécessaire que le constructeur mette à disposition la notice du protocole de communication."
-        }
-    ])
-
+    const [faqs, setFaqs] = useState([])
     const [editingFaq, setEditingFaq] = useState(null)
     const [newFaq, setNewFaq] = useState({ question: "", answer: "" })
 
+    useEffect(() => {
+        const fetchFaqs = async () => {
+            try {
+                const data = await apiGetFaqs()
+                if (data) {
+                    setFaqs(data)
+                }
+            } catch (error) {
+                console.error("Erreur lors de la récupération des FAQs:", error)
+            }
+        }
+        fetchFaqs()
+    }, [])
+
     // Handle editing an FAQ
     const handleEdit = async (id) => {
-        const updatedFaq = await apiEditFaq(id, editingFaq)
-        setFaqs((prevFaqs) =>
-            prevFaqs.map((faq) => (faq.id === id ? updatedFaq : faq))
-        )
-        setEditingFaq(null)
+        try {
+            const updatedFaq = await apiEditFaq(editingFaq)
+            setFaqs((prevFaqs) =>
+                prevFaqs.map((faq) => (faq.id === id ? updatedFaq : faq))
+            )
+            setEditingFaq(null)
+        } catch (error) {
+            console.error("Erreur lors de la modification de la FAQ:", error)
+        }
     }
 
     // Handle removing an FAQ
     const handleRemove = async (id) => {
-        await apiRemoveFaq(id)
-        setFaqs((prevFaqs) => prevFaqs.filter((faq) => faq.id !== id))
+        try {
+            await apiRemoveFaq({id})
+            setFaqs((prevFaqs) => prevFaqs.filter((faq) => faq.id !== id))
+        } catch (error) {
+            console.error("Erreur lors de la suppression de la FAQ:", error)
+        }
     }
 
     // Handle adding a new FAQ
     const handleAdd = async () => {
-        const createdFaq = await apiCreateFaq(newFaq)
-        setFaqs((prevFaqs) => [...prevFaqs, createdFaq])
-        setNewFaq({ question: "", answer: "" })
+        try {
+            const createdFaq = await apiCreateFaq(newFaq)
+            setFaqs((prevFaqs) => [...prevFaqs, createdFaq])
+            setNewFaq({ question: "", answer: "" })
+        } catch (error) {
+            console.error("Erreur lors de la création de la FAQ:", error)
+        }
     }
 
     return (
