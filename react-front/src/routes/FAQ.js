@@ -17,13 +17,7 @@ export default function FAQ() {
         const fetchFaqs = async () => {
             try {
                 const data = await apiGetFaqs(searchWords)
-                console.log(data)
-                if (Array.isArray(data)) {
-                    setFaqs(data)
-                } else {
-                    console.error("Format de données incorrect reçu de l'API")
-                    setFaqs([])
-                }
+                setFaqs(data)
             } catch (error) {
                 console.error("Erreur lors de la récupération des FAQs :", error)
                 setFaqs([])

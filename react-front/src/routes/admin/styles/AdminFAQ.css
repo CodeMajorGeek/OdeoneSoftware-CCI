@@ -2,9 +2,7 @@
     font-family: Arial, sans-serif;
     margin: 20px;
     padding: 20px;
-    background-color: #f9f9f9;
     border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .admin-faq h1 {
@@ -24,10 +22,11 @@
     align-items: center;
     padding: 15px;
     margin-bottom: 10px;
-    background: linear-gradient(135deg, #007bff, #0056b3);
-    color: #fff;
+    background: #ffffff;
+    color: #333;
+    border: 1px solid #e0e0e0;
     border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
 .faq-details {
@@ -38,10 +37,12 @@
     font-size: 18px;
     font-weight: bold;
     margin-bottom: 5px;
+    color: #333;
 }
 
 .faq-answer {
     font-size: 16px;
+    color: #666;
 }
 
 .faq-actions {
@@ -61,19 +62,19 @@
 }
 
 .edit-btn {
-    background-color: #007bff;
+    background-color: #4CAF50;
 }
 
 .edit-btn:hover {
-    background-color: #0056b3;
+    background-color: #45a049;
 }
 
 .delete-btn {
-    background-color: #dc3545;
+    background-color: #f44336;
 }
 
 .delete-btn:hover {
-    background-color: #a71d2a;
+    background-color: #da190b;
 }
 
 .add-faq-btn {

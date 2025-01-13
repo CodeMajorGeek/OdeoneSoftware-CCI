@@ -138,13 +138,14 @@ async function apiCreateFaq(faq) {
 }
 
 async function apiEditFaq(faq) {
-    const response = await apiAuthenticatedFetch(
+    return await apiAuthenticatedFetch(
         `/faq/${faq.id}`,
-        "PUT", 
-        faq
-    )
-
-    return response
+        "PUT",
+        {
+            question: faq.question,
+            answer: faq.answer
+        }
+    );
 }
 
 async function apiRemoveFaq(faq) {

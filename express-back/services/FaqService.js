@@ -17,7 +17,7 @@ async function createFaq(faq) {
 }
 
 async function editFaq(id, faq) {
-    return await faqRepository.updateFaq(id, faq)
+    return await faqRepository.editFaq(id, faq)
 }
 
 async function removeFaq(id) {

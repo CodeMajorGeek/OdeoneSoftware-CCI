@@ -11,20 +11,8 @@ export default function AdminFAQ() {
     const loadFaqs = async () => {
         try {
             const data = await apiGetFaqs()
-            if (Array.isArray(data)) {
-                // Filtrer les FAQs valides
-                const validFaqs = data.filter(faq => 
-                    faq && 
-                    typeof faq === 'object' && 
-                    faq.id && 
-                    typeof faq.question === 'string' && 
-                    typeof faq.answer === 'string'
-                )
-                setFaqs(validFaqs)
-            } else {
-                console.error("Format de données incorrect reçu de l'API")
-                setFaqs([])
-            }
+            console.log(data)
+            setFaqs(data)
         } catch (error) {
             console.error("Erreur lors de la récupération des FAQs:", error)
             setFaqs([])
@@ -36,31 +24,29 @@ export default function AdminFAQ() {
     }, [])
 
     // Handle editing an FAQ
-    const handleEdit = async (id) => {
+    const handleEdit = async () => {
         if (!editingFaq) return;
         
         try {
-            await apiEditFaq({
-                id: editingFaq.id,
-                question: editingFaq.question,
-                answer: editingFaq.answer
-            })
-            await loadFaqs()
-            setEditingFaq(null)
+            await apiEditFaq(editingFaq);
+            await loadFaqs();
+            setEditingFaq(null);
         } catch (error) {
-            console.error("Erreur lors de la modification de la FAQ:", error)
+            console.error("Erreur lors de la modification de la FAQ:", error);
         }
-    }
+    };
 
     // Handle removing an FAQ
     const handleRemove = async (id) => {
         if (!id) return;
         
         try {
-            await apiRemoveFaq({ id })
-            await loadFaqs()
+            await apiRemoveFaq({ id });
+            await loadFaqs();
+            setFaqs(prevFaqs => prevFaqs.filter(faq => faq.id !== id));
         } catch (error) {
-            console.error("Erreur lors de la suppression de la FAQ:", error)
+            console.error("Erreur lors de la suppression de la FAQ:", error);
+            await loadFaqs();
         }
     }
 
