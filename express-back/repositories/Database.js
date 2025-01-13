@@ -207,6 +207,10 @@ const Faqs = sequelize.define("faqs", {
     answer: {
         type: Sequelize.STRING,
         allowNull: false
+    },
+    search_vector: {
+        type: Sequelize.TSVECTOR,
+        allowNull: true
     }
 })
 
@@ -377,6 +381,30 @@ const FunctionModifiedAt = sequelize.define("function_modified_at", {
 })
 
 sequelize.sync().then(async () => {
+    // Création de l'extension et des index
+    await sequelize.query(`
+        CREATE EXTENSION IF NOT EXISTS pg_trgm;
+        CREATE INDEX IF NOT EXISTS faqs_question_trgm_idx ON faqs USING gist (question gist_trgm_ops);
+        CREATE INDEX IF NOT EXISTS faqs_answer_trgm_idx ON faqs USING gist (answer gist_trgm_ops);
+    `);
+    
+    sequelize.query(`
+        CREATE OR REPLACE FUNCTION faqs_search_vector_update() RETURNS trigger AS $$
+        BEGIN
+            NEW.search_vector = 
+                setweight(to_tsvector('french', coalesce(NEW.question, '')), 'A') ||
+                setweight(to_tsvector('french', coalesce(NEW.answer, '')), 'B');
+            RETURN NEW;
+        END;
+        $$ LANGUAGE plpgsql;
+    
+        DROP TRIGGER IF EXISTS faqs_search_vector_trigger ON faqs;
+        
+        CREATE TRIGGER faqs_search_vector_trigger
+        BEFORE INSERT OR UPDATE ON faqs
+        FOR EACH ROW EXECUTE FUNCTION faqs_search_vector_update();
+    `);
+
     await Roles.upsert({
         title: "unverified",
         weight: 0

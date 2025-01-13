@@ -8,27 +8,44 @@ export default function AdminFAQ() {
     const [editingFaq, setEditingFaq] = useState(null)
     const [newFaq, setNewFaq] = useState({ question: "", answer: "" })
 
-    useEffect(() => {
-        const fetchFaqs = async () => {
-            try {
-                const data = await apiGetFaqs()
-                if (data) {
-                    setFaqs(data)
-                }
-            } catch (error) {
-                console.error("Erreur lors de la récupération des FAQs:", error)
+    const loadFaqs = async () => {
+        try {
+            const data = await apiGetFaqs()
+            if (Array.isArray(data)) {
+                // Filtrer les FAQs valides
+                const validFaqs = data.filter(faq => 
+                    faq && 
+                    typeof faq === 'object' && 
+                    faq.id && 
+                    typeof faq.question === 'string' && 
+                    typeof faq.answer === 'string'
+                )
+                setFaqs(validFaqs)
+            } else {
+                console.error("Format de données incorrect reçu de l'API")
+                setFaqs([])
             }
+        } catch (error) {
+            console.error("Erreur lors de la récupération des FAQs:", error)
+            setFaqs([])
         }
-        fetchFaqs()
+    }
+
+    useEffect(() => {
+        loadFaqs()
     }, [])
 
     // Handle editing an FAQ
     const handleEdit = async (id) => {
+        if (!editingFaq) return;
+        
         try {
-            const updatedFaq = await apiEditFaq(editingFaq)
-            setFaqs((prevFaqs) =>
-                prevFaqs.map((faq) => (faq.id === id ? updatedFaq : faq))
-            )
+            await apiEditFaq({
+                id: editingFaq.id,
+                question: editingFaq.question,
+                answer: editingFaq.answer
+            })
+            await loadFaqs()
             setEditingFaq(null)
         } catch (error) {
             console.error("Erreur lors de la modification de la FAQ:", error)
@@ -37,9 +54,11 @@ export default function AdminFAQ() {
 
     // Handle removing an FAQ
     const handleRemove = async (id) => {
+        if (!id) return;
+        
         try {
-            await apiRemoveFaq({id})
-            setFaqs((prevFaqs) => prevFaqs.filter((faq) => faq.id !== id))
+            await apiRemoveFaq({ id })
+            await loadFaqs()
         } catch (error) {
             console.error("Erreur lors de la suppression de la FAQ:", error)
         }
@@ -47,9 +66,14 @@ export default function AdminFAQ() {
 
     // Handle adding a new FAQ
     const handleAdd = async () => {
+        if (!newFaq.question || !newFaq.answer) return;
+        
         try {
-            const createdFaq = await apiCreateFaq(newFaq)
-            setFaqs((prevFaqs) => [...prevFaqs, createdFaq])
+            await apiCreateFaq({
+                question: newFaq.question,
+                answer: newFaq.answer
+            })
+            await loadFaqs()
             setNewFaq({ question: "", answer: "" })
         } catch (error) {
             console.error("Erreur lors de la création de la FAQ:", error)
@@ -60,14 +84,14 @@ export default function AdminFAQ() {
         <div className="admin-faq">
             <h1>Gestionnaire de FAQ</h1>
             <div className="faq-list">
-                {faqs.map((faq) => (
+                {faqs.filter(faq => faq && faq.id).map((faq) => (
                     <div className="faq-item" key={faq.id}>
                         <div className="faq-details">
                             {editingFaq?.id === faq.id ? (
                                 <>
                                     <input
                                         type="text"
-                                        value={editingFaq.question}
+                                        value={editingFaq.question || ''}
                                         onChange={(e) =>
                                             setEditingFaq({
                                                 ...editingFaq,
@@ -77,7 +101,7 @@ export default function AdminFAQ() {
                                         className="faq-edit-field"
                                     />
                                     <textarea
-                                        value={editingFaq.answer}
+                                        value={editingFaq.answer || ''}
                                         onChange={(e) =>
                                             setEditingFaq({
                                                 ...editingFaq,
@@ -95,8 +119,8 @@ export default function AdminFAQ() {
                                 </>
                             ) : (
                                 <>
-                                    <h3 className="faq-question">{faq.question}</h3>
-                                    <p className="faq-answer">{faq.answer}</p>
+                                    <h3 className="faq-question">{faq.question || ''}</h3>
+                                    <p className="faq-answer">{faq.answer || ''}</p>
                                 </>
                             )}
                         </div>
@@ -105,7 +129,7 @@ export default function AdminFAQ() {
                                 <>
                                     <button
                                         className="edit-btn"
-                                        onClick={() => setEditingFaq(faq)}
+                                        onClick={() => setEditingFaq({...faq})}
                                     >
                                         Modifier
                                     </button>
@@ -140,7 +164,11 @@ export default function AdminFAQ() {
                     }
                     className="faq-add-field"
                 />
-                <button className="add-faq-btn" onClick={handleAdd}>
+                <button 
+                    className="add-faq-btn" 
+                    onClick={handleAdd}
+                    disabled={!newFaq.question || !newFaq.answer} // Désactive le bouton si les champs sont vides
+                >
                     Ajouter une FAQ
                 </button>
             </div>

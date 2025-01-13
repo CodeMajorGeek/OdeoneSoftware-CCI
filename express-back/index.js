@@ -15,11 +15,6 @@ const functionRoutes = require("./routes/FunctionRoutes")
 const faqRoutes = require("./routes/FaqRoutes")
 const tutorialRoutes = require("./routes/TutorialRoutes")
 
-app.use((req, res, next) => {
-    console.log(`Nouvelle requête : Méthode = ${req.method}, Route = ${req.path}`)
-    next()
-})
-
 app.use(`${URL_BASE}/auth`, authRoutes)
 app.use(`${URL_BASE}/users`, userRoutes)
 app.use(`${URL_BASE}/summary`, summaryRoutes)

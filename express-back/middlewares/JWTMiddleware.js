@@ -2,6 +2,7 @@ const jwt = require("jsonwebtoken")
 
 const userService = require("../services/UserService")
 const sessionService = require("../services/SessionService")
+const roleService = require("../services/RoleService")
 
 const TOKEN_SECRET = process.env.TOKEN_SECRET
 const REFRESH_SECRET = process.env.REFRESH_SECRET
@@ -52,19 +53,27 @@ const authenticateTokenMiddleware = async (req, res, next) => {
 }
 
 const validateAdminMiddleware = async (req, res, next) => {
-    console.log(req.auth)
     try {
-        if (!req.auth || !req.auth.email) {
+        if (!req.headers.authorization) {
             return res.status(401).json({ error: "Non autorisé" })
         }
 
-        const user = await userService.findUserByEmail(req.auth.email)
-        if (!user) {
-            return res.status(404).json({ error: "Accès refusé" })
+        const authHeader = req.headers.authorization
+        if (!authHeader.startsWith('Bearer ')) {
+            return res.status(400).json({ error: "Format de token invalide" })
         }
 
-        if (!user.is_admin) {
-            return res.status(403).json({ error: "Accès refusé" })
+        const token = authHeader.split(" ")[1]
+        if (!token) {
+            return res.status(400).json({ error: "Token manquant" })
+        }
+
+        const decodedToken = jwt.verify(token, TOKEN_SECRET)
+
+        const user = await userService.findUserByEmail(decodedToken.email)
+        const role = await roleService.findRoleByUser(user)
+        if (role.weight !== 666) {
+            return res.status(404).json({ error: "Accès refusé" })
         }
 
         next()

@@ -4,6 +4,10 @@ async function findAllFaqs() {
     return await faqRepository.getAllFaqs()
 }
 
+async function findFaqsBySearch(searchWords) {
+    return await faqRepository.getFaqsBySearch(searchWords)
+}
+
 async function findFaqById(id) {
     return await faqRepository.getFaqById(id)
 }
@@ -22,6 +26,7 @@ async function removeFaq(id) {
 
 module.exports = {
     findAllFaqs,
+    findFaqsBySearch,
     findFaqById,
     createFaq,
     editFaq,

@@ -112,8 +112,13 @@ async function apiLogout() {
     localStorage.removeItem("refreshToken")
 }
 
-async function apiGetFaqs() {
-    const response = await fetch(`${API_BASE}/faq`, {
+async function apiGetFaqs(searchWords) {
+    let endpoint = `${API_BASE}/faq`
+    if (searchWords) {
+        endpoint += `?search=${encodeURIComponent(searchWords)}`
+    }
+
+    const response = await fetch(endpoint, {
         method: "GET"
     })
 
@@ -124,36 +129,29 @@ async function apiGetFaqs() {
 
 async function apiCreateFaq(faq) {
     const response = await apiAuthenticatedFetch(
-        `${API_BASE}/faq`,
+        `/faq`,
         "POST",
-        JSON.stringify(faq)
+        faq
     )
 
-    if (response && response.ok)
-        return await response.json()
-    throw new Error("Création de FAQ échouée!")
+    return response
 }
 
 async function apiEditFaq(faq) {
     const response = await apiAuthenticatedFetch(
-        `${API_BASE}/faq/${faq.id}`,
+        `/faq/${faq.id}`,
         "PUT", 
-        JSON.stringify(faq)
+        faq
     )
 
-    if (response && response.ok)
-        return await response.json()
-    throw new Error("Modification de FAQ échouée!")
+    return response
 }
 
 async function apiRemoveFaq(faq) {
-    const response = await apiAuthenticatedFetch(
-        `${API_BASE}/faq/${faq.id}`,
+    return await apiAuthenticatedFetch(
+        `/faq/${faq.id}`,
         "DELETE"
     )
-
-    if (response && !response.ok)
-        throw new Error("Suppression de FAQ échouée!")
 }
 
 async function apiValidateToken(dispatch) {

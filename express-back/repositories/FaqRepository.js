@@ -1,7 +1,32 @@
-const dbFaq = require("./Database").Faqs
+const { Op, Sequelize } = require("sequelize");
+const dbFaq = require("./Database").Faqs;
 
 async function getAllFaqs() {
     return await dbFaq.findAll()
+}
+
+async function getFaqsBySearch(searchWords) {
+    const searchQuery = searchWords
+        .trim()
+        .split(/\s+/)
+        .filter(word => word.length > 2)
+        .map(word => `${word}:*`)
+        .join(' & ');
+
+    return await dbFaq.findAll({
+        where: Sequelize.literal(`
+            search_vector @@ to_tsquery('french', :query)
+        `),
+        replacements: { query: searchQuery },
+        order: [
+            [
+                Sequelize.literal(`
+                    ts_rank(search_vector, to_tsquery('french', :query))
+                `),
+                'DESC'
+            ]
+        ]
+    });
 }
 
 async function getFaqById(id) {
@@ -31,5 +56,6 @@ module.exports = {
     getFaqById,
     addFaq,
     editFaq,
-    deleteFaq
+    deleteFaq,
+    getFaqsBySearch
 }
