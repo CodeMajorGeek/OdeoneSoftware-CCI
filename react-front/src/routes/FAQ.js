@@ -30,7 +30,7 @@ export default function FAQ() {
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        setLoading(true)
+        setSearchWords(e.target.value)
     }
 
     const handleSearchChange = (e) => {

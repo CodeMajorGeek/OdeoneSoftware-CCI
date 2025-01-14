@@ -1,4 +1,13 @@
+.admin-home {
+    padding: 20px;
+    background-color: transparent;
+    border-radius: 8px;
+}
+
 .admin-home h1 {
     text-align: center;
     font-size: 2.5rem;
+    text-transform: uppercase;
+    color: #333;
+    margin-bottom: 20px;
 }

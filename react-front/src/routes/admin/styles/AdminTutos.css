@@ -1,27 +1,29 @@
 .admin-tutos {
     padding: 20px;
-    background-color: #f9f9f9;
+    background-color: transparent;
     border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .admin-tutos h1 {
     text-align: center;
     font-size: 2.5rem;
+    text-transform: uppercase;
 }
 
 .carousel-admin {
     margin-bottom: 30px;
+    background-color: transparent;
 }
 
 .carousel-admin h2 {
-    background-color: #007bff;
+    background-color: transparent;
     padding: 10px;
     border-radius: 8px;
-    color: #fff;
+    color: #333;
     text-transform: uppercase;
     font-size: 20px;
     margin-bottom: 15px;
+    border-bottom: 2px solid rgb(255, 191, 46);
 }
 
 .carousel-admin ul {
@@ -34,7 +36,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background: #ffffff;
+    background: transparent;
     padding: 15px;
     border: 1px solid #ddd;
     margin-bottom: 10px;
@@ -52,26 +54,26 @@
 .action-icon {
     margin-left: 10px;
     cursor: pointer;
-    color: #007bff;
+    color: #666;
     transition: color 0.2s ease-in-out;
 }
 
 .action-icon:hover {
-    color: #0056b3;
+    color: rgb(255, 191, 46);
 }
 
 .add-btn {
     display: inline-flex;
     align-items: center;
     padding: 10px 20px;
-    background-color: #28a745;
-    color: #fff;
-    border: none;
+    background-color: transparent;
+    color: #333;
+    border: 2px solid rgb(255, 191, 46);
     border-radius: 8px;
     cursor: pointer;
     text-transform: uppercase;
     font-size: 14px;
-    transition: background-color 0.2s ease-in-out;
+    transition: all 0.3s ease;
 }
 
 .add-btn .fa-plus {
@@ -79,5 +81,6 @@
 }
 
 .add-btn:hover {
-    background-color: #218838;
+    background-color: rgb(255, 191, 46);
+    color: #fff;
 }
