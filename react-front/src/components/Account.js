@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux"
-import "./styles/Account.css"
-
 import { apiLogout } from "../services/ApiService"
+
+import "./styles/Account.css"
 
 function UnauthentifiedAccount() {
     const dispatch = useDispatch()
@@ -38,14 +38,21 @@ function AuthentifiedAccount() {
         })
     }
 
+    const updateUserHandler = (e) => {
+        dispatch({ type: "showUpdateUserModal" })
+    }
+
     return (
         <div className="account">
-        <ul>
-            <li>
-                <button onClick={ logoutHandler }>DECONNEXION</button>
-            </li>
-        </ul>
-    </div>
+            <ul>
+                <li>
+                    <button onClick={ logoutHandler }>DECONNEXION</button>
+                </li>
+                <li>
+                    <button onClick={ updateUserHandler }>MODIFIER PROFIL</button>
+                </li>
+            </ul>
+        </div>
     )
 }
 

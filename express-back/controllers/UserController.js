@@ -1,13 +1,16 @@
 const bcrypt = require("bcrypt")
 
+const jwt = require("jsonwebtoken")
+
 const genderService = require("../services/GenderService")
 const userService = require("../services/UserService")
+
+const TOKEN_SECRET = process.env.TOKEN_SECRET
 
 async function getAllUsers(req, res) {
     try {
         const users = await userService.findAllUsers()
-        const user = await userService.findUserByEmail(req.auth.email)
-
+        
         res.json(users)
     } catch (error) {
         res.status(500).json(error)
@@ -25,6 +28,17 @@ async function getUserById(req, res) {
     } catch (error) {
         res.status(500).json(error)
     }
+}
+
+async function getUserByToken(req, res) {
+    const token = req.headers.authorization.split(" ")[1]
+    const decoded = jwt.verify(token, TOKEN_SECRET)
+
+    const user = await userService.findUserByEmail(decoded.email)
+    if (user)
+        res.json(user)
+    else
+        res.status(404).json({ message: "User not found !" })
 }
 
 async function getUserByCompany(req, res) {
@@ -85,6 +99,23 @@ async function updateUser(req, res) {
     }
 }
 
+async function updateUserByToken(req, res) {
+    try {
+        const token = req.headers.authorization.split(" ")[1]
+        const decoded = jwt.verify(token, TOKEN_SECRET)
+
+        const newUser = req.body
+        if (newUser.password) {
+            newUser.password = await bcrypt.hash(newUser.password, 10)
+        }
+
+        const updatedUser = await userService.editUserByEmail(decoded.email, newUser)
+        res.json(updatedUser)
+    } catch (error) {
+        res.status(500).json({ message: "Erreur interne.", error })
+    }
+}
+
 async function deleteUser(req, res) {
     try {
         const id = parseInt(req.params.id)
@@ -103,9 +134,11 @@ async function deleteUser(req, res) {
 module.exports = {
     getAllUsers,
     getUserById,
+    getUserByToken,
     getUserByCompany,
     getUserByEmail,
     createUser,
     updateUser,
+    updateUserByToken,
     deleteUser
 }

@@ -13,14 +13,14 @@ const userRoutes = require("./routes/UserRoutes")
 const summaryRoutes = require("./routes/SummaryRoutes")
 const functionRoutes = require("./routes/FunctionRoutes")
 const faqRoutes = require("./routes/FaqRoutes")
-const tutorialRoutes = require("./routes/TutorialRoutes")
+// const tutorialRoutes = require("./routes/TutorialRoutes")
 
 app.use(`${URL_BASE}/auth`, authRoutes)
 app.use(`${URL_BASE}/users`, userRoutes)
 app.use(`${URL_BASE}/summary`, summaryRoutes)
 app.use(`${URL_BASE}/function`, functionRoutes)
 app.use(`${URL_BASE}/faq`, faqRoutes)
-app.use(`${URL_BASE}/tutorial`, tutorialRoutes)
+// app.use(`${URL_BASE}/tutorial`, tutorialRoutes)
 
 const PORT = process.env.PORT_API || 9999
 app.listen(PORT, () => {

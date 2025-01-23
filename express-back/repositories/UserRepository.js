@@ -24,6 +24,10 @@ async function updateUser(id, user) {
     return await dbUser.update(user, { where: { id_user: id }})
 }
 
+async function updateUserByEmail(email, user) {
+    return await dbUser.update(user, { where: { main_email: email }})
+}
+
 async function deleteUser(id) {
     return await dbUser.destroy({ where: { id_user: id }})
 }
@@ -35,5 +39,6 @@ module.exports = {
     getUserByEmail,
     addUser,
     updateUser,
+    updateUserByEmail,
     deleteUser
 }

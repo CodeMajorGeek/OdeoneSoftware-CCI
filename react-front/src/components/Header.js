@@ -29,11 +29,11 @@ const userNavTabs = [
         ref: "demonstration",
         needLogin: true
     },
-    {
-        title: "TUTORIELS",
-        ref: "tutoriels",
-        needLogin: true
-    },
+    // {
+    //     title: "TUTORIELS",
+    //     ref: "tutoriels",
+    //     needLogin: true
+    // },
     {
         title: "FAQ",
         ref: "faq",
@@ -62,11 +62,11 @@ const adminNavTabs = [
         ref: "admin/fonctions",
         needLogin: true
     },
-    {
-        title: "TUTORIELS",
-        ref: "admin/tutoriels",
-        needLogin: true
-    },
+    // {
+    //     title: "TUTORIELS",
+    //     ref: "admin/tutoriels",
+    //     needLogin: true
+    // },
     {
         title: "FAQ",
         ref: "admin/faq",
@@ -77,20 +77,20 @@ const adminNavTabs = [
 export default function Header() {
     const dispatch = useDispatch()
 
-    const adminHandler = () => {
-        dispatch({ type: "toggleAdminView" })
-    }
-
     const adminView = useSelector((state) => state.account.adminView)
     const adminMode = useSelector((state) => state.account.adminMode)
 
     const navTabs = useMemo(() => {
+        const adminHandler = () => {
+            dispatch({ type: "toggleAdminView" })
+        }
+
         const tabs = adminView ? adminNavTabs : userNavTabs.slice();
         if (!adminView && adminMode) {
             tabs.push({ title: "ADMINISTRATION", ref: "admin", handler: adminHandler, needLogin: true });
         }
         return tabs;
-    }, [adminView, adminMode])
+    }, [adminView, adminMode, dispatch])
 
     return (
         <header>

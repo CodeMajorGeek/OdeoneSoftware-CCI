@@ -97,7 +97,7 @@ async function apiRegister(fName, lName, mEmail, sEmail, comp, tel, pass, gend) 
 async function apiLogout() {
     const accessToken = localStorage.getItem("accessToken")
 
-    const response = await fetch(`${API_BASE}/auth/logout`, {
+    await fetch(`${API_BASE}/auth/logout`, {
         method: "POST",
         headers: {
             Authorization: `Bearer ${accessToken}`,
@@ -210,6 +210,14 @@ async function apiValidateToken(dispatch) {
     }
 }
 
+async function apiGetUser() {
+    return await apiAuthenticatedFetch(`/users/me`, "GET")
+}
+
+async function apiUpdateUser(user) {
+    return await apiAuthenticatedFetch(`/users/me`, "PUT", user)
+}
+
 export {
     apiLogin,
     apiRegister,
@@ -218,5 +226,7 @@ export {
     apiCreateFaq,
     apiEditFaq,
     apiRemoveFaq,
-    apiValidateToken
+    apiValidateToken,
+    apiGetUser,
+    apiUpdateUser
 }

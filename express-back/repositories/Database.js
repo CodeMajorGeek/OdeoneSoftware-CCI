@@ -6,7 +6,7 @@ const DB_PASS = process.env.DB_PASS || "test1234"
 
 const sequelize = new Sequelize(DB_NAME, DB_USER, DB_PASS, {
     host: "db",
-    dialect: "postgres"
+    dialect: "postgres",
 })
 
 sequelize.authenticate().then(() => {

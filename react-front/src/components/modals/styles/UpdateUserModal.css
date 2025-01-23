@@ -1,0 +1,8 @@
+.modal-content {
+    width: 40vw;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+}

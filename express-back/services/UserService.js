@@ -32,6 +32,10 @@ async function editUser(id, user) {
     return await userRepository.updateUser(id, user)
 }
 
+async function editUserByEmail(email, user) {
+    return await userRepository.updateUserByEmail(email, user)
+}
+
 async function removeUser(id) {
     return await userRepository.deleteUser(id)
 }
@@ -45,5 +49,6 @@ module.exports = {
     findUserByEmail,
     createUser,
     editUser,
+    editUserByEmail,
     removeUser
 }

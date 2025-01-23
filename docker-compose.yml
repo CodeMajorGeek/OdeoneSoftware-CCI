@@ -49,6 +49,8 @@ services:
       - "traefik.http.routers.express_back.rule=PathPrefix(`/api/`)"
       - "traefik.http.services.express_back.loadbalancer.server.port=9999"
       - "traefik.docker.network=web"
+    environment:
+      - NODE_ENV=development
     depends_on:
       - db
     networks:
