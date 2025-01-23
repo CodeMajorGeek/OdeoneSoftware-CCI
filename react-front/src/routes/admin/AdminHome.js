@@ -28,14 +28,24 @@ export default function AdminHome() {
 
     const handleDelete = async (parentIndex, index) => {
         try {
-            const summaryToDelete = parentIndex === -1 
-                ? summaries[index] 
-                : summaries[parentIndex].subContent[index]
-            
-            await apiDeleteSummary(summaryToDelete.id)
-            await loadSummaries()
+            if (parentIndex === -1) {
+                // Suppression d'un sommaire parent
+                await apiDeleteSummary(summaries[index].id)
+                // Mise à jour immédiate de l'état local
+                const updatedSummaries = summaries.filter((_, i) => i !== index)
+                setSummaries(updatedSummaries)
+            } else {
+                // Suppression d'une sous-partie
+                await apiDeleteSummary(summaries[parentIndex].subContent[index].id)
+                // Mise à jour immédiate de l'état local pour les sous-parties
+                const updatedSummaries = [...summaries]
+                updatedSummaries[parentIndex].subContent = updatedSummaries[parentIndex].subContent.filter((_, i) => i !== index)
+                setSummaries(updatedSummaries)
+            }
         } catch (error) {
             console.error("Erreur lors de la suppression:", error)
+            // En cas d'erreur, recharger toute la liste
+            await loadSummaries()
         }
     }
 
@@ -81,6 +91,7 @@ export default function AdminHome() {
             <h1>Gestionnaire de sommaire</h1>
             <AdminSummary
                 summaries={summaries}
+                setSummaries={setSummaries}
                 onDelete={handleDelete}
                 onModify={handleModify}
                 onInsert={handleInsert}

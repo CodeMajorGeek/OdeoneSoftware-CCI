@@ -6,11 +6,11 @@ const app = express()
 
 app.use(express.json())
 
-app.use("/uploads", express.static("uploads", {
+const URL_BASE = process.env.URL_BASE || "/api/v1"  
+
+app.use(`${URL_BASE}/uploads`, express.static("uploads", {
     setHeaders: (res, path, stat) => res.set("Cache-Control", "public, max-age=31536000")
 }))
-
-const URL_BASE = process.env.URL_BASE || "/api/v1"
 
 const authRoutes = require("./routes/AuthRoutes")
 const userRoutes = require("./routes/UserRoutes")

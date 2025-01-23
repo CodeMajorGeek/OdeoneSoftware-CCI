@@ -153,12 +153,6 @@ const Summaries = sequelize.define("summaries", {
     }
 })
 
-// Définir la relation parent-enfant
-Summaries.hasMany(Summaries, {
-    as: 'subContent',
-    foreignKey: 'sub_id'
-})
-
 const SummaryCreatedAt = sequelize.define("summary_created_at", {
     created_at: {
         type: Sequelize.DATE,
@@ -176,7 +170,8 @@ const SummaryCreatedAt = sequelize.define("summary_created_at", {
         references: {
             model: Summaries,
             key: "id_summary"
-        }
+        },
+        onDelete: 'CASCADE'
     }
 })
 
@@ -196,8 +191,16 @@ const SummaryModifiedAt = sequelize.define("summary_modified_at", {
         references: {
             model: Summaries,
             key: "id_summary"
-        }
+        },
+        onDelete: 'CASCADE'
     }
+})
+
+// Définir les relations après avoir défini tous les modèles
+Summaries.hasMany(Summaries, {
+    as: 'subContent',
+    foreignKey: 'sub_id',
+    onDelete: 'CASCADE'
 })
 
 const Faqs = sequelize.define("faqs", {

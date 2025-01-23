@@ -12,8 +12,9 @@ import {
 
 import "./styles/AdminSummary.css"
 
-export default function AdminSummary({ summaries, onDelete, onModify, onInsert }) {
+export default function AdminSummary({ summaries, setSummaries, onDelete, onModify, onInsert }) {
   const [newSummaryName, setNewSummaryName] = useState("")
+  const [newSummarySubName, setNewSummarySubName] = useState("")
   const [newSummaryFile, setNewSummaryFile] = useState(null)
   const [editingItem, setEditingItem] = useState(null)
   const [editingText, setEditingText] = useState("")
@@ -58,7 +59,10 @@ export default function AdminSummary({ summaries, onDelete, onModify, onInsert }
 
   const handleCreateSub = () => {
     if (newSubName.trim()) {
-      onInsert(-1, insertingSubItem.index, "sub", newSubName, newSubFile)
+      onInsert(-1, insertingSubItem.index, "sub", {
+        name: newSubName,
+        file: newSubFile
+      })
       setInsertingSubItem(null)
       setNewSubName("")
       setNewSubFile(null)
@@ -148,7 +152,13 @@ export default function AdminSummary({ summaries, onDelete, onModify, onInsert }
               <div className="summary-actions">
                 <button
                   className="action-btn delete"
-                  onClick={() => onDelete(parentIndex, index)}
+                  onClick={async () => {
+                    try {
+                      await onDelete(parentIndex, index)
+                    } catch (error) {
+                      console.error("Erreur lors de la suppression:", error)
+                    }
+                  }}
                   title="Supprimer"
                 >
                   <FontAwesomeIcon icon={faTrash} />
@@ -179,14 +189,14 @@ export default function AdminSummary({ summaries, onDelete, onModify, onInsert }
   )
 
   const handleCreateSummary = () => {
-    if (newSummaryName.trim() && newSubName.trim() && newSummaryFile) {
+    if (newSummaryName.trim() && newSummarySubName.trim() && newSummaryFile) {
       onInsert(-1, -1, "new", {
         parentName: newSummaryName,
-        subName: newSubName,
+        subName: newSummarySubName,
         file: newSummaryFile
       })
       setNewSummaryName("")
-      setNewSubName("")
+      setNewSummarySubName("")
       setNewSummaryFile(null)
     }
   }
@@ -204,8 +214,8 @@ export default function AdminSummary({ summaries, onDelete, onModify, onInsert }
         />
         <input
           type="text"
-          value={newSubName}
-          onChange={(e) => setNewSubName(e.target.value)}
+          value={newSummarySubName}
+          onChange={(e) => setNewSummarySubName(e.target.value)}
           placeholder="Nom de la première sous-partie"
         />
         <div className="file-input-container">
@@ -226,7 +236,7 @@ export default function AdminSummary({ summaries, onDelete, onModify, onInsert }
         <button 
           className="create-btn" 
           onClick={handleCreateSummary}
-          disabled={!newSummaryName.trim() || !newSubName.trim() || !newSummaryFile}
+          disabled={!newSummaryName.trim() || !newSummarySubName.trim() || !newSummaryFile}
         >
           <FontAwesomeIcon icon={faPlus} />
           Créer un sommaire
