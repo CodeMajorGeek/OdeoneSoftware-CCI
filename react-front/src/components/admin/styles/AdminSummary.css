@@ -44,6 +44,7 @@
 .summary-index .summary-actions {
     display: flex;
     gap: 10px;
+    margin-right: 20px;
 }
 
 .summary-index .action-btn {
@@ -61,18 +62,152 @@
 
 .summary-index .action-btn.delete {
     color: #dc3545;
-    margin-left: 20px;
 }
 
 .summary-index .action-btn.modify {
     color: #007bff;
+    margin-left: 15px;
 }
 
 .summary-index .action-btn.insert-sub {
     color: #28a745;
+    margin-left: 15px;
 }
 
 .summary-index .action-btn.insert-down {
     color: rgb(255, 191, 46);
-    margin-right: 20px;
+    margin-left: 15px;
+}
+
+.summary-create {
+    margin-top: 20px;
+    padding: 20px;
+    background: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.summary-create h2 {
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.summary-create button.create-btn {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: background-color 0.2s ease;
+}
+
+.summary-create button.create-btn:hover {
+    background-color: #218838;
+}
+
+.summary-create input {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.file-input-container {
+    margin-bottom: 15px;
+}
+
+.file-input {
+    display: none;
+}
+
+.file-label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 12px;
+    background-color: #f8f9fa;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.file-label:hover {
+    background-color: #e9ecef;
+}
+
+.file-label svg {
+    color: #6c757d;
+}
+
+.summary-create button.create-btn:disabled {
+    background-color: #6c757d;
+    cursor: not-allowed;
+}
+
+.summary-create button.create-btn:disabled:hover {
+    background-color: #6c757d;
+}
+
+.insert-sub-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 15px;
+    background: #f8f9fa;
+    border-radius: 4px;
+    margin: 10px 0;
+    border: 1px solid #e9ecef;
+}
+
+.insert-sub-form input[type="text"] {
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    width: 100%;
+}
+
+.insert-sub-form .edit-actions {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+    margin-top: 10px;
+}
+
+.insert-sub-form .action-btn {
+    padding: 8px 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.insert-sub-form .action-btn.save {
+    background-color: #28a745;
+    color: white;
+}
+
+.insert-sub-form .action-btn.save:hover {
+    background-color: #218838;
+}
+
+.insert-sub-form .action-btn.save:disabled {
+    background-color: #6c757d;
+    cursor: not-allowed;
+}
+
+.insert-sub-form .action-btn.cancel {
+    background-color: #dc3545;
+    color: white;
+}
+
+.insert-sub-form .action-btn.cancel:hover {
+    background-color: #c82333;
 }

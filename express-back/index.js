@@ -6,6 +6,10 @@ const app = express()
 
 app.use(express.json())
 
+app.use("/uploads", express.static("uploads", {
+    setHeaders: (res, path, stat) => res.set("Cache-Control", "public, max-age=31536000")
+}))
+
 const URL_BASE = process.env.URL_BASE || "/api/v1"
 
 const authRoutes = require("./routes/AuthRoutes")
@@ -17,7 +21,7 @@ const faqRoutes = require("./routes/FaqRoutes")
 
 app.use(`${URL_BASE}/auth`, authRoutes)
 app.use(`${URL_BASE}/users`, userRoutes)
-app.use(`${URL_BASE}/summary`, summaryRoutes)
+app.use(`${URL_BASE}/summaries`, summaryRoutes)
 app.use(`${URL_BASE}/function`, functionRoutes)
 app.use(`${URL_BASE}/faq`, faqRoutes)
 // app.use(`${URL_BASE}/tutorial`, tutorialRoutes)

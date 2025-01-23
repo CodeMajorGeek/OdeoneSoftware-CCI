@@ -135,19 +135,28 @@ const Summaries = sequelize.define("summaries", {
         allowNull: false,
         unique: true
     },
-    sub_id: {
-        type: Sequelize.INTEGER,
-        unique: true
-    },
     title: {
         type: Sequelize.STRING,
         allowNull: false
     },
     video_path: {
         type: Sequelize.STRING,
-        allowNull: false,
-        unique: true
+        allowNull: true
+    },
+    sub_id: {
+        type: Sequelize.INTEGER,
+        allowNull: true,
+        references: {
+            model: 'summaries',
+            key: 'id_summary'
+        }
     }
+})
+
+// Définir la relation parent-enfant
+Summaries.hasMany(Summaries, {
+    as: 'subContent',
+    foreignKey: 'sub_id'
 })
 
 const SummaryCreatedAt = sequelize.define("summary_created_at", {

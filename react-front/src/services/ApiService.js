@@ -230,6 +230,62 @@ async function apiUpdateUserById(id, user) {
     return await apiAuthenticatedFetch(`/users/id/${id}`, "PUT", user)
 }
 
+async function apiGetAllSummaries() {
+    return await apiAuthenticatedFetch(`/summaries`, "GET")
+}
+
+async function apiCreateSummary(summaryData) {
+    const formData = new FormData()
+    
+    if (summaryData.parentName) {
+        formData.append('parentName', summaryData.parentName)
+        formData.append('subName', summaryData.subName)
+    } else {
+        formData.append('functionName', summaryData.functionName)
+        formData.append('parentId', summaryData.parentId)
+    }
+    
+    if (summaryData.file) {
+        formData.append('file', summaryData.file)
+    }
+
+    const options = {
+        method: 'POST',
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        },
+        body: formData
+    }
+
+    const response = await fetch(`${API_BASE}/summaries`, options)
+    if (!response.ok) throw new Error("Erreur lors de la création du sommaire")
+    return await response.json()
+}
+
+async function apiUpdateSummary(id, summaryData) {
+    const formData = new FormData()
+    formData.append('functionName', summaryData.functionName)
+    if (summaryData.file) {
+        formData.append('file', summaryData.file)
+    }
+    
+    const options = {
+        method: 'PUT',
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        },
+        body: formData
+    }
+
+    const response = await fetch(`${API_BASE}/summaries/${id}`, options)
+    if (!response.ok) throw new Error("Erreur lors de la modification du sommaire")
+    return await response.json()
+}
+
+async function apiDeleteSummary(id) {
+    return await apiAuthenticatedFetch(`/summaries/${id}`, "DELETE")
+}
+
 export {
     apiLogin,
     apiRegister,
@@ -243,5 +299,9 @@ export {
     apiUpdateUser,
     apiGetAllUsers,
     apiSearchUsersByCompany,
-    apiUpdateUserById
+    apiUpdateUserById,
+    apiGetAllSummaries,
+    apiCreateSummary,
+    apiUpdateSummary,
+    apiDeleteSummary
 }
