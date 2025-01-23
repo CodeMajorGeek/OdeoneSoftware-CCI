@@ -1,7 +1,7 @@
 const userRepository = require("../repositories/UserRepository")
 
 async function findAllUsers() {
-    return await userRepository.getAllFunctions()
+    return await userRepository.getAllUsers()
 }
 
 async function findUserById(id) {

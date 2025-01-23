@@ -218,6 +218,18 @@ async function apiUpdateUser(user) {
     return await apiAuthenticatedFetch(`/users/me`, "PUT", user)
 }
 
+async function apiGetAllUsers() {
+    return await apiAuthenticatedFetch(`/users`, "GET")
+}
+
+async function apiSearchUsersByCompany(company) {
+    return await apiAuthenticatedFetch(`/users/${company}`, "GET")
+}
+
+async function apiUpdateUserById(id, user) {
+    return await apiAuthenticatedFetch(`/users/id/${id}`, "PUT", user)
+}
+
 export {
     apiLogin,
     apiRegister,
@@ -228,5 +240,8 @@ export {
     apiRemoveFaq,
     apiValidateToken,
     apiGetUser,
-    apiUpdateUser
+    apiUpdateUser,
+    apiGetAllUsers,
+    apiSearchUsersByCompany,
+    apiUpdateUserById
 }

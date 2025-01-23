@@ -1,4 +1,5 @@
 const dbUser = require("./Database").Users
+const { Op } = require('sequelize');
 
 async function getAllUsers() {
     return await dbUser.findAll()
@@ -9,7 +10,13 @@ async function getUserById(id) {
 }
 
 async function getUserByCompany(companyName) {
-    return await dbUser.findOne({ where: { company: companyName }})
+    return await dbUser.findAll({
+        where: {
+            company: {
+                [Op.like]: `%${companyName}%`
+            }
+        }
+    })
 }
 
 async function getUserByEmail(email) {

@@ -1,9 +1,15 @@
 import React, { useState, useEffect } from "react"
 
-import "./styles/AdminUser.css"
-
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faSearch, faEdit, faKey } from "@fortawesome/free-solid-svg-icons"
+
+import { 
+    apiGetAllUsers, 
+    apiSearchUsersByCompany, 
+    apiUpdateUserById 
+} from "../../services/ApiService"
+
+import "./styles/AdminUser.css"
 
 export default function AdminUser() {
     const [users, setUsers] = useState([])
@@ -12,43 +18,75 @@ export default function AdminUser() {
     const [editingUser, setEditingUser] = useState(null)
 
     useEffect(() => {
-        fetch("http://localhost:8080/users")
-            .then((response) => response.json())
-            .then((data) => {
+        const fetchUsers = async () => {
+            try {
+                const data = await apiGetAllUsers()
                 setUsers(data)
                 setFilteredUsers(data)
-            })
-            .catch((error) => console.error("Erreur lors du chargement des données :", error))
+            } catch (error) {
+                console.error("Erreur lors du chargement des données :", error)
+            }
+        }
+        fetchUsers()
     }, [])
 
     useEffect(() => {
-        const filtered = users.filter((user) =>
-            user.companyName?.toLowerCase().includes(search.toLowerCase())
-        )
-        setFilteredUsers(filtered)
+        const searchUsers = async () => {
+            try {
+                if (search.trim()) {
+                    const data = await apiSearchUsersByCompany(search)
+                    setFilteredUsers(data)
+                } else {
+                    setFilteredUsers(users)
+                }
+            } catch (error) {
+                console.error("Erreur lors de la recherche :", error)
+            }
+        }
+        searchUsers()
     }, [search, users])
 
     const handleEdit = (user) => {
-        setEditingUser(user)
+        console.log(user)
+        const normalizedUser = {
+            firstName: user.firstname || '',
+            lastName: user.lastname || '',
+            primaryEmail: user.main_email || '',
+            secondaryEmail: user.secondary_email || '',
+            companyName: user.company || '',
+            phone: user.telephone|| '',
+            civility: user.civility || 'not-specified',
+            id: user.id_user
+        }
+        setEditingUser(normalizedUser)
     }
 
-    const handleSave = () => {
-        fetch(`http://localhost:8080/users/${editingUser.id}`, {
-            method: "PUT",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(editingUser),
-        })
-            .then(() => {
-                setUsers((prevUsers) =>
-                    prevUsers.map((user) =>
-                        user.id === editingUser.id ? editingUser : user
-                    )
-                )
-                setEditingUser(null)
-            })
-            .catch((error) =>
-                console.error("Erreur lors de la sauvegarde des données :", error)
-            )
+    const handleSave = async () => {
+        try {
+            const userToUpdate = {
+                firstname: editingUser.firstName,
+                lastname: editingUser.lastName,
+                main_email: editingUser.primaryEmail,
+                company: editingUser.companyName,
+                telephone: editingUser.phone,
+                civility: editingUser.civility
+            }
+
+            if (editingUser.secondaryEmail) {
+                userToUpdate.secondary_email = editingUser.secondaryEmail
+            }
+            
+            await apiUpdateUserById(editingUser.id, userToUpdate)
+            
+            // Rafraîchir la liste des utilisateurs
+            const updatedUsers = await apiGetAllUsers()
+            setUsers(updatedUsers)
+            setFilteredUsers(updatedUsers)
+            
+            setEditingUser(null)
+        } catch (error) {
+            console.error("Erreur lors de la sauvegarde des données :", error)
+        }
     }
 
     const handleResetPassword = (user) => {
@@ -71,7 +109,7 @@ export default function AdminUser() {
                 {filteredUsers.map((user) => (
                     <div className="user-item" key={user.id}>
                         <div>
-                            <strong>{user.firstName} {user.lastName}</strong> - {user.companyName}
+                            <strong>{user.firstname} {user.lastname}</strong> - {user.company}
                         </div>
                         <div className="actions">
                             <button onClick={() => handleEdit(user)}>
@@ -91,50 +129,56 @@ export default function AdminUser() {
                         <label>Prénom :</label>
                         <input
                             type="text"
-                            value={editingUser.firstName}
+                            value={editingUser.firstName || ''}
                             onChange={(e) =>
                                 setEditingUser({ ...editingUser, firstName: e.target.value })
                             }
+                            autoComplete="given-name"
                         />
                         <label>Nom :</label>
                         <input
                             type="text"
-                            value={editingUser.lastName}
+                            value={editingUser.lastName || ''}
                             onChange={(e) =>
                                 setEditingUser({ ...editingUser, lastName: e.target.value })
                             }
+                            autoComplete="family-name"
                         />
                         <label>Mail principal :</label>
                         <input
                             type="email"
-                            value={editingUser.primaryEmail}
+                            value={editingUser.primaryEmail || ''}
                             onChange={(e) =>
                                 setEditingUser({ ...editingUser, primaryEmail: e.target.value })
                             }
+                            autoComplete="email"
                         />
                         <label>Mail secondaire :</label>
                         <input
                             type="email"
-                            value={editingUser.secondaryEmail}
+                            value={editingUser.secondaryEmail || ''}
                             onChange={(e) =>
                                 setEditingUser({ ...editingUser, secondaryEmail: e.target.value })
                             }
+                            autoComplete="email"
                         />
                         <label>Nom de compagnie :</label>
                         <input
                             type="text"
-                            value={editingUser.companyName}
+                            value={editingUser.companyName || ''}
                             onChange={(e) =>
                                 setEditingUser({ ...editingUser, companyName: e.target.value })
                             }
+                            autoComplete="organization"
                         />
                         <label>Numéro de téléphone :</label>
                         <input
                             type="tel"
-                            value={editingUser.phone}
+                            value={editingUser.phone || ''}
                             onChange={(e) =>
                                 setEditingUser({ ...editingUser, phone: e.target.value })
                             }
+                            autoComplete="tel"
                         />
                         <label>Civilité :</label>
                         <select
