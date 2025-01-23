@@ -22,6 +22,14 @@ h1 {
     border-radius: 8px;
 }
 
+.function-list {
+    padding: 20px;
+    margin-bottom: 20px;
+    background: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+}
+
 .function-list h3 {
     font-size: 20px;
     margin-bottom: 10px;
@@ -37,16 +45,21 @@ h1 {
 }
 
 .feature-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 8px 12px;
-    border-bottom: 1px solid #eee;
-    background-color: transparent;
+    padding: 8px 0;
+    border-bottom: 1px solid #f0f0f0;
 }
 
 .feature-item:last-child {
     border-bottom: none;
+}
+
+.button-container {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid #e0e0e0;
 }
 
 .feature-item .button-container {
@@ -82,19 +95,87 @@ h1 {
     background-color: #a71d2a;
 }
 
-.add-feature-btn {
-    margin-top: 10px;
-    padding: 8px 12px;
-    font-size: 14px;
-    color: #333;
-    background-color: transparent;
-    border: 2px solid rgb(255, 191, 46);
-    border-radius: 4px;
-    cursor: pointer;
-    transition: all 0.3s ease;
+.add-function-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 20px;
+    padding: 20px;
+    background: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
 }
 
-.add-feature-btn:hover {
-    background-color: rgb(255, 191, 46);
-    color: #fff;
+.function-input {
+    flex: 1;
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+.function-input:focus {
+    outline: none;
+    border-color: #4CAF50;
+    box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.1);
+}
+
+.add-function-btn {
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    white-space: nowrap;
+}
+
+.add-function-btn:hover {
+    background-color: #45a049;
+}
+
+.add-function-btn:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
+
+.function-textarea {
+    width: 100%;
+    margin: 10px 0;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+    resize: vertical;
+    min-height: 100px;
+}
+
+.function-edit {
+    margin: 10px 0;
+}
+
+.function-edit-field {
+    width: 100%;
+    margin-bottom: 10px;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+    resize: vertical;
+    min-height: 100px;
+}
+
+.cancel-btn {
+    padding: 10px 15px;
+    background-color: #999;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+.cancel-btn:hover {
+    background-color: #777;
 }
