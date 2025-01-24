@@ -12,8 +12,13 @@ async function deleteRefreshByUser(user) {
     return await dbSession.destroy({ where: { id_user: user.id_user }})
 }
 
+async function deleteSessionByUserId(userId) {
+    return await dbSession.destroy({ where: { id_user: userId }})
+}
+
 module.exports = {
     createRefreshToken,
     getRefreshByUser,
-    deleteRefreshByUser
+    deleteRefreshByUser,
+    deleteSessionByUserId
 }

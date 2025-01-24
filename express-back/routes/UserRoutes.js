@@ -10,7 +10,7 @@ router.get("/:company", jwtMiddleware.validateAdminMiddleware, userController.ge
 router.post("/", userController.createUser)
 router.put("/me", jwtMiddleware.authenticateTokenMiddleware, userController.updateUserByToken)
 router.put("/id/:id", jwtMiddleware.authenticateTokenMiddleware, userController.updateUser)
-router.delete("/:id", jwtMiddleware.validateAdminMiddleware, userController.deleteUser)
+router.delete("/id/:id", jwtMiddleware.validateAdminMiddleware, userController.deleteUser)
 router.delete("/me", jwtMiddleware.authenticateTokenMiddleware, userController.deleteOwnUser)
 
 module.exports = router

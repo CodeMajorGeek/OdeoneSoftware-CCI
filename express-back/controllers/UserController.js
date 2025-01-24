@@ -5,6 +5,7 @@ const jwt = require("jsonwebtoken")
 const genderService = require("../services/GenderService")
 const roleService = require("../services/RoleService")
 const userService = require("../services/UserService")
+const sessionService = require("../services/SessionService")
 
 const TOKEN_SECRET = process.env.TOKEN_SECRET
 
@@ -262,6 +263,7 @@ async function deleteUser(req, res) {
         const user = await userService.findUserById(id)
 
         if (user) {
+            await sessionService.removeSessionByUserId(id)
             await userService.removeUser(id)
             res.status(204).send()
         } else
@@ -271,7 +273,6 @@ async function deleteUser(req, res) {
     }
 }
 
-
 async function deleteOwnUser(req, res) {
     try {
         const token = req.headers.authorization.split(" ")[1]
@@ -279,6 +280,7 @@ async function deleteOwnUser(req, res) {
         const user = await userService.findUserByEmail(decoded.email)
 
         if (user) {
+            await sessionService.removeSessionByUserId(user.id_user)
             await userService.removeUser(user.id_user)
             res.status(204).send()
         } else
