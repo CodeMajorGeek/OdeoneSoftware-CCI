@@ -42,7 +42,7 @@ export default function AdminSummary({ summaries, setSummaries, onDelete, onModi
     const file = e.target.files[0]
     if (file) {
       const fileType = file.type
-      if (fileType === "video/mp4" || fileType === "image/png") {
+      if (fileType === "video/mp4") {
         if (isSubInsert) {
           setNewSubFile(file)
         } else if (isEditing) {
@@ -51,7 +51,7 @@ export default function AdminSummary({ summaries, setSummaries, onDelete, onModi
           setNewSummaryFile(file)
         }
       } else {
-        alert("Seuls les fichiers .mp4 et .png sont acceptés")
+        alert("Seuls les fichiers .mp4 sont acceptés")
         e.target.value = null
       }
     }
@@ -92,7 +92,7 @@ export default function AdminSummary({ summaries, setSummaries, onDelete, onModi
                   />
                   <label htmlFor={`edit-file-${parentIndex}-${index}`} className="file-label">
                     <FontAwesomeIcon icon={faFile} />
-                    {editingFile ? editingFile.name : "Choisir un fichier (.mp4 ou .png)"}
+                    {editingFile ? editingFile.name : "Choisir un fichier .mp4"}
                   </label>
                 </div>
               )}
@@ -117,13 +117,13 @@ export default function AdminSummary({ summaries, setSummaries, onDelete, onModi
                 <input
                   type="file"
                   id={`sub-file-${index}`}
-                  accept=".mp4,.png"
+                  accept=".mp4"
                   onChange={(e) => handleFileChange(e, false, true)}
                   className="file-input"
                 />
                 <label htmlFor={`sub-file-${index}`} className="file-label">
                   <FontAwesomeIcon icon={faFile} />
-                  {newSubFile ? newSubFile.name : "Choisir un fichier (.mp4 ou .png)"}
+                  {newSubFile ? newSubFile.name : "Choisir un fichier .mp4"}
                 </label>
               </div>
               <div className="edit-actions">
@@ -222,7 +222,7 @@ export default function AdminSummary({ summaries, setSummaries, onDelete, onModi
           <input
             type="file"
             id="summary-file"
-            accept=".mp4,.png"
+            accept=".mp4"
             onChange={(e) => handleFileChange(e)}
             className="file-input"
           />
@@ -230,7 +230,7 @@ export default function AdminSummary({ summaries, setSummaries, onDelete, onModi
             <FontAwesomeIcon icon={faFile} />
             {newSummaryFile 
               ? newSummaryFile.name 
-              : "Choisir un fichier pour la sous-partie (.mp4 ou .png)"}
+              : "Choisir un fichier pour la sous-partie .mp4"}
           </label>
         </div>
         <button 

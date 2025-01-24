@@ -23,11 +23,11 @@ const storage = multer.diskStorage({
 })
 
 const fileFilter = (req, file, cb) => {
-    const allowedTypes = ['video/mp4', 'image/png']
+    const allowedTypes = ['video/mp4']
     if (allowedTypes.includes(file.mimetype)) {
         cb(null, true)
     } else {
-        cb(new Error('Format de fichier non supporté. Utilisez .mp4 ou .png'), false)
+        cb(new Error('Format de fichier non supporté. Utilisez .mp4'), false)
     }
 }
 
