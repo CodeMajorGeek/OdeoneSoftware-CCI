@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react"
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faSearch, faEdit, faKey } from "@fortawesome/free-solid-svg-icons"
+import { faSearch, faEdit, faKey, faTrash } from "@fortawesome/free-solid-svg-icons"
 
 import { 
     apiGetAllUsers, 
     apiSearchUsersByCompany, 
-    apiUpdateUserById 
+    apiUpdateUserById,
+    apiDeleteUser
 } from "../../services/ApiService"
 
 import "./styles/AdminUser.css"
@@ -93,6 +94,19 @@ export default function AdminUser() {
         console.log(`Réinitialisation du mot de passe pour ${user.firstName} ${user.lastName}`)
     }
 
+    const handleDelete = async (user) => {
+        if (window.confirm(`Êtes-vous sûr de vouloir supprimer l'utilisateur ${user.firstname} ${user.lastname} ?`)) {
+            try {
+                await apiDeleteUser(user.id_user)
+                const updatedUsers = await apiGetAllUsers()
+                setUsers(updatedUsers)
+                setFilteredUsers(updatedUsers)
+            } catch (error) {
+                console.error("Erreur lors de la suppression de l'utilisateur :", error)
+            }
+        }
+    }
+
     return (
         <div className="admin-user">
             <h1>Gestion des utilisateurs</h1>
@@ -107,7 +121,7 @@ export default function AdminUser() {
             </div>
             <div className="user-list">
                 {filteredUsers.map((user) => (
-                    <div className="user-item" key={user.id}>
+                    <div className="user-item" key={user.id_user}>
                         <div>
                             <strong>{user.firstname} {user.lastname}</strong> - {user.company}
                         </div>
@@ -117,6 +131,9 @@ export default function AdminUser() {
                             </button>
                             <button onClick={() => handleResetPassword(user)}>
                                 <FontAwesomeIcon icon={faKey} /> Réinitialiser mot de passe
+                            </button>
+                            <button onClick={() => handleDelete(user)} className="delete-btn">
+                                <FontAwesomeIcon icon={faTrash} /> Supprimer
                             </button>
                         </div>
                     </div>

@@ -271,6 +271,23 @@ async function deleteUser(req, res) {
     }
 }
 
+
+async function deleteOwnUser(req, res) {
+    try {
+        const token = req.headers.authorization.split(" ")[1]
+        const decoded = jwt.verify(token, TOKEN_SECRET)
+        const user = await userService.findUserByEmail(decoded.email)
+
+        if (user) {
+            await userService.removeUser(user.id_user)
+            res.status(204).send()
+        } else
+            res.status(404).json({ message: "Utilisateur non trouvé !" })
+    } catch (error) {
+        res.status(500).json(error)
+    }
+}
+
 module.exports = {
     getAllUsers,
     getUserById,
@@ -280,5 +297,6 @@ module.exports = {
     createUser,
     updateUser,
     updateUserByToken,
-    deleteUser
+    deleteUser,
+    deleteOwnUser
 }

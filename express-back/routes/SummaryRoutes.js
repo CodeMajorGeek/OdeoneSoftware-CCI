@@ -8,8 +8,8 @@ const summaryController = require("../controllers/SummaryController")
 
 router.get("/", summaryController.getAllSummaries)
 router.get("/:id", summaryController.getSummaryById)
-router.post("/", jwtMiddleware.authenticateTokenMiddleware, upload.single('file'), summaryController.createSummary)
-router.put("/:id", jwtMiddleware.authenticateTokenMiddleware, upload.single('file'), summaryController.updateSummary)
-router.delete("/:id", jwtMiddleware.authenticateTokenMiddleware, summaryController.deleteSummary)
+router.post("/", jwtMiddleware.validateAdminMiddleware, upload.single('file'), summaryController.createSummary)
+router.put("/:id", jwtMiddleware.validateAdminMiddleware, upload.single('file'), summaryController.updateSummary)
+router.delete("/:id", jwtMiddleware.validateAdminMiddleware, summaryController.deleteSummary)
 
 module.exports = router

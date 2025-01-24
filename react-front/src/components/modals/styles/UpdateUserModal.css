@@ -6,3 +6,33 @@
     left: 50%;
     transform: translateX(-50%);
 }
+
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 1rem;
+    padding: 0 10%;
+}
+
+.form-actions .submit-btn, .form-actions .delete-account-btn {
+    width: auto;
+    padding: 10px 20px;
+    margin: 1rem 0 0 1rem;
+    height: 45px;
+}
+
+.delete-account-btn {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.2s;
+}
+
+.delete-account-btn:hover {
+    background-color: #c82333;
+}

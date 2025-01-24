@@ -28,10 +28,8 @@ async function getAllSummaries(req, res) {
 
         res.json(formattedSummaries)
     } catch (error) {
-        console.error("Erreur dans getAllSummaries:", error)
         res.status(500).json({ 
-            message: "Erreur lors de la récupération des sommaires",
-            error: error.message 
+            message: "Erreur lors de la récupération des sommaires" 
         })
     }
 }
@@ -154,9 +152,8 @@ async function deleteSummary(req, res) {
             return res.status(404).json({ message: "Sommaire non trouvé" })
         }
 
-        if (summary.video_path) {
+        if (summary.video_path)
             await fs.unlink(summary.video_path)
-        }
 
         await summaryService.removeSummary(req.params.id)
         res.status(204).send()

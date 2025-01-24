@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react"
 import { useDispatch } from "react-redux"
 
-import { faUserEdit } from "@fortawesome/free-solid-svg-icons"
+import { faUserEdit, faTrash } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { apiUpdateUser, apiGetUser } from "../../services/ApiService"
+import { apiUpdateUser, apiGetUser, apiDeleteOwnUser } from "../../services/ApiService"
 
 import "./styles/UpdateUserModal.css"
 
@@ -87,6 +87,18 @@ export default function UpdateUserModal() {
             dispatch({ type: "closeModal" })
         } catch (err) {
             setError(err.message)
+        }
+    }
+
+    const handleDeleteAccount = async () => {
+        if (window.confirm("Êtes-vous sûr de vouloir supprimer votre compte ? Cette action est irréversible.")) {
+            try {
+                await apiDeleteOwnUser()
+                dispatch({ type: "resetAuthentification" })
+                dispatch({ type: "closeModal" })
+            } catch (err) {
+                setError("Erreur lors de la suppression du compte : " + err.message)
+            }
         }
     }
 
@@ -198,8 +210,15 @@ export default function UpdateUserModal() {
                         <option value="female">Madame</option>
                     </select>
                 </div>
-                <div>
+                <div className="form-actions">
                     <input type="submit" value="ENREGISTRER" className="submit-btn" />
+                    <button 
+                        type="button" 
+                        className="delete-account-btn"
+                        onClick={handleDeleteAccount}
+                    >
+                        <FontAwesomeIcon icon={faTrash} /> SUPPRIMER MON COMPTE
+                    </button>
                 </div>
             </form>
         </div>

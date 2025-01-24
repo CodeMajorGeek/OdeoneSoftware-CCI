@@ -6,7 +6,7 @@ const jwtMiddleware = require("../middlewares/JWTMiddleware")
 const functionController = require("../controllers/FunctionController")
 
 router.get("/", functionController.getAllFunctions)
-router.get("/:id", jwtMiddleware.validateAdminMiddleware, functionController.getFunctionById)
+router.get("/:id", functionController.getFunctionById)
 router.post("/", jwtMiddleware.validateAdminMiddleware, functionController.createFunction)
 router.put("/:id", jwtMiddleware.validateAdminMiddleware, functionController.updateFunction)
 router.delete("/:id", jwtMiddleware.validateAdminMiddleware, functionController.deleteFunction)

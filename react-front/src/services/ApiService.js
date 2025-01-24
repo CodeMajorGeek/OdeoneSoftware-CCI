@@ -118,6 +118,18 @@ async function apiLogout() {
     localStorage.removeItem("refreshToken")
 }
 
+async function apiDeleteOwnUser() {
+    const response = await apiAuthenticatedFetch(`/users/me`, "DELETE")
+    console.log("Delete user response:", response)
+    return response
+}
+
+async function apiDeleteUser(id) {
+    const response = await apiAuthenticatedFetch(`/users/${id}`, "DELETE")
+    console.log("Delete user response:", response)
+    return response
+}
+
 async function apiGetFaqs(searchWords) {
     let endpoint = `${API_BASE}/faq`
     if (searchWords) {
@@ -372,6 +384,8 @@ export {
     apiLogin,
     apiRegister,
     apiLogout,
+    apiDeleteOwnUser,
+    apiDeleteUser,
     apiGetFaqs,
     apiCreateFaq,
     apiEditFaq,

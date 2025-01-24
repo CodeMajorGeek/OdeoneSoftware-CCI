@@ -198,19 +198,6 @@ export default function RegisterModal() {
                         <option value="female">Madame</option>
                     </select>
                 </div>
-                <div className="d-cgu">
-                    <input
-                        type="checkbox"
-                        id="cgu"
-                        name="cgu"
-                        checked={formData.cgu}
-                        onChange={handleChange}
-                        required
-                    />
-                    <label htmlFor="cgu">
-                        J'accepte les termes et les contrats d'usages. <span className="req-field">*</span>
-                    </label>
-                </div>
                 <div>
                     <input type="submit" value="INSCRIPTION" className="submit-btn" />
                 </div>
