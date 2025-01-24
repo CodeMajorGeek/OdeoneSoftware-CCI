@@ -2,35 +2,6 @@ import React, { useState, useEffect } from "react"
 import { apiGetFunctions, apiCreateFunction, apiEditFunction, apiRemoveFunction } from "../../services/ApiService"
 import "./styles/AdminFunctions.css"
 
-function FunctionList({ title, features, onEdit, onDelete }) {
-    return (
-        <div className="function-list">
-            <h3>{title}</h3>
-            <ul>
-                {features?.map((feature, index) => (
-                    <li key={index} className="feature-item">
-                        <span>{feature}</span>
-                    </li>
-                ))}
-            </ul>
-            <div className="button-container">
-                <button
-                    className="edit-btn"
-                    onClick={() => onEdit(title)}
-                >
-                    Modifier
-                </button>
-                <button
-                    className="delete-btn"
-                    onClick={() => onDelete(title)}
-                >
-                    Supprimer
-                </button>
-            </div>
-        </div>
-    )
-}
-
 export default function AdminFunctions() {
     const [functions, setFunctions] = useState([])
     const [error, setError] = useState(null)
