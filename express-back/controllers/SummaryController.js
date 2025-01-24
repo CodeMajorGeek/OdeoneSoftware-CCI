@@ -1,6 +1,5 @@
-const SummaryRepository = require("../repositories/SummaryRepository")
+const summaryService = require("../services/SummaryService")
 const userService = require("../services/UserService")
-
 const jwt = require("jsonwebtoken")
 const fs = require('fs').promises
 
@@ -8,7 +7,7 @@ const TOKEN_SECRET = process.env.TOKEN_SECRET
 
 async function getAllSummaries(req, res) {
     try {
-        const summaries = await SummaryRepository.findAll()
+        const summaries = await summaryService.findAllSummaries()
         
         // Vérification supplémentaire pour s'assurer que nous avons des données valides
         const formattedSummaries = summaries
@@ -39,7 +38,7 @@ async function getAllSummaries(req, res) {
 
 async function getSummaryById(req, res) {
     try {
-        const summary = await SummaryRepository.findById(req.params.id)
+        const summary = await summaryService.findSummaryById(req.params.id)
         if (!summary) {
             return res.status(404).json({ message: "Sommaire non trouvé" })
         }
@@ -62,14 +61,14 @@ async function createSummary(req, res) {
 
         if (req.body.parentName) {
             // Création d'un nouveau sommaire parent + sous-partie
-            const parent = await SummaryRepository.create(
+            const parent = await summaryService.createSummary(
                 req.body.parentName,
                 null,
                 user.id_user,
                 null
             )
 
-            const sub = await SummaryRepository.create(
+            const sub = await summaryService.createSummary(
                 req.body.subName,
                 req.filePath,
                 user.id_user,
@@ -90,7 +89,7 @@ async function createSummary(req, res) {
             res.status(201).json(formattedResponse)
         } else {
             // Création d'une sous-partie simple
-            const summary = await SummaryRepository.create(
+            const summary = await summaryService.createSummary(
                 req.body.functionName,
                 req.filePath,
                 user.id_user,
@@ -119,7 +118,7 @@ async function updateSummary(req, res) {
         const { functionName } = req.body
         const videoPath = req.filePath || null
         
-        const oldSummary = await SummaryRepository.findById(req.params.id)
+        const oldSummary = await summaryService.findSummaryById(req.params.id)
         if (!oldSummary) {
             return res.status(404).json({ message: "Sommaire non trouvé" })
         }
@@ -128,7 +127,7 @@ async function updateSummary(req, res) {
             await fs.unlink(oldSummary.video_path)
         }
 
-        const summary = await SummaryRepository.update(
+        const summary = await summaryService.editSummary(
             req.params.id,
             functionName,
             videoPath,
@@ -150,7 +149,7 @@ async function updateSummary(req, res) {
 async function deleteSummary(req, res) {
     try {
         const summaryId = parseInt(req.params.id)
-        const summary = await SummaryRepository.findById(summaryId)
+        const summary = await summaryService.findSummaryById(summaryId)
         if (!summary) {
             return res.status(404).json({ message: "Sommaire non trouvé" })
         }
@@ -159,7 +158,7 @@ async function deleteSummary(req, res) {
             await fs.unlink(summary.video_path)
         }
 
-        await SummaryRepository.remove(req.params.id)
+        await summaryService.removeSummary(req.params.id)
         res.status(204).send()
     } catch (error) {
         res.status(500).json({ message: "Erreur lors de la suppression du sommaire", error: error.message })
