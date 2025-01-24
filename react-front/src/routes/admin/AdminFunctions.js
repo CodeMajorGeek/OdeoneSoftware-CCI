@@ -1,4 +1,5 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
+import { apiGetFunctions, apiCreateFunction, apiEditFunction, apiRemoveFunction } from "../../services/ApiService"
 import "./styles/AdminFunctions.css"
 
 function FunctionList({ title, features, onEdit, onDelete }) {
@@ -6,150 +7,199 @@ function FunctionList({ title, features, onEdit, onDelete }) {
         <div className="function-list">
             <h3>{title}</h3>
             <ul>
-                {features.map((feature, index) => (
+                {features?.map((feature, index) => (
                     <li key={index} className="feature-item">
                         <span>{feature}</span>
-                        <div className="button-container">
-                            <button
-                                className="edit-btn"
-                                onClick={() => onEdit(title, index)}
-                            >
-                                Modifier
-                            </button>
-                            <button
-                                className="delete-btn"
-                                onClick={() => onDelete(title, index)}
-                            >
-                                Supprimer
-                            </button>
-                        </div>
                     </li>
                 ))}
             </ul>
+            <div className="button-container">
+                <button
+                    className="edit-btn"
+                    onClick={() => onEdit(title)}
+                >
+                    Modifier
+                </button>
+                <button
+                    className="delete-btn"
+                    onClick={() => onDelete(title)}
+                >
+                    Supprimer
+                </button>
+            </div>
         </div>
     )
 }
 
-
 export default function AdminFunctions() {
-    const [tables, setTables] = useState([
-        {
-            title: "Fonction Pesage",
-            features: [
-                "Connexion jusqu'à 3 balances maximum",
-                "Contrôle de tolérance",
-                "Base de données articles avec images",
-                "Numéros de lots enregistrés",
-                "Base de données opérateurs",
-                "Base de données clients",
-                "Historique des pesées",
-                "Impression d'états",
-                "Impression d'étiquettes personnalisables",
-                "Édition de codes-barres et QR codes",
-                "Lecture de codes-barres et QR codes",
-                "Sauvegardes manuelles et automatiques",
-                "Mise en réseau des postes de pesées",
-                "Supervision",
-                "Gestion des droits accordés par l'administrateur"
-            ]
-        },
-        {
-            title: "Fonction Comptage",
-            features: [
-                "Connexion jusqu'à 3 balances maximum",
-                "Contrôle de tolérance",
-                "Base de données articles avec images",
-                "Numéros de lots enregistrés",
-                "Base de données opérateurs",
-                "Base de données clients",
-                "Historique des pesées",
-                "Impression d'états",
-                "Impression d'étiquettes personnalisables",
-                "Édition de codes-barres et QR codes",
-                "Lecture de codes-barres et QR codes",
-                "Sauvegardes manuelles et automatiques",
-                "Mise en réseau des postes de pesées",
-                "Supervision",
-                "Gestion des droits accordés par l'administrateur"
-            ]
-        },
-        {
-            title: "Fonction Pesage (Développement)",
-            features: ["Actuellement en cours de développement"]
-        }
-    ])
+    const [functions, setFunctions] = useState([])
+    const [error, setError] = useState(null)
+    const [newFunction, setNewFunction] = useState({ 
+        title: '', 
+        features: [] 
+    })
+    const [editingFunction, setEditingFunction] = useState(null)
 
-    const handleEditFeature = (title, featureIndex) => {
-        const newFeature = prompt(
-            "Modifier la fonctionnalité :",
-            tables.find(t => t.title === title).features[featureIndex]
-        )
-        if (newFeature) {
-            setTables(prevTables =>
-                prevTables.map(table =>
-                    table.title === title
-                        ? {
-                              ...table,
-                              features: table.features.map((f, index) =>
-                                  index === featureIndex ? newFeature : f
-                              )
-                          }
-                        : table
-                )
-            )
+    useEffect(() => {
+        loadFunctions()
+    }, [])
+
+    const loadFunctions = async () => {
+        try {
+            const data = await apiGetFunctions()
+            setFunctions(data || [])
+            setError(null)
+        } catch (error) {
+            console.error("Erreur:", error)
+            setError(error.message || "Erreur lors du chargement des fonctions")
+            setFunctions([])
         }
     }
 
-    const handleDeleteFeature = (title, featureIndex) => {
-        if (window.confirm("Voulez-vous vraiment supprimer cette fonctionnalité ?")) {
-            setTables(prevTables =>
-                prevTables.map(table =>
-                    table.title === title
-                        ? {
-                              ...table,
-                              features: table.features.filter((_, index) => index !== featureIndex)
-                          }
-                        : table
-                )
-            )
+    const handleEditFeature = async (title) => {
+        const functionToEdit = functions.find(f => f.title === title)
+        if (!functionToEdit) return
+        setEditingFunction({
+            ...functionToEdit,
+            features: functionToEdit.features || []
+        })
+    }
+
+    const handleSaveEdit = async () => {
+        if (!editingFunction) return
+        
+        try {
+            await apiEditFunction({
+                id: editingFunction.id,
+                title: editingFunction.title,
+                features: editingFunction.features.filter(f => f.trim() !== '')
+            })
+            await loadFunctions()
+            setEditingFunction(null)
+            setError(null)
+        } catch (error) {
+            console.error("Erreur:", error)
+            setError(error.message || "Erreur lors de la modification de la fonction")
         }
     }
 
-    const handleAddFeature = (title) => {
-        const newFeature = prompt("Ajouter une nouvelle fonctionnalité :")
-        if (newFeature) {
-            setTables(prevTables =>
-                prevTables.map(table =>
-                    table.title === title
-                        ? {
-                              ...table,
-                              features: [...table.features, newFeature]
-                          }
-                        : table
-                )
-            )
+    const handleDeleteFeature = async (title) => {
+        const functionToDelete = functions.find(f => f.title === title)
+        if (!functionToDelete) return
+
+        if (window.confirm("Voulez-vous vraiment supprimer cette fonction ?")) {
+            try {
+                await apiRemoveFunction({ id: functionToDelete.id })
+                await loadFunctions()
+                setError(null)
+            } catch (error) {
+                console.error("Erreur:", error)
+                setError(error.message || "Erreur lors de la suppression de la fonction")
+            }
+        }
+    }
+
+    const handleAddFunction = async () => {
+        try {
+            if (!newFunction.title) throw new Error("Le titre est requis")
+
+            const features = newFunction.features
+                .filter(f => f.trim() !== '')
+
+            await apiCreateFunction({
+                title: newFunction.title,
+                features: features
+            })
+            await loadFunctions()
+            setNewFunction({ title: '', features: [] })
+            setError(null)
+        } catch (error) {
+            console.error("Erreur:", error)
+            setError(error.message || "Erreur lors de la création de la fonction")
         }
     }
 
     return (
         <div className="admin-functions">
             <h1>Gestion des Fonctionnalités</h1>
-            {tables.map((table, index) => (
+            {error && (
+                <div className="error-message">
+                    {error}
+                </div>
+            )}
+            {functions.map((func, index) => (
                 <div key={index} className="function-table">
-                    <FunctionList
-                        title={table.title}
-                        features={table.features}
-                        onEdit={handleEditFeature}
-                        onDelete={handleDeleteFeature}
-                    />
-                    <button
-                        className="add-feature-btn"
-                        onClick={() => handleAddFeature(table.title)}
-                    >
-                        Ajouter une fonctionnalité
-                    </button>
+                    <div className="function-list">
+                        <h3>{func.title}</h3>
+                        {editingFunction?.id === func.id ? (
+                            <div className="function-edit">
+                                <textarea
+                                    value={editingFunction.features.join('\n')}
+                                    onChange={(e) => setEditingFunction({
+                                        ...editingFunction,
+                                        features: e.target.value.split('\n')
+                                    })}
+                                    className="function-edit-field"
+                                    rows={5}
+                                    placeholder="Une fonctionnalité par ligne"
+                                />
+                                <div className="button-container">
+                                    <button className="save-btn" onClick={handleSaveEdit}>
+                                        Enregistrer
+                                    </button>
+                                    <button className="cancel-btn" onClick={() => setEditingFunction(null)}>
+                                        Annuler
+                                    </button>
+                                </div>
+                            </div>
+                        ) : (
+                            <>
+                                <ul>
+                                    {func.features.map((feature, idx) => (
+                                        <li key={idx} className="feature-item">
+                                            {feature}
+                                        </li>
+                                    ))}
+                                </ul>
+                                <div className="button-container">
+                                    <button className="edit-btn" onClick={() => handleEditFeature(func.title)}>
+                                        Modifier
+                                    </button>
+                                    <button className="delete-btn" onClick={() => handleDeleteFeature(func.title)}>
+                                        Supprimer
+                                    </button>
+                                </div>
+                            </>
+                        )}
+                    </div>
                 </div>
             ))}
+            <div className="add-function-container">
+                <input
+                    type="text"
+                    placeholder="Nom de la nouvelle fonction"
+                    value={newFunction.title}
+                    onChange={(e) => setNewFunction({ ...newFunction, title: e.target.value })}
+                    className="function-input"
+                />
+                <textarea
+                    placeholder="Une fonctionnalité par ligne"
+                    value={newFunction.features.join('\n')}
+                    onChange={(e) => setNewFunction({ 
+                        ...newFunction, 
+                        features: e.target.value.split('\n')
+                    })}
+                    className="function-textarea"
+                    rows={5}
+                />
+                <button 
+                    className="add-function-btn"
+                    onClick={handleAddFunction}
+                    disabled={!newFunction.title}
+                >
+                    Ajouter une fonction
+                </button>
+            </div>
         </div>
     )
 }

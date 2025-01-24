@@ -9,7 +9,7 @@ async function getFunctionById(id) {
 }
 
 async function addFunction(func) {
-    return await dbFunction.create({ ...func, createdAt: Date.now() })
+    return await dbFunction.create({ ...func })
 }
 
 async function updateFunction(id, func) {

@@ -210,6 +210,45 @@ async function apiValidateToken(dispatch) {
     }
 }
 
+async function apiGetFunctions() {
+    const response = await fetch(`${API_BASE}/function`, {
+        method: "GET"
+    });
+
+    if (response.ok)
+        return await response.json();
+    return null;
+}
+
+async function apiCreateFunction(func) {
+    return await apiAuthenticatedFetch(
+        `/function`,
+        "POST",
+        {
+            title: func.title,
+            features: func.features
+        }
+    );
+}
+
+async function apiEditFunction(func) {
+    return await apiAuthenticatedFetch(
+        `/function/${func.id}`,
+        "PUT",
+        {
+            title: func.title,
+            features: func.features
+        }
+    );
+}
+
+async function apiRemoveFunction(func) {
+    return await apiAuthenticatedFetch(
+        `/function/${func.id}`,
+        "DELETE"
+    );
+}
+
 async function apiGetUser() {
     return await apiAuthenticatedFetch(`/users/me`, "GET")
 }
@@ -295,6 +334,10 @@ export {
     apiEditFaq,
     apiRemoveFaq,
     apiValidateToken,
+    apiGetFunctions,
+    apiCreateFunction,
+    apiEditFunction,
+    apiRemoveFunction,
     apiGetUser,
     apiUpdateUser,
     apiGetAllUsers,
