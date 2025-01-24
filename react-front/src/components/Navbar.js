@@ -28,7 +28,7 @@ export default function Navbar({ navTabs }) {
                                 <Link
                                     to={element["ref"]}
                                     onClick={(e) => linkHandler(e, element["needLogin"], element["handler"])} 
-                                    className={ (!authMode && element["needLogin"]) && "need-login" }
+                                    className={ (!authMode && element["needLogin"]) ? "need-login" : undefined }
                                 >
                                     {element["title"]}
                                 </Link>

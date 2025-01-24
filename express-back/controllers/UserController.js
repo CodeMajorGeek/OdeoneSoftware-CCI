@@ -3,6 +3,7 @@ const bcrypt = require("bcrypt")
 const jwt = require("jsonwebtoken")
 
 const genderService = require("../services/GenderService")
+const roleService = require("../services/RoleService")
 const userService = require("../services/UserService")
 
 const TOKEN_SECRET = process.env.TOKEN_SECRET
@@ -10,8 +11,24 @@ const TOKEN_SECRET = process.env.TOKEN_SECRET
 async function getAllUsers(req, res) {
     try {
         const users = await userService.findAllUsers()
-        
-        res.json(users)
+        const gender = await genderService.findGenderById(users.id_gender)
+        const role = await roleService.findRoleById(users.id_role)
+
+        const usersMask = users.map(user => {
+            return {
+                id_user: user.id_user,
+                lastname: user.lastname,
+                firstname: user.firstname,
+                main_email: user.main_email,
+                secondary_email: user.secondary_email,
+                company: user.company,
+                phone: user.phone,
+                gender: gender.title,
+                role: role.title
+            }
+        })
+
+        res.json(usersMask)
     } catch (error) {
         res.status(500).json(error)
     }
@@ -20,9 +37,23 @@ async function getAllUsers(req, res) {
 async function getUserById(req, res) {
     try {
         const user = await userService.findUserById(req.params.id)
+        const gender = await genderService.findGenderById(user.id_gender)
+        const role = await roleService.findRoleById(user.id_role)
+
+        const userMask = {
+            id_user: user.id_user,
+            lastname: user.lastname,
+            firstname: user.firstname,
+            main_email: user.main_email,
+            secondary_email: user.secondary_email,
+            company: user.company,
+            phone: user.phone,
+            gender: gender.title,
+            role: role.title
+        }
 
         if (user)
-            res.json(user)
+            res.json(userMask)
         else
             res.status(404).json({ message: "User not found !" })
     } catch (error) {
@@ -35,17 +66,45 @@ async function getUserByToken(req, res) {
     const decoded = jwt.verify(token, TOKEN_SECRET)
 
     const user = await userService.findUserByEmail(decoded.email)
+    const gender = await genderService.findGenderById(user.id_gender)
+    const role = await roleService.findRoleById(user.id_role)
+
+    const userMask = {
+        id_user: user.id_user,
+        lastname: user.lastname,
+        firstname: user.firstname,
+        main_email: user.main_email,
+        secondary_email: user.secondary_email,
+        company: user.company,
+        phone: user.phone,
+        gender: gender.title,
+        role: role.title
+    }
     if (user)
-        res.json(user)
+        res.json(userMask)
     else
         res.status(404).json({ message: "User not found !" })
 }
 
 async function getUserByCompany(req, res) {
     const user = await userService.findUserByCompany(req.params.company)
+    const gender = await genderService.findGenderById(user.id_gender)
+    const role = await roleService.findRoleById(user.id_role)
+
+    const userMask = {
+        id_user: user.id_user,
+        lastname: user.lastname,
+        firstname: user.firstname,
+        main_email: user.main_email,
+        secondary_email: user.secondary_email,
+        company: user.company,
+        phone: user.phone,
+        gender: gender.title,
+        role: role.title
+    }
 
     if (user)
-        res.json(user)
+        res.json(userMask)
     else
         res.status(404).json({ message: "User not found !" })
 }
@@ -53,9 +112,23 @@ async function getUserByCompany(req, res) {
 async function getUserByEmail(req, res) {
     try {
         const user = await userService.findUserByEmail(req.params.email)
+        const gender = await genderService.findGenderById(user.id_gender)
+        const role = await roleService.findRoleById(user.id_role)
+
+        const userMask = {
+            id_user: user.id_user,
+            lastname: user.lastname,
+            firstname: user.firstname,
+            main_email: user.main_email,
+            secondary_email: user.secondary_email,
+            company: user.company,
+            phone: user.phone,
+            gender: gender.title,
+            role: role.title
+        }
 
         if (user)
-            res.json(user)
+            res.json(userMask)
         else
             res.status(404).json({ message: "User not found !" })
     } catch (error) {
@@ -79,7 +152,21 @@ async function createUser(req, res) {
         hashedUser.id_gender = gender.dataValues.id_gender
 
         const newUser = await userService.createUser(hashedUser)
-        res.status(201).json(newUser)
+        const role = await roleService.findRoleById(newUser.id_role)
+        
+        const newUserMask = {
+            id_user: newUser.id_user,
+            lastname: newUser.lastname,
+            firstname: newUser.firstname,
+            main_email: newUser.main_email,
+            secondary_email: newUser.secondary_email,
+            company: newUser.company,
+            phone: newUser.phone,
+            gender: gender.title,
+            role: role.title
+        }
+
+        res.status(201).json(newUserMask)
     } catch (error) {
         res.status(500).json({ message: "Erreur interne.", error })
     }
@@ -88,10 +175,34 @@ async function createUser(req, res) {
 async function updateUser(req, res) {
     try {
         const id = parseInt(req.params.id)
-        const updatedUser = await userService.editUser(id, req.body)
+
+        const data = req.body
+        const gender = await genderService.getGenderByTitle(data.gender)
+
+        if (!gender)
+            throw { message: "Wrong data !" }
+
+        await userService.editUser(id, {
+            ...data,
+            id_gender: gender.id_gender
+        })
+
+        const updatedUser = await userService.findUserById(id)
+        const role = await roleService.findRoleById(updatedUser.id_role)
+        const updatedUserMask = {
+            id_user: updatedUser.id_user,
+            lastname: updatedUser.lastname,
+            firstname: updatedUser.firstname,
+            main_email: updatedUser.main_email,
+            secondary_email: updatedUser.secondary_email,
+            company: updatedUser.company,
+            phone: updatedUser.phone,
+            gender: gender.title,
+            role: role.title
+        }
 
         if (updatedUser)
-            res.json(updatedUser)
+            res.json(updatedUserMask)
         else
             res.status(404).json({ message: "User not found !" })
     } catch (error) {
@@ -109,8 +220,28 @@ async function updateUserByToken(req, res) {
             newUser.password = await bcrypt.hash(newUser.password, 10)
         }
 
-        const updatedUser = await userService.editUserByEmail(decoded.email, newUser)
-        res.json(updatedUser)
+        const gender = await genderService.getGenderByTitle(newUser.gender)
+        await userService.editUserByEmail(decoded.email, {
+            ...newUser,
+            id_gender: gender.id_gender
+        })
+
+        const updatedUser = await userService.findUserByEmail(decoded.email)
+        const role = await roleService.findRoleById(updatedUser.id_role)
+        
+        const updatedUserMask = {
+            id_user: updatedUser.id_user,
+            lastname: updatedUser.lastname,
+            firstname: updatedUser.firstname,
+            main_email: updatedUser.main_email,
+            secondary_email: updatedUser.secondary_email,
+            company: updatedUser.company,
+            phone: updatedUser.phone,
+            gender: gender.title,
+            role: role.title
+        }
+
+        res.json(updatedUserMask)
     } catch (error) {
         res.status(500).json({ message: "Erreur interne.", error })
     }

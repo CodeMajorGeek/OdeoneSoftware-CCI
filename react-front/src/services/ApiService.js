@@ -29,6 +29,7 @@ async function apiAuthenticatedFetch(route, verb, data = null) {
 
         if (refreshResponse.ok) {
             const rData = await refreshResponse.json()
+            console.log("Refresh token response:", rData)
             localStorage.setItem("accessToken", rData.accessToken)
             localStorage.setItem("refreshToken", rData.refreshToken)
 
@@ -45,7 +46,9 @@ async function apiAuthenticatedFetch(route, verb, data = null) {
         throw new Error("Erreur lors de la requête")
     }
 
-    return await response.json()
+    const jsonResponse = await response.json()
+    console.log(`API Response for ${route}:`, jsonResponse)
+    return jsonResponse
 }
 
 async function apiLogin(mail, pass) {
@@ -62,6 +65,7 @@ async function apiLogin(mail, pass) {
 
     if (response.ok) {
         const data = await response.json()
+        console.log("Login response:", data)
 
         localStorage.setItem("accessToken", data.accessToken)
         localStorage.setItem("refreshToken", data.refreshToken)
@@ -89,7 +93,7 @@ async function apiRegister(fName, lName, mEmail, sEmail, comp, tel, pass, gend) 
 
     if (response.ok) {
         const data = await response.json()
-        console.log(data)
+        console.log("Register response:", data)
     } else
         throw new Error("Login failed !")
 }
@@ -97,7 +101,7 @@ async function apiRegister(fName, lName, mEmail, sEmail, comp, tel, pass, gend) 
 async function apiLogout() {
     const accessToken = localStorage.getItem("accessToken")
 
-    await fetch(`${API_BASE}/auth/logout`, {
+    const response = await fetch(`${API_BASE}/auth/logout`, {
         method: "POST",
         headers: {
             Authorization: `Bearer ${accessToken}`,
@@ -107,6 +111,8 @@ async function apiLogout() {
             refreshToken: localStorage.getItem("refreshToken")
         })
     })
+
+    console.log("Logout response:", await response.json())
 
     localStorage.removeItem("accessToken")
     localStorage.removeItem("refreshToken")
@@ -122,8 +128,11 @@ async function apiGetFaqs(searchWords) {
         method: "GET"
     })
 
-    if (response.ok)
-        return await response.json()
+    if (response.ok) {
+        const data = await response.json()
+        console.log("Get FAQs response:", data)
+        return data
+    }
     return null
 }
 
@@ -133,12 +142,12 @@ async function apiCreateFaq(faq) {
         "POST",
         faq
     )
-
+    console.log("Create FAQ response:", response)
     return response
 }
 
 async function apiEditFaq(faq) {
-    return await apiAuthenticatedFetch(
+    const response = await apiAuthenticatedFetch(
         `/faq/${faq.id}`,
         "PUT",
         {
@@ -146,13 +155,17 @@ async function apiEditFaq(faq) {
             answer: faq.answer
         }
     );
+    console.log("Edit FAQ response:", response)
+    return response
 }
 
 async function apiRemoveFaq(faq) {
-    return await apiAuthenticatedFetch(
+    const response = await apiAuthenticatedFetch(
         `/faq/${faq.id}`,
         "DELETE"
     )
+    console.log("Remove FAQ response:", response)
+    return response
 }
 
 async function apiValidateToken(dispatch) {
@@ -173,6 +186,8 @@ async function apiValidateToken(dispatch) {
         })
 
         if (response.ok) {
+            const validationData = await response.json()
+            console.log("Token validation response:", validationData)
             const decodedToken = JSON.parse(atob(accessToken.split('.')[1]))
             dispatch({ type: "setAuthenticatedMode", payload: { mode: true, admin: decodedToken.admin }})
             return true
@@ -189,6 +204,7 @@ async function apiValidateToken(dispatch) {
 
         if (refreshResponse.ok) {
             const data = await refreshResponse.json()
+            console.log("Token refresh response:", data)
             localStorage.setItem("accessToken", data.accessToken)
             const decodedToken = JSON.parse(atob(data.accessToken.split('.')[1]))
             dispatch({ type: "setAuthenticatedMode", payload: { mode: true, admin: decodedToken.admin }})
@@ -215,13 +231,16 @@ async function apiGetFunctions() {
         method: "GET"
     });
 
-    if (response.ok)
-        return await response.json();
+    if (response.ok) {
+        const data = await response.json()
+        console.log("Get functions response:", data)
+        return data
+    }
     return null;
 }
 
 async function apiCreateFunction(func) {
-    return await apiAuthenticatedFetch(
+    const response = await apiAuthenticatedFetch(
         `/function`,
         "POST",
         {
@@ -229,10 +248,12 @@ async function apiCreateFunction(func) {
             features: func.features
         }
     );
+    console.log("Create function response:", response)
+    return response
 }
 
 async function apiEditFunction(func) {
-    return await apiAuthenticatedFetch(
+    const response = await apiAuthenticatedFetch(
         `/function/${func.id}`,
         "PUT",
         {
@@ -240,37 +261,53 @@ async function apiEditFunction(func) {
             features: func.features
         }
     );
+    console.log("Edit function response:", response)
+    return response
 }
 
 async function apiRemoveFunction(func) {
-    return await apiAuthenticatedFetch(
+    const response = await apiAuthenticatedFetch(
         `/function/${func.id}`,
         "DELETE"
     );
+    console.log("Remove function response:", response)
+    return response
 }
 
 async function apiGetUser() {
-    return await apiAuthenticatedFetch(`/users/me`, "GET")
+    const response = await apiAuthenticatedFetch(`/users/me`, "GET")
+    console.log("Get user response:", response)
+    return response
 }
 
 async function apiUpdateUser(user) {
-    return await apiAuthenticatedFetch(`/users/me`, "PUT", user)
+    const response = await apiAuthenticatedFetch(`/users/me`, "PUT", user)
+    console.log("Update user response:", response)
+    return response
 }
 
 async function apiGetAllUsers() {
-    return await apiAuthenticatedFetch(`/users`, "GET")
+    const response = await apiAuthenticatedFetch(`/users`, "GET")
+    console.log("Get all users response:", response)
+    return response
 }
 
 async function apiSearchUsersByCompany(company) {
-    return await apiAuthenticatedFetch(`/users/${company}`, "GET")
+    const response = await apiAuthenticatedFetch(`/users/${company}`, "GET")
+    console.log("Search users by company response:", response)
+    return response
 }
 
 async function apiUpdateUserById(id, user) {
-    return await apiAuthenticatedFetch(`/users/id/${id}`, "PUT", user)
+    const response = await apiAuthenticatedFetch(`/users/id/${id}`, "PUT", user)
+    console.log("Update user by ID response:", response)
+    return response
 }
 
 async function apiGetAllSummaries() {
-    return await apiAuthenticatedFetch(`/summaries`, "GET")
+    const response = await apiAuthenticatedFetch(`/summaries`, "GET")
+    console.log("Get all summaries response:", response)
+    return response
 }
 
 async function apiCreateSummary(summaryData) {
@@ -298,7 +335,9 @@ async function apiCreateSummary(summaryData) {
 
     const response = await fetch(`${API_BASE}/summaries`, options)
     if (!response.ok) throw new Error("Erreur lors de la création du sommaire")
-    return await response.json()
+    const data = await response.json()
+    console.log("Create summary response:", data)
+    return data
 }
 
 async function apiUpdateSummary(id, summaryData) {
@@ -318,11 +357,15 @@ async function apiUpdateSummary(id, summaryData) {
 
     const response = await fetch(`${API_BASE}/summaries/${id}`, options)
     if (!response.ok) throw new Error("Erreur lors de la modification du sommaire")
-    return await response.json()
+    const data = await response.json()
+    console.log("Update summary response:", data)
+    return data
 }
 
 async function apiDeleteSummary(id) {
-    return await apiAuthenticatedFetch(`/summaries/${id}`, "DELETE")
+    const response = await apiAuthenticatedFetch(`/summaries/${id}`, "DELETE")
+    console.log("Delete summary response:", response)
+    return response
 }
 
 export {
