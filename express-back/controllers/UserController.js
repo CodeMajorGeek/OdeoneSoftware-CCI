@@ -11,10 +11,13 @@ const TOKEN_SECRET = process.env.TOKEN_SECRET
 async function getAllUsers(req, res) {
     try {
         const users = await userService.findAllUsers()
-        const gender = await genderService.findGenderById(users.id_gender)
-        const role = await roleService.findRoleById(users.id_role)
 
-        const usersMask = users.map(user => {
+        if (!users)
+            throw { message: "No users found !" }
+
+        const usersMask = await Promise.all(users.map(async (user) => {
+            const gender = await genderService.findGenderById(user.id_gender)
+            const role = await roleService.findRoleById(user.id_role)
             return {
                 id_user: user.id_user,
                 lastname: user.lastname,
@@ -26,7 +29,7 @@ async function getAllUsers(req, res) {
                 gender: gender.title,
                 role: role.title
             }
-        })
+        }))
 
         res.json(usersMask)
     } catch (error) {
@@ -87,26 +90,32 @@ async function getUserByToken(req, res) {
 }
 
 async function getUserByCompany(req, res) {
-    const user = await userService.findUserByCompany(req.params.company)
-    const gender = await genderService.findGenderById(user.id_gender)
-    const role = await roleService.findRoleById(user.id_role)
+    try {
+        const users = await userService.findUserByCompany(req.params.company)
+        
+        if (!users || users.length === 0)
+            return res.status(404).json({ message: "User not found !" })
 
-    const userMask = {
-        id_user: user.id_user,
-        lastname: user.lastname,
-        firstname: user.firstname,
-        main_email: user.main_email,
-        secondary_email: user.secondary_email,
-        company: user.company,
-        phone: user.phone,
-        gender: gender.title,
-        role: role.title
+        const usersMask = await Promise.all(users.map(async (user) => {
+            const gender = await genderService.findGenderById(user.id_gender)
+            const role = await roleService.findRoleById(user.id_role)
+            return {
+                id_user: user.id_user,
+                lastname: user.lastname,
+                firstname: user.firstname,
+                main_email: user.main_email,
+                secondary_email: user.secondary_email,
+                company: user.company,
+                phone: user.phone,
+                gender: gender.title,
+                role: role.title
+            }
+        }))
+
+        res.json(usersMask)
+    } catch (error) {
+        res.status(500).json(error)
     }
-
-    if (user)
-        res.json(userMask)
-    else
-        res.status(404).json({ message: "User not found !" })
 }
 
 async function getUserByEmail(req, res) {
