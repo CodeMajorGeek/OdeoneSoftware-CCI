@@ -25,7 +25,7 @@ async function getAllUsers(req, res) {
                 main_email: user.main_email,
                 secondary_email: user.secondary_email,
                 company: user.company,
-                phone: user.phone,
+                telephone: user.telephone,
                 gender: gender.title,
                 role: role.title
             }
@@ -50,7 +50,7 @@ async function getUserById(req, res) {
             main_email: user.main_email,
             secondary_email: user.secondary_email,
             company: user.company,
-            phone: user.phone,
+            telephone: user.telephone,
             gender: gender.title,
             role: role.title
         }
@@ -79,7 +79,7 @@ async function getUserByToken(req, res) {
         main_email: user.main_email,
         secondary_email: user.secondary_email,
         company: user.company,
-        phone: user.phone,
+        telephone: user.telephone,
         gender: gender.title,
         role: role.title
     }
@@ -106,7 +106,7 @@ async function getUserByCompany(req, res) {
                 main_email: user.main_email,
                 secondary_email: user.secondary_email,
                 company: user.company,
-                phone: user.phone,
+                telephone: user.telephone,
                 gender: gender.title,
                 role: role.title
             }
@@ -131,7 +131,7 @@ async function getUserByEmail(req, res) {
             main_email: user.main_email,
             secondary_email: user.secondary_email,
             company: user.company,
-            phone: user.phone,
+            telephone: user.telephone,
             gender: gender.title,
             role: role.title
         }
@@ -205,7 +205,7 @@ async function updateUser(req, res) {
             main_email: updatedUser.main_email,
             secondary_email: updatedUser.secondary_email,
             company: updatedUser.company,
-            phone: updatedUser.phone,
+            telephone: updatedUser.telephone,
             gender: gender.title,
             role: role.title
         }
@@ -245,7 +245,7 @@ async function updateUserByToken(req, res) {
             main_email: updatedUser.main_email,
             secondary_email: updatedUser.secondary_email,
             company: updatedUser.company,
-            phone: updatedUser.phone,
+            telephone: updatedUser.telephone,
             gender: gender.title,
             role: role.title
         }
